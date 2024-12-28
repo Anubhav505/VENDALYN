@@ -1,0 +1,48 @@
+{
+  "clothes": [
+    {
+      "id": 1,
+      "name": "Product 1",
+      "price": "₹699",
+      "description": "This is a description for Product 1.",
+      "image": "https://images.pexels.com/photos/12189074/pexels-photo-12189074.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+    },
+    {
+      "id": 2,
+      "name": "Product 2",
+      "price": "₹699",
+      "description": "This is a description for Product 2.",
+      "image": "https://images.pexels.com/photos/9582403/pexels-photo-9582403.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+    },
+    {
+      "id": 3,
+      "name": "Product 3",
+      "price": "₹699",
+      "description": "This is a description for Product 3.",
+      "image": "https://images.pexels.com/photos/7231496/pexels-photo-7231496.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+    }
+  ],
+  "bestSeller": [
+    {
+      "id": 1,
+      "name": "Product 1",
+      "description": "This is a description for Product 1.",
+      "price": "₹699",
+      "image": "https://genrage.com/cdn/shop/files/TWOFACED.png?v=1734410970&width=1000"
+    },
+    {
+      "id": 2,
+      "name": "Product 2",
+      "description": "This is a description for Product 2.",
+      "price": "₹799",
+      "image": "https://genrage.com/cdn/shop/files/shakti.png?v=1734411000&width=1000"
+    },
+    {
+      "id": 3,
+      "name": "Product 3",
+      "description": "This is a description for Product 3.",
+      "price": "₹899",
+      "image": "https://genrage.com/cdn/shop/files/kyron_2c5eb79f-3a2f-4ac4-9477-32f5726464fc.png?v=1734410602&width=1000"
+    }
+  ]
+}
