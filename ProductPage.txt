@@ -1,0 +1,34 @@
+"use client";
+import { useSearchParams } from "next/navigation";
+import clothesData from "@/app/data/products.json";
+
+const ProductPage = () => {
+    const searchParams = useSearchParams();
+    const id = searchParams.get("id");
+
+    // Find the product using the ID from the clothesData JSON
+    const product = clothesData.clothes.find((item) => item.id === Number(id));
+
+    if (!product) {
+        return <div>Product not found</div>;
+    }
+
+    return (
+        <div className="flex w-full">
+            <div className="bg-gray-200 h-screen w-1/2">
+                <img
+                    src={product.image}
+                    alt={product.name}
+                    className="object-cover h-full w-full"
+                />
+            </div>
+            <div className="h-screen w-1/2 p-8">
+                <h1 className="text-2xl font-bold">{product.name}</h1>
+                <p className="text-lg">{product.price}</p>
+                <p className="text-sm text-gray-600 mt-4">{product.description}</p>
+            </div>
+        </div>
+    );
+};
+
+export default ProductPage;
