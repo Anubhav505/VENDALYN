@@ -1,4 +1,3 @@
-// lib/dbConnect.ts
 import mongoose from "mongoose";
 
 const dbConnect = async () => {
@@ -8,8 +7,8 @@ const dbConnect = async () => {
   }
 
   try {
-    const db = await mongoose.connect(process.env.MONGODB_URI || "");
-    console.log("DB connected successfully", db.connection.name);
+    await mongoose.connect(process.env.MONGODB_URI || "");
+    console.log("DB connected successfully", mongoose.connection.name);
   } catch (error) {
     console.error("Error connecting to DB:", error);
     throw new Error("Error connecting to DB");

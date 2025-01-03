@@ -1,27 +1,4 @@
 {
-  "clothes": [
-    {
-      "id": 1,
-      "name": "Product 1",
-      "price": "₹699",
-      "description": "This is a description for Product 1.",
-      "image": "https://images.pexels.com/photos/12189074/pexels-photo-12189074.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-    },
-    {
-      "id": 2,
-      "name": "Product 2",
-      "price": "₹699",
-      "description": "This is a description for Product 2.",
-      "image": "https://images.pexels.com/photos/9582403/pexels-photo-9582403.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-    },
-    {
-      "id": 3,
-      "name": "Product 3",
-      "price": "₹699",
-      "description": "This is a description for Product 3.",
-      "image": "https://images.pexels.com/photos/7231496/pexels-photo-7231496.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-    }
-  ],
   "bestSeller": [
     {
       "id": 1,
