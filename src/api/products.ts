@@ -15,10 +15,15 @@ export default async function handler(
         return res.status(404).json({ message: "No products found" });
       }
       return res.status(200).json(products);
-    } catch (error: any) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return res
+          .status(500)
+          .json({ message: "Server Error", error: error.message });
+      }
       return res
         .status(500)
-        .json({ message: "Server Error", error: error.message });
+        .json({ message: "Server Error", error: "Unknown error" });
     }
   } else {
     return res.status(405).json({ message: "Method Not Allowed" });
