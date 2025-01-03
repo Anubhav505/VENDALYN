@@ -1,34 +1,42 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI as string;
+const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
   throw new Error("Please define the MONGODB_URI environment variable");
 }
 
-// Maintain a cached connection for reuse
+// Extend global type for mongoose caching
+declare global {
+  // Allow global `var` declarations
+  // eslint-disable-next-line no-var
+  var mongoose: {
+    conn: mongoose.Connection | null;
+    promise: Promise<mongoose.Connection> | null;
+  };
+}
+
 let cached = global.mongoose;
 
+// Initialize cache if it doesn't exist
 if (!cached) {
   cached = global.mongoose = { conn: null, promise: null };
 }
 
-const dbConnect = async () => {
+const dbConnect = async (): Promise<mongoose.Connection> => {
   if (cached.conn) {
-    console.log("Reusing existing DB connection");
     return cached.conn;
   }
 
   if (!cached.promise) {
-    console.log("Creating new DB connection");
     cached.promise = mongoose
-      .connect(MONGODB_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      })
-      .then((mongoose) => {
-        console.log("DB connected successfully:", mongoose.connection.name);
-        return mongoose;
+      .connect(MONGODB_URI)
+      .then((mongooseInstance) => {
+        console.log(
+          "DB connected successfully:",
+          mongooseInstance.connection.name
+        );
+        return mongooseInstance.connection;
       })
       .catch((error) => {
         console.error("Error connecting to DB:", error);
