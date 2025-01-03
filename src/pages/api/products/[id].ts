@@ -25,11 +25,15 @@ export default async function handler(
     }
 
     return res.status(200).json(product);
-  } catch (error: any) {
-    console.error("Error in product API:", error);
-    return res.status(500).json({
-      message: "Server error",
-      error: error.message,
-    });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error in product API:", error.message);
+      return res.status(500).json({
+        message: "Server error",
+        error: error.message,
+      });
+    }
+    console.error("Unknown error occurred", error);
+    return res.status(500).json({ message: "Server error" });
   }
 }
