@@ -12,7 +12,7 @@ export default async function handler(
 
   try {
     await dbConnect();
-    const { id } = req.query;
+    const id = req.query.id;
 
     if (!id || typeof id !== "string") {
       return res.status(400).json({ message: "Invalid product ID" });
