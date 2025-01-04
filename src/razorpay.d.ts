@@ -1,3 +1,4 @@
+// src/razorpay.d.ts
 declare class Razorpay {
   constructor(options: RazorpayOptions);
   open(): void;

@@ -53,6 +53,8 @@ export default function ProductPage() {
         if (!product) return;
 
         try {
+            console.log('Creating Razorpay order for product:', product);
+
             // Create Razorpay order
             const orderResponse = await fetch('/api/createOrder', {
                 method: 'POST',
@@ -65,6 +67,7 @@ export default function ProductPage() {
             }
 
             const orderData: RazorpayOrderResponse = await orderResponse.json();
+            console.log('Razorpay order created:', orderData);
 
             // Load Razorpay script dynamically
             const script = document.createElement('script');
@@ -80,6 +83,8 @@ export default function ProductPage() {
                     order_id: orderData.id,
                     handler: async (response: RazorpayResponse) => {
                         try {
+                            console.log('Razorpay payment response:', response);
+
                             // Verify payment
                             const verifyResponse = await fetch('/api/verifyOrder', {
                                 method: 'POST',
@@ -92,6 +97,7 @@ export default function ProductPage() {
                             });
 
                             const verifyData = await verifyResponse.json();
+                            console.log('Payment verification response:', verifyData);
 
                             if (verifyData.isOk) {
                                 alert('Payment successful!');
