@@ -6,34 +6,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "GET") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
-
-  try {
-    await dbConnect();
-    const id = req.query.id;
-
-    if (!id || typeof id !== "string") {
-      return res.status(400).json({ message: "Invalid product ID" });
-    }
-
-    const product = await Product.findById(id);
-
-    if (!product) {
-      return res.status(404).json({ message: "Product not found" });
-    }
-
-    return res.status(200).json(product);
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error("Error in product API:", error.message);
-      return res.status(500).json({
-        message: "Server error",
-        error: error.message,
-      });
-    }
-    console.error("Unknown error occurred", error);
-    return res.status(500).json({ message: "Server error" });
-  }
+  if (req.method !== "GET") return res.json({ message: "Method not allowed" });
+  await dbConnect();
+  const id = req.query.id;
+  return res.json(await Product.findById(id));
 }

@@ -6,7 +6,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (req.method !== "GET") return res.json({ message: "Method is not recognized" });
   await dbConnect();
-  if (req.method == "GET") return res.json(await Product.find());
-  return res.json({ message: "Method is not recognized" });
+  return res.json(await Product.find());
 }

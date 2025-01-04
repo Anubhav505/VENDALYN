@@ -1,5 +1,5 @@
 import Hero from "@/components/Hero"
-import ProductsList from "@/components/ProductList"
+import ProductsList from "@/components/Products"
 import BestSeller from "@/components/BestSeller"
 import Catagory from "@/components/Catagory"
 

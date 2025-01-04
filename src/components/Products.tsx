@@ -11,7 +11,7 @@ interface Product {
     image: string;
 }
 
-const ProductsList = () => {
+const Products = () => {
     const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
@@ -55,4 +55,4 @@ const ProductsList = () => {
     );
 };
 
-export default ProductsList;
+export default Products;
