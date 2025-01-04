@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
+import Payment from '@/components/Payment';
 
 interface Product {
     id: string;
@@ -34,8 +35,15 @@ export default function ProductPage() {
                     <h1 className="text-3xl font-bold mb-4">{product?.name}</h1>
                     <p className="text-gray-600 mb-6">{product?.description}</p>
                     <div className="text-2xl font-semibold mb-6">₹{product?.price.toFixed(2)}</div>
-                    <button className="border-black border py-3 px-6 rounded-md hover:bg-black hover:text-white transition-colors">ADD TO CART</button>
-                    <button className="mt-4 bg-black py-3 px-6 rounded-md text-white font-bold" disabled>BUY NOW</button>
+                    <button className="border-black border py-3 px-6 rounded-md hover:bg-black hover:text-white transition-colors duration-500 ease-in-out">ADD TO CART</button>
+                    <div >
+                        <Payment
+                        amount={product?.price ? product.price * 100 : 0}
+                        customerName="John Doe"
+                        customerEmail="john.doe@example.com"
+                        customerContact="9876543210"
+                    /></div>
+                        
                 </div>
             </div>
         </div>

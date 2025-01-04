@@ -28,6 +28,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/lib/dbConnect.ts"
-  ],
+, "src/app/api/createOrder"  ],
   "exclude": ["node_modules"]
 }
