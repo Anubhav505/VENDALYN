@@ -1,30 +1,34 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method === "POST") {
-    const { orderId, razorpayPaymentId, razorpaySignature } = req.body;
+const generatedSignature = (
+  razorpayOrderId: string,
+  razorpayPaymentId: string
+) => {
+  const keySecret = process.env.RAZORPAY_SECRET_ID as string;
 
-    if (!orderId || !razorpayPaymentId || !razorpaySignature) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
+  const sig = crypto
+    .createHmac("sha256", keySecret)
+    .update(razorpayOrderId + "|" + razorpayPaymentId)
+    .digest("hex");
+  return sig;
+};
 
-    const secret = process.env.RAZORPAY_SECRET!;
-    const body = `${orderId}|${razorpayPaymentId}`;
-    const expectedSignature = crypto
-      .createHmac("sha256", secret)
-      .update(body)
-      .digest("hex");
+export async function POST(request: NextRequest) {
+  const { orderId, razorpayPaymentId, razorpaySignature } =
+    await request.json();
 
-    if (expectedSignature === razorpaySignature) {
-      return res.status(200).json({ isOk: true });
-    } else {
-      return res.status(400).json({ isOk: false });
-    }
-  } else {
-    return res.status(405).json({ error: "Method Not Allowed" });
+  const signature = generatedSignature(orderId, razorpayPaymentId);
+  if (signature !== razorpaySignature) {
+    return NextResponse.json(
+      { message: "payment verification failed", isOk: false },
+      { status: 400 }
+    );
   }
+
+  // Probably some database calls here to update order or add premium status to user
+  return NextResponse.json(
+    { message: "payment verified successfully", isOk: true },
+    { status: 200 }
+  );
 }
