@@ -107,7 +107,7 @@ export default function ProductPage() {
                     },
                 };
 
-                const razorpay = new (window as any).Razorpay(razorpayOptions);
+                const razorpay = new (window as unknown as { Razorpay: any }).Razorpay(razorpayOptions);
                 razorpay.open();
             };
 
