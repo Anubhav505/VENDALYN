@@ -12,36 +12,6 @@ interface Product {
     image: string;
 }
 
-interface RazorpayOptions {
-    key: string;
-    amount: number;
-    currency: string;
-    name: string;
-    description: string;
-    image: string;
-    order_id: string;
-    handler: (response: {
-        razorpay_payment_id: string;
-        razorpay_signature: string;
-    }) => void;
-    prefill: {
-        name: string;
-        email: string;
-        contact: string;
-    };
-    theme: {
-        color: string;
-    };
-}
-
-declare global {
-    interface Window {
-        Razorpay: {
-            new(options: RazorpayOptions): { open: () => void };
-        };
-    }
-}
-
 export default function ProductPage() {
     const params = useParams();
     const [product, setProduct] = useState<Product | null>(null);
@@ -77,6 +47,7 @@ export default function ProductPage() {
         if (!product) return;
 
         try {
+            // Create Razorpay order
             const orderResponse = await fetch('/api/createOrder', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -89,23 +60,21 @@ export default function ProductPage() {
 
             const orderData = await orderResponse.json();
 
+            // Load Razorpay script dynamically
             const script = document.createElement('script');
             script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-            script.onload = () => {
-                if (!window.Razorpay) {
-                    throw new Error('Razorpay SDK not found');
-                }
-
-                const razorpayOptions: RazorpayOptions = {
-                    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '',
+            script.onload = async () => {
+                const razorpayOptions = {
+                    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
                     amount: orderData.amount,
                     currency: orderData.currency,
                     name: 'VENDALYN',
                     description: product.name,
                     image: '/favicon.png',
                     order_id: orderData.id,
-                    handler: async (response) => {
+                    handler: async (response: any) => {
                         try {
+                            // Verify payment
                             const verifyResponse = await fetch('/api/verifyOrder', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
@@ -138,8 +107,8 @@ export default function ProductPage() {
                     },
                 };
 
-                const razorpayInstance = new window.Razorpay(razorpayOptions);
-                razorpayInstance.open();
+                const razorpay = new (window as any).Razorpay(razorpayOptions);
+                razorpay.open();
             };
 
             script.onerror = () => {
