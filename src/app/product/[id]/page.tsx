@@ -12,6 +12,28 @@ interface Product {
     image: string;
 }
 
+interface RazorpayOptions {
+    key: string;
+    amount: number;
+    currency: string;
+    name: string;
+    description: string;
+    image: string;
+    order_id: string;
+    handler: (response: {
+        razorpay_payment_id: string;
+        razorpay_signature: string;
+    }) => Promise<void>;
+    prefill: {
+        name: string;
+        email: string;
+        contact: string;
+    };
+    theme: {
+        color: string;
+    };
+}
+
 export default function ProductPage() {
     const params = useParams();
     const [product, setProduct] = useState<Product | null>(null);
@@ -64,15 +86,15 @@ export default function ProductPage() {
             const script = document.createElement('script');
             script.src = 'https://checkout.razorpay.com/v1/checkout.js';
             script.onload = async () => {
-                const razorpayOptions = {
-                    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+                const razorpayOptions: RazorpayOptions = {
+                    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID as string,
                     amount: orderData.amount,
                     currency: orderData.currency,
                     name: 'VENDALYN',
                     description: product.name,
                     image: '/favicon.png',
                     order_id: orderData.id,
-                    handler: async (response: any) => {
+                    handler: async (response) => {
                         try {
                             // Verify payment
                             const verifyResponse = await fetch('/api/verifyOrder', {
@@ -107,8 +129,9 @@ export default function ProductPage() {
                     },
                 };
 
-                const razorpay = new (window as any).Razorpay(razorpayOptions);
-                razorpay.open();
+                const razorpay = (window as { [key: string]: any }).Razorpay;
+                const instance = new razorpay(razorpayOptions);
+                instance.open();
             };
 
             script.onerror = () => {
