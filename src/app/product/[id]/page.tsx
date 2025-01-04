@@ -18,12 +18,6 @@ interface RazorpayOrderResponse {
     currency: string;
 }
 
-interface RazorpayResponse {
-    razorpay_payment_id: string;
-    razorpay_order_id: string;
-    razorpay_signature: string;
-}
-
 export default function ProductPage() {
     const params = useParams();
     const [product, setProduct] = useState<Product | null>(null);
@@ -76,7 +70,7 @@ export default function ProductPage() {
             const script = document.createElement('script');
             script.src = 'https://checkout.razorpay.com/v1/checkout.js';
             script.onload = () => {
-                const razorpayOptions = {
+                const razorpayOptions: RazorpayOptions = {
                     key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID as string,
                     amount: orderData.amount,
                     currency: orderData.currency,
@@ -119,7 +113,7 @@ export default function ProductPage() {
                     },
                 };
 
-                const razorpay = new (window as any).Razorpay(razorpayOptions);
+                const razorpay = new Razorpay(razorpayOptions);
                 razorpay.open();
             };
 
