@@ -53,13 +53,13 @@ export default function ProductPage() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (!params?.id) {
-            setError('Product ID not found');
-            setLoading(false);
-            return;
-        }
-
         const fetchProduct = async () => {
+            if (!params?.id) {
+                setError('Product ID not found');
+                setLoading(false);
+                return;
+            }
+
             try {
                 const response = await fetch(`/api/products/${params.id}`);
                 if (!response.ok) {
@@ -81,23 +81,23 @@ export default function ProductPage() {
         if (!product) return;
 
         try {
-            // Create Razorpay order
             const orderResponse = await fetch('/api/createOrder', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
                     key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, 
-                    amount: product.price * 100 
-                }), // Convert to paise
+                    amount: product.price * 100,
+                    currency: 'INR' // Ensure currency is included
+                }),
             });
 
             if (!orderResponse.ok) {
-                throw new Error('Failed to create Razorpay order');
+                const errorData = await orderResponse.json();
+                throw new Error(`Failed to create Razorpay order: ${errorData.message}`);
             }
 
             const orderData = await orderResponse.json();
 
-            // Load Razorpay script dynamically
             const script = document.createElement('script');
             script.src = 'https://checkout.razorpay.com/v1/checkout.js';
             script.onload = async () => {
@@ -111,7 +111,6 @@ export default function ProductPage() {
                     order_id: orderData.id,
                     handler: async (response) => {
                         try {
-                            // Verify payment
                             const verifyResponse = await fetch('/api/verifyOrder', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
