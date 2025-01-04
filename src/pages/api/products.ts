@@ -10,6 +10,5 @@ export default async function handler(
   if (req.method !== "GET") {
     return res.json({ message: "Method is not recognized" });
   }
-  const product = await Product.find();
-  return res.json(product);
+  return res.json(await Product.find());
 }
