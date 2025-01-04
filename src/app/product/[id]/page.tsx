@@ -12,6 +12,12 @@ interface Product {
     image: string;
 }
 
+declare global {
+    interface Window {
+        Razorpay: any;
+    }
+}
+
 export default function ProductPage() {
     const params = useParams();
     const [product, setProduct] = useState<Product | null>(null);
@@ -63,7 +69,7 @@ export default function ProductPage() {
             // Load Razorpay script dynamically
             const script = document.createElement('script');
             script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-            script.onload = async () => {
+            script.onload = () => {
                 const razorpayOptions = {
                     key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
                     amount: orderData.amount,
@@ -107,7 +113,7 @@ export default function ProductPage() {
                     },
                 };
 
-                const razorpay = new (window as unknown as { Razorpay: any }).Razorpay(razorpayOptions);
+                const razorpay = new window.Razorpay(razorpayOptions);
                 razorpay.open();
             };
 
