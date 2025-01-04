@@ -1,34 +1,39 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import crypto from "crypto";
 
-const generatedSignature = (
-  razorpayOrderId: string,
-  razorpayPaymentId: string
-) => {
-  const keySecret = process.env.RAZORPAY_SECRET_ID as string;
+export async function POST(request: Request) {
+  try {
+    const { orderId, razorpayPaymentId, razorpaySignature } =
+      await request.json();
 
-  const sig = crypto
-    .createHmac("sha256", keySecret)
-    .update(razorpayOrderId + "|" + razorpayPaymentId)
-    .digest("hex");
-  return sig;
-};
+    if (!orderId || !razorpayPaymentId || !razorpaySignature) {
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
 
-export async function POST(request: NextRequest) {
-  const { orderId, razorpayPaymentId, razorpaySignature } =
-    await request.json();
+    const secret = process.env.RAZORPAY_SECRET!;
+    const body = `${orderId}|${razorpayPaymentId}`;
+    const expectedSignature = crypto
+      .createHmac("sha256", secret)
+      .update(body)
+      .digest("hex");
 
-  const signature = generatedSignature(orderId, razorpayPaymentId);
-  if (signature !== razorpaySignature) {
-    return NextResponse.json(
-      { message: "payment verification failed", isOk: false },
-      { status: 400 }
-    );
+    if (expectedSignature === razorpaySignature) {
+      return NextResponse.json({ isOk: true });
+    } else {
+      return NextResponse.json({ isOk: false });
+    }
+  } catch (error: unknown) {
+    console.error("Error verifying Razorpay payment:", error);
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    } else {
+      return NextResponse.json(
+        { error: "An unexpected error occurred" },
+        { status: 500 }
+      );
+    }
   }
-
-  // Probably some database calls here to update order or add premium status to user
-  return NextResponse.json(
-    { message: "payment verified successfully", isOk: true },
-    { status: 200 }
-  );
 }

@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     });
 
     const options = {
-      amount: amount,
+      amount: amount * 100, // amount in paise
       currency: "INR",
     };
 
