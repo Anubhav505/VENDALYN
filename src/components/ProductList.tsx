@@ -18,9 +18,7 @@ const ProductsList = () => {
         const fetchProducts = async () => {
             try {
                 const response = await fetch("/api/products");
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+                if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
                 setProducts(data);
             } catch (error) {
@@ -51,7 +49,7 @@ const ProductsList = () => {
                     </div>
                 ))
             ) : (
-                <p>Products Loading.</p>
+                <p>Products Loading...</p>
             )}
         </div>
     );
