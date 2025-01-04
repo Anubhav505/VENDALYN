@@ -14,7 +14,11 @@ interface Product {
 
 declare global {
     interface Window {
-        Razorpay: any;
+        Razorpay: {
+            Checkout: new (options: any) => {
+                open: () => void;
+            };
+        };
     }
 }
 
@@ -113,7 +117,7 @@ export default function ProductPage() {
                     },
                 };
 
-                const razorpay = new window.Razorpay(razorpayOptions);
+                const razorpay = new window.Razorpay.Checkout(razorpayOptions);
                 razorpay.open();
             };
 
