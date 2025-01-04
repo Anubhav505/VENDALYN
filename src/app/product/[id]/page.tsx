@@ -34,6 +34,18 @@ interface RazorpayOptions {
     };
 }
 
+interface Razorpay {
+    new (options: RazorpayOptions): {
+        open: () => void;
+    };
+}
+
+declare global {
+    interface Window {
+        Razorpay: Razorpay;
+    }
+}
+
 export default function ProductPage() {
     const params = useParams();
     const [product, setProduct] = useState<Product | null>(null);
@@ -129,7 +141,7 @@ export default function ProductPage() {
                     },
                 };
 
-                const razorpay = (window as { [key: string]: any }).Razorpay;
+                const razorpay: Razorpay = window.Razorpay;
                 const instance = new razorpay(razorpayOptions);
                 instance.open();
             };
