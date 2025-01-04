@@ -85,7 +85,10 @@ export default function ProductPage() {
             const orderResponse = await fetch('/api/createOrder', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount: product.price * 100 }), // Convert to paise
+                body: JSON.stringify({ 
+                    key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, 
+                    amount: product.price * 100 
+                }), // Convert to paise
             });
 
             if (!orderResponse.ok) {
