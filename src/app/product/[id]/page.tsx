@@ -12,38 +12,16 @@ interface Product {
     image: string;
 }
 
-interface RazorpayOptions {
-    key: string;
+interface RazorpayOrderResponse {
+    id: string;
     amount: number;
     currency: string;
-    name: string;
-    description: string;
-    image: string;
-    order_id: string;
-    handler: (response: {
-        razorpay_payment_id: string;
-        razorpay_signature: string;
-    }) => Promise<void>;
-    prefill: {
-        name: string;
-        email: string;
-        contact: string;
-    };
-    theme: {
-        color: string;
-    };
 }
 
-interface Razorpay {
-    new (options: RazorpayOptions): {
-        open: () => void;
-    };
-}
-
-declare global {
-    interface Window {
-        Razorpay: Razorpay;
-    }
+interface RazorpayResponse {
+    razorpay_payment_id: string;
+    razorpay_order_id: string;
+    razorpay_signature: string;
 }
 
 export default function ProductPage() {
@@ -53,19 +31,19 @@ export default function ProductPage() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const fetchProduct = async () => {
-            if (!params?.id) {
-                setError('Product ID not found');
-                setLoading(false);
-                return;
-            }
+        if (!params?.id) {
+            setError('Product ID not found');
+            setLoading(false);
+            return;
+        }
 
+        const fetchProduct = async () => {
             try {
                 const response = await fetch(`/api/products/${params.id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch product');
                 }
-                const data = await response.json();
+                const data: Product = await response.json();
                 setProduct(data);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'An error occurred');
@@ -81,27 +59,24 @@ export default function ProductPage() {
         if (!product) return;
 
         try {
+            // Create Razorpay order
             const orderResponse = await fetch('/api/createOrder', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, 
-                    amount: product.price * 100,
-                    currency: 'INR' // Ensure currency is included
-                }),
+                body: JSON.stringify({ amount: product.price * 100 }), // Convert to paise
             });
 
             if (!orderResponse.ok) {
-                const errorData = await orderResponse.json();
-                throw new Error(`Failed to create Razorpay order: ${errorData.message}`);
+                throw new Error('Failed to create Razorpay order');
             }
 
-            const orderData = await orderResponse.json();
+            const orderData: RazorpayOrderResponse = await orderResponse.json();
 
+            // Load Razorpay script dynamically
             const script = document.createElement('script');
             script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-            script.onload = async () => {
-                const razorpayOptions: RazorpayOptions = {
+            script.onload = () => {
+                const razorpayOptions = {
                     key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID as string,
                     amount: orderData.amount,
                     currency: orderData.currency,
@@ -109,8 +84,9 @@ export default function ProductPage() {
                     description: product.name,
                     image: '/favicon.png',
                     order_id: orderData.id,
-                    handler: async (response) => {
+                    handler: async (response: RazorpayResponse) => {
                         try {
+                            // Verify payment
                             const verifyResponse = await fetch('/api/verifyOrder', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
@@ -143,9 +119,8 @@ export default function ProductPage() {
                     },
                 };
 
-                const razorpay: Razorpay = window.Razorpay;
-                const instance = new razorpay(razorpayOptions);
-                instance.open();
+                const razorpay = new (window as any).Razorpay(razorpayOptions);
+                razorpay.open();
             };
 
             script.onerror = () => {
