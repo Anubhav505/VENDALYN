@@ -22,7 +22,6 @@ interface RazorpayOptions {
     order_id: string;
     handler: (response: {
         razorpay_payment_id: string;
-        razorpay_order_id: string;
         razorpay_signature: string;
     }) => void;
     prefill: {
@@ -81,7 +80,7 @@ export default function ProductPage() {
             const orderResponse = await fetch('/api/createOrder', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount: product.price * 100 }),
+                body: JSON.stringify({ amount: product.price * 100 }), // Convert to paise
             });
 
             if (!orderResponse.ok) {
@@ -93,6 +92,10 @@ export default function ProductPage() {
             const script = document.createElement('script');
             script.src = 'https://checkout.razorpay.com/v1/checkout.js';
             script.onload = () => {
+                if (!window.Razorpay) {
+                    throw new Error('Razorpay SDK not found');
+                }
+
                 const razorpayOptions: RazorpayOptions = {
                     key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '',
                     amount: orderData.amount,
@@ -135,8 +138,8 @@ export default function ProductPage() {
                     },
                 };
 
-                const razorpay = new window.Razorpay(razorpayOptions);
-                razorpay.open();
+                const razorpayInstance = new window.Razorpay(razorpayOptions);
+                razorpayInstance.open();
             };
 
             script.onerror = () => {
