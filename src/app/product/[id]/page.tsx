@@ -12,9 +12,34 @@ interface Product {
     image: string;
 }
 
+interface RazorpayOptions {
+    key: string;
+    amount: number;
+    currency: string;
+    name: string;
+    description: string;
+    image: string;
+    order_id: string;
+    handler: (response: {
+        razorpay_payment_id: string;
+        razorpay_order_id: string;
+        razorpay_signature: string;
+    }) => void;
+    prefill: {
+        name: string;
+        email: string;
+        contact: string;
+    };
+    theme: {
+        color: string;
+    };
+}
+
 declare global {
     interface Window {
-        Razorpay: any;
+        Razorpay: {
+            new(options: RazorpayOptions): { open: () => void };
+        };
     }
 }
 
@@ -53,11 +78,10 @@ export default function ProductPage() {
         if (!product) return;
 
         try {
-            // Create Razorpay order
             const orderResponse = await fetch('/api/createOrder', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount: product.price * 100 }), // Convert to paise
+                body: JSON.stringify({ amount: product.price * 100 }),
             });
 
             if (!orderResponse.ok) {
@@ -66,21 +90,19 @@ export default function ProductPage() {
 
             const orderData = await orderResponse.json();
 
-            // Dynamically load Razorpay SDK
             const script = document.createElement('script');
             script.src = 'https://checkout.razorpay.com/v1/checkout.js';
             script.onload = () => {
-                const razorpayOptions = {
-                    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // Environment variable for Razorpay key
+                const razorpayOptions: RazorpayOptions = {
+                    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '',
                     amount: orderData.amount,
                     currency: orderData.currency,
                     name: 'VENDALYN',
                     description: product.name,
                     image: '/favicon.png',
                     order_id: orderData.id,
-                    handler: async (response: { razorpay_payment_id: string; razorpay_signature: string }) => {
+                    handler: async (response) => {
                         try {
-                            // Verify payment
                             const verifyResponse = await fetch('/api/verifyOrder', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
