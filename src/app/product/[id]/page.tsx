@@ -143,8 +143,8 @@ export default function ProductPage() {
             <div className="grid md:grid-cols-2 gap-8">
                 <div className="relative h-[500px]">
                     <Image
-                        src={product.image}
-                        alt={product.name}
+                        src={product?.image}
+                        alt={product?.name}
                         layout="fill"
                         objectFit="cover"
                         objectPosition="center"
@@ -153,10 +153,10 @@ export default function ProductPage() {
                     />
                 </div>
                 <div className="flex flex-col justify-center">
-                    <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
-                    <p className="text-gray-600 mb-6">{product.description}</p>
+                    <h1 className="text-3xl font-bold mb-4">{product?.name}</h1>
+                    <p className="text-gray-600 mb-6">{product?.description}</p>
                     <div className="text-2xl font-semibold mb-6">
-                        ₹{product.price.toFixed(2)}
+                        ₹{product?.price.toFixed(2)}
                     </div>
                     <button className="border-black border py-3 px-6 rounded-md hover:bg-black hover:text-white transition-colors">
                         ADD TO CART
