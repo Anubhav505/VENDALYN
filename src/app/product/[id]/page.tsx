@@ -20,7 +20,7 @@ export default function ProductPage() {
 
     useEffect(() => {
         if (!params?.id) {
-            setError("Product ID not found");
+            setError('Product ID not found');
             setLoading(false);
             return;
         }
@@ -42,6 +42,85 @@ export default function ProductPage() {
 
         fetchProduct();
     }, [params?.id]);
+
+    const handleBuyNow = async () => {
+        if (!product) return;
+
+        try {
+            // Create Razorpay order
+            const orderResponse = await fetch('/api/createOrder', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ amount: product.price * 100 }), // Convert to paise
+            });
+
+            if (!orderResponse.ok) {
+                throw new Error('Failed to create Razorpay order');
+            }
+
+            const orderData = await orderResponse.json();
+
+            // Load Razorpay script dynamically
+            const script = document.createElement('script');
+            script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+            script.onload = async () => {
+                const razorpayOptions = {
+                    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+                    amount: orderData.amount,
+                    currency: orderData.currency,
+                    name: 'VENDALYN',
+                    description: product.name,
+                    image: '/favicon.png',
+                    order_id: orderData.id,
+                    handler: async (response: any) => {
+                        try {
+                            // Verify payment
+                            const verifyResponse = await fetch('/api/verifyOrder', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    orderId: orderData.id,
+                                    razorpayPaymentId: response.razorpay_payment_id,
+                                    razorpaySignature: response.razorpay_signature,
+                                }),
+                            });
+
+                            const verifyData = await verifyResponse.json();
+
+                            if (verifyData.isOk) {
+                                alert('Payment successful!');
+                            } else {
+                                alert('Payment verification failed');
+                            }
+                        } catch (err) {
+                            console.error('Verification error:', err);
+                            alert('Payment verification error');
+                        }
+                    },
+                    prefill: {
+                        name: 'Customer Name',
+                        email: 'customer@example.com',
+                        contact: '9999999999',
+                    },
+                    theme: {
+                        color: '#3399cc',
+                    },
+                };
+
+                const razorpay = new (window as any).Razorpay(razorpayOptions);
+                razorpay.open();
+            };
+
+            script.onerror = () => {
+                throw new Error('Failed to load Razorpay SDK');
+            };
+
+            document.body.appendChild(script);
+        } catch (err) {
+            console.error('Payment error:', err);
+            alert('Failed to initiate payment');
+        }
+    };
 
     if (loading) return <div className="text-center p-8">Loading...</div>;
     if (error) return <div className="text-center p-8 text-red-500">{error}</div>;
@@ -65,16 +144,19 @@ export default function ProductPage() {
                     <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
                     <p className="text-gray-600 mb-6">{product.description}</p>
                     <div className="text-2xl font-semibold mb-6">
-                        ${product.price.toFixed(2)}
+                        ₹{product.price.toFixed(2)}
                     </div>
                     <button className="border-black border py-3 px-6 rounded-md hover:bg-black hover:text-white transition-colors">
                         ADD TO CART
                     </button>
-                    <button className="mt-4 bg-black py-3 px-6 rounded-md text-white  text-bold">
+                    <button
+                        onClick={handleBuyNow}
+                        className="mt-4 bg-black py-3 px-6 rounded-md text-white font-bold"
+                    >
                         BUY NOW
                     </button>
                 </div>
             </div>
         </div>
     );
-} 
+}
