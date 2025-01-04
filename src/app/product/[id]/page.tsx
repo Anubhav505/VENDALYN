@@ -15,7 +15,11 @@ interface Product {
 
 declare global {
     interface Window {
-        Razorpay: unknown;
+        Razorpay: {
+            new(options: object): {
+                open(): void;
+            };
+        };
     }
 }
 
