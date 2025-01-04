@@ -14,11 +14,7 @@ interface Product {
 
 declare global {
     interface Window {
-        Razorpay: {
-            Checkout: new (options: any) => {
-                open: () => void;
-            };
-        };
+        Razorpay: any;
     }
 }
 
@@ -70,12 +66,12 @@ export default function ProductPage() {
 
             const orderData = await orderResponse.json();
 
-            // Load Razorpay script dynamically
+            // Dynamically load Razorpay SDK
             const script = document.createElement('script');
             script.src = 'https://checkout.razorpay.com/v1/checkout.js';
             script.onload = () => {
                 const razorpayOptions = {
-                    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+                    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // Environment variable for Razorpay key
                     amount: orderData.amount,
                     currency: orderData.currency,
                     name: 'VENDALYN',
@@ -117,7 +113,7 @@ export default function ProductPage() {
                     },
                 };
 
-                const razorpay = new window.Razorpay.Checkout(razorpayOptions);
+                const razorpay = new window.Razorpay(razorpayOptions);
                 razorpay.open();
             };
 
