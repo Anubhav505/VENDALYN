@@ -72,7 +72,7 @@ export default function ProductPage() {
                     description: product.name,
                     image: '/favicon.png',
                     order_id: orderData.id,
-                    handler: async (response: any) => {
+                    handler: async (response: { razorpay_payment_id: string; razorpay_signature: string }) => {
                         try {
                             // Verify payment
                             const verifyResponse = await fetch('/api/verifyOrder', {
