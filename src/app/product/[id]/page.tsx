@@ -15,7 +15,7 @@ interface Product {
 
 declare global {
     interface Window {
-        Razorpay: any;
+        Razorpay?: any;
     }
 }
 
