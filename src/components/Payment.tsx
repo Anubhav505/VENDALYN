@@ -221,6 +221,10 @@ interface RazorpayOptions {
     };
 }
 
+interface WindowWithRazorpay extends Window {
+    Razorpay: new (options: RazorpayOptions) => { open: () => void };
+}
+
 const Buy: React.FC<BuyProps> = ({
     amount,
     customerName = 'Customer Name',
@@ -292,7 +296,7 @@ const Buy: React.FC<BuyProps> = ({
                 },
             };
 
-            const razorpay = new (window as any).Razorpay(razorpayOptions);
+            const razorpay = new (window as WindowWithRazorpay).Razorpay(razorpayOptions);
             razorpay.open();
         } catch (error) {
             console.error('Error:', error);
