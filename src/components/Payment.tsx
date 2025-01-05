@@ -289,7 +289,7 @@ const Buy: React.FC<BuyProps> = ({
             },
         };
 
-        const razorpay = new (window as RazorpayWindow).Razorpay(razorpayOptions);
+        const razorpay = new ((window as unknown) as RazorpayWindow).Razorpay(razorpayOptions);
         razorpay.open();
 
         setLoading(false);
