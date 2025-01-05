@@ -1,5 +1,4 @@
 // 'use client';
-
 // import React, { useState } from 'react';
 // import Script from 'next/script';
 
@@ -110,18 +109,6 @@
 //                 src="https://checkout.razorpay.com/v1/checkout.js"
 //             />
 
-//             {paymentSuccess && (
-//                 <div className="bg-green-100 text-green-800 p-4 rounded-md mb-4">
-//                     Payment was successful! Thank you for your purchase.
-//                 </div>
-//             )}
-
-//             {error && (
-//                 <div className="bg-red-100 text-red-800 p-4 rounded-md mb-4">
-//                     {error}
-//                 </div>
-//             )}
-
 //             <button
 //                 onClick={handlePayment}
 //                 disabled={loading}
@@ -136,8 +123,75 @@
 // export default Buy;
 
 
-'use client';
+// "use client";
 
+// import Script from "next/script";
+// import { useState } from "react";
+
+// export default function Home() {
+//     const [amount, setAmount] = useState<number>(0);
+
+//     const createOrder = async () => {
+//         const res = await fetch("/api/createOrder", {
+//             method: "POST",
+//             body: JSON.stringify({ amount: amount * 100 }),
+//         });
+//         const data = await res.json();
+
+//         const paymentData = {
+//             key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+//             order_id: data.id,
+
+//             handler: async function (response: any) {
+//                 // verify payment
+//                 const res = await fetch("/api/verifyOrder", {
+//                     method: "POST",
+//                     body: JSON.stringify({
+//                         orderId: response.razorpay_order_id,
+//                         razorpayPaymentId: response.razorpay_payment_id,
+//                         razorpaySignature: response.razorpay_signature,
+//                     }),
+//                 });
+//                 const data = await res.json();
+//                 console.log(data);
+//                 if (data.isOk) {
+//                     // do whatever page transition you want here as payment was successful
+//                     alert("Payment successful");
+//                 } else {
+//                     alert("Payment failed");
+//                 }
+//             },
+//         };
+
+//         const payment = new (window as any).Razorpay(paymentData);
+//         payment.open();
+//     };
+
+//     return (
+//         <div>
+//             <Script
+//                 type="text/javascript"
+//                 src="https://checkout.razorpay.com/v1/checkout.js"
+//             />
+
+//             <input
+//                 type="number"
+//                 placeholder="Enter amount"
+//                 className="px-4 py-2 rounded-md text-black"
+//                 value={amount}
+//                 onChange={(e) => setAmount(Number(e.target.value))}
+//             />
+//             <button
+//                 className="bg-green-500 text-white px-4 py-2 rounded-md"
+//                 onClick={createOrder}
+//             >
+//                 Create Order
+//             </button>
+//         </div>
+//     );
+// }
+
+'use client';
 import React, { useState } from 'react';
 import Script from 'next/script';
 
@@ -167,12 +221,6 @@ interface RazorpayOptions {
     };
 }
 
-declare global {
-    interface Window {
-        Razorpay: new (options: RazorpayOptions) => { open: () => void };
-    }
-}
-
 const Buy: React.FC<BuyProps> = ({
     amount,
     customerName = 'Customer Name',
@@ -180,12 +228,10 @@ const Buy: React.FC<BuyProps> = ({
     customerContact = '9999999999',
 }) => {
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
     const [paymentSuccess, setPaymentSuccess] = useState(false);
 
     const handlePayment = async () => {
         setLoading(true);
-        setError(null);
 
         try {
             const response = await fetch('/api/createOrder', {
@@ -216,31 +262,24 @@ const Buy: React.FC<BuyProps> = ({
                 image: '/favicon.png',
                 order_id: order.id,
                 handler: async (response: { razorpay_payment_id: string; razorpay_signature: string }) => {
-                    try {
-                        const verifyResponse = await fetch('/api/verifyOrder', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                orderId: order.id,
-                                razorpayPaymentId: response.razorpay_payment_id,
-                                razorpaySignature: response.razorpay_signature,
-                            }),
-                        });
+                    const verifyResponse = await fetch('/api/verifyOrder', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            orderId: order.id,
+                            razorpayPaymentId: response.razorpay_payment_id,
+                            razorpaySignature: response.razorpay_signature,
+                        }),
+                    });
 
-                        const verifyData = await verifyResponse.json();
-                        if (verifyData.isOk) {
-                            setPaymentSuccess(true);
-                            alert('Payment was successful!');
-                        } else {
-                            setError('Payment verification failed');
-                            alert('Payment verification failed');
-                        }
-                    } catch (err) {
-                        console.error('Verification error:', err);
-                        setError('Payment verification error');
-                        alert('Payment verification error');
+                    const verifyData = await verifyResponse.json();
+                    if (verifyData.isOk) {
+                        setPaymentSuccess(true);
+                        alert('Payment was successful!');
+                    } else {
+                        alert('Payment verification failed');
                     }
                 },
                 prefill: {
@@ -253,12 +292,10 @@ const Buy: React.FC<BuyProps> = ({
                 },
             };
 
-            const razorpay = new window.Razorpay(razorpayOptions);
+            const razorpay = new (window as any).Razorpay(razorpayOptions);
             razorpay.open();
-
-        } catch (err) {
-            console.error('Error:', err);
-            setError('Payment failed. Please try again.');
+        } catch (error) {
+            console.error('Error:', error);
             alert('Payment failed. Please try again.');
         } finally {
             setLoading(false);
@@ -275,12 +312,6 @@ const Buy: React.FC<BuyProps> = ({
             {paymentSuccess && (
                 <div className="bg-green-100 text-green-800 p-4 rounded-md mb-4">
                     Payment was successful! Thank you for your purchase.
-                </div>
-            )}
-
-            {error && (
-                <div className="bg-red-100 text-red-800 p-4 rounded-md mb-4">
-                    {error}
                 </div>
             )}
 
