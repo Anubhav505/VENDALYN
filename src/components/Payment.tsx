@@ -192,6 +192,7 @@
 // }
 
 'use client';
+
 import React, { useState } from 'react';
 import Script from 'next/script';
 
@@ -200,29 +201,6 @@ interface BuyProps {
     customerName?: string;
     customerEmail?: string;
     customerContact?: string;
-}
-
-interface RazorpayOptions {
-    key: string;
-    amount: number;
-    currency: string;
-    name: string;
-    description: string;
-    image: string;
-    order_id: string;
-    handler: (response: { razorpay_payment_id: string; razorpay_signature: string }) => void;
-    prefill: {
-        name: string;
-        email: string;
-        contact: string;
-    };
-    theme: {
-        color: string;
-    };
-}
-
-interface WindowWithRazorpay extends Window {
-    Razorpay: new (options: RazorpayOptions) => { open: () => void };
 }
 
 const Buy: React.FC<BuyProps> = ({
@@ -237,77 +215,65 @@ const Buy: React.FC<BuyProps> = ({
     const handlePayment = async () => {
         setLoading(true);
 
-        try {
-            const response = await fetch('/api/createOrder', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ amount }),
-            });
+        const response = await fetch('/api/createOrder', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ amount }),
+        });
 
-            if (!response.ok) {
-                throw new Error('Failed to create Razorpay order');
-            }
+        const order = await response.json();
 
-            const order = await response.json();
+        const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
 
-            const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
-            if (!razorpayKey) {
-                throw new Error('Razorpay key is not defined');
-            }
+        const razorpayOptions = {
+            key: razorpayKey,
+            amount: order.amount,
+            currency: 'INR',
+            name: 'VENDALYN',
+            description: 'Product Description',
+            image: '/favicon.png',
+            order_id: order.id,
+            handler: async (response: { razorpay_payment_id: string; razorpay_signature: string }) => {
+                const verifyResponse = await fetch('/api/verifyOrder', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        orderId: order.id,
+                        razorpayPaymentId: response.razorpay_payment_id,
+                        razorpaySignature: response.razorpay_signature,
+                    }),
+                });
 
-            const razorpayOptions: RazorpayOptions = {
-                key: razorpayKey,
-                amount: order.amount,
-                currency: 'INR',
-                name: 'VENDALYN',
-                description: 'Product Description',
-                image: '/favicon.png',
-                order_id: order.id,
-                handler: async (response: { razorpay_payment_id: string; razorpay_signature: string }) => {
-                    const verifyResponse = await fetch('/api/verifyOrder', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            orderId: order.id,
-                            razorpayPaymentId: response.razorpay_payment_id,
-                            razorpaySignature: response.razorpay_signature,
-                        }),
-                    });
+                const verifyData = await verifyResponse.json();
+                if (verifyData.isOk) {
+                    setPaymentSuccess(true);
+                    alert('Payment was successful!');
+                } else {
+                    alert('Payment verification failed');
+                }
+            },
+            prefill: {
+                name: customerName,
+                email: customerEmail,
+                contact: customerContact,
+            },
+            theme: {
+                color: '#3399cc',
+            },
+        };
 
-                    const verifyData = await verifyResponse.json();
-                    if (verifyData.isOk) {
-                        setPaymentSuccess(true);
-                        alert('Payment was successful!');
-                    } else {
-                        alert('Payment verification failed');
-                    }
-                },
-                prefill: {
-                    name: customerName,
-                    email: customerEmail,
-                    contact: customerContact,
-                },
-                theme: {
-                    color: '#3399cc',
-                },
-            };
+        const razorpay = new (window as any).Razorpay(razorpayOptions);
+        razorpay.open();
 
-            const razorpay = new (window as WindowWithRazorpay).Razorpay(razorpayOptions);
-            razorpay.open();
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Payment failed. Please try again.');
-        } finally {
-            setLoading(false);
-        }
+        setLoading(false);
     };
 
     return (
-        <>
+        <div className="flex w-screen h-screen items-center justify-center flex-col gap-4">
             <Script
                 type="text/javascript"
                 src="https://checkout.razorpay.com/v1/checkout.js"
@@ -322,11 +288,11 @@ const Buy: React.FC<BuyProps> = ({
             <button
                 onClick={handlePayment}
                 disabled={loading}
-                className={`mt-4 bg-black py-3 px-6 rounded-md text-white w-full hover:bg-gray-600 transition-colors duration-300 ease-in-out`}
+                className="mt-4 bg-black py-3 px-6 rounded-md text-white w-full hover:bg-gray-600 transition-colors duration-300 ease-in-out"
             >
                 {loading ? 'Processing...' : 'BUY NOW'}
             </button>
-        </>
+        </div>
     );
 };
 
