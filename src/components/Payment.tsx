@@ -203,6 +203,29 @@ interface BuyProps {
     customerContact?: string;
 }
 
+interface RazorpayOptions {
+    key: string;
+    amount: number;
+    currency: string;
+    name: string;
+    description: string;
+    image: string;
+    order_id: string;
+    handler: (response: { razorpay_payment_id: string; razorpay_signature: string }) => void;
+    prefill: {
+        name: string;
+        email: string;
+        contact: string;
+    };
+    theme: {
+        color: string;
+    };
+}
+
+interface RazorpayWindow extends Window {
+    Razorpay: new (options: RazorpayOptions) => { open: () => void };
+}
+
 const Buy: React.FC<BuyProps> = ({
     amount,
     customerName = 'Customer Name',
@@ -227,8 +250,8 @@ const Buy: React.FC<BuyProps> = ({
 
         const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
 
-        const razorpayOptions = {
-            key: razorpayKey,
+        const razorpayOptions: RazorpayOptions = {
+            key: razorpayKey!,
             amount: order.amount,
             currency: 'INR',
             name: 'VENDALYN',
@@ -266,7 +289,7 @@ const Buy: React.FC<BuyProps> = ({
             },
         };
 
-        const razorpay = new (window as any).Razorpay(razorpayOptions);
+        const razorpay = new (window as RazorpayWindow).Razorpay(razorpayOptions);
         razorpay.open();
 
         setLoading(false);
