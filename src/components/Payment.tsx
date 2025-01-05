@@ -149,7 +149,7 @@ interface BuyProps {
 }
 
 interface RazorpayOptions {
-    key: string | undefined;
+    key: string;
     amount: number;
     currency: string;
     name: string;
@@ -202,8 +202,13 @@ const Buy: React.FC<BuyProps> = ({
 
             const order = await response.json();
 
+            const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+            if (!razorpayKey) {
+                throw new Error('Razorpay key is not defined');
+            }
+
             const razorpayOptions: RazorpayOptions = {
-                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+                key: razorpayKey,
                 amount: order.amount,
                 currency: 'INR',
                 name: 'VENDALYN',
