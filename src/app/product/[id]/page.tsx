@@ -24,18 +24,19 @@ export default function ProductPage() {
     }, [productId]);
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <div className="grid md:grid-cols-2 gap-8">
-                <div className="relative h-[500px]">
+        
+            <div className="h-[calc(100vh-10vh)] px-2">
+                <div className="h-[60%] relative ">
                     {product?.image && (
-                        <Image src={product.image} alt={product.name} layout="fill" objectFit="cover" className="rounded-lg" priority />
+                        <Image src={product.image} alt={product.name} fill={true} className=" object-contain" />
                     )}
                 </div>
-                <div className="flex flex-col justify-center">
-                    <h1 className="text-3xl font-bold mb-4">{product?.name}</h1>
-                    <p className="text-gray-600 mb-6">{product?.description}</p>
-                    <div className="text-2xl font-semibold mb-6">₹{product?.price.toFixed(2)}</div>
-                    <button className="border-black border py-3 px-6 rounded-md hover:bg-black hover:text-white transition-colors duration-500 ease-in-out">ADD TO CART</button>
+              
+                <div className="h-[30%] flex flex-col justify-start gap-3 pt-2">
+                    <h1 className="text-3xl font-bold ">{product?.name}</h1>
+                    <p className="text-gray-600 ">{product?.description}</p>
+                    <div className="text-2xl font-semibold ">₹{product?.price.toFixed(2)}</div>
+                    {/* <button className="border-black border rounded-md hover:bg-black hover:text-white transition-colors duration-500 ease-in-out w-full py-2">ADD TO CART</button> */}
                     <div >
                         <Payment
                         amount={product?.price ? product.price * 100 : 0}
@@ -46,6 +47,6 @@ export default function ProductPage() {
                         
                 </div>
             </div>
-        </div>
+     
     );
 }
