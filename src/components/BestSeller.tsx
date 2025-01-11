@@ -4,6 +4,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { gsap } from "gsap";
 import bestSellerData from "@/app/data/products.json";
+import Image from "next/image";
 
 export default function BestSeller() {
   const [emblaRef] = useEmblaCarousel({ loop: true }, [
@@ -23,24 +24,21 @@ export default function BestSeller() {
   const bestSeller = bestSellerData.bestSeller;
 
   return (
-    <section className="mb-12">
-      <h2 className="text-3xl font-bold mb-8 text-center">Best Seller</h2>
-      <div className="embla overflow-hidden h-[60vh]" ref={emblaRef}>
-        <div className="embla__container flex h-full">
+    <section className="mb-12 h-screen flex flex-col justify-evenly px-2">
+      <h2 className="heading text-4xl font-bold mb-8 h-[10%] flex items-center justify-center">Best Seller</h2>
+      <div className="embla overflow-hidden h-[90%]" ref={emblaRef}>
+        <div className="embla__container h-full w-full flex">
           {bestSeller.map((product) => (
-            <div key={product.id} className="embla__slide flex-none w-full min-w-0 h-full px-2">
-              <div className="h-[70%]">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover rounded-lg"
-                />
+            <div key={product.id} className="embla__slide flex-none h-full w-full sm:flex justify-center gap-20 min-w-0">
+              <div className="h-[70%] sm:h-full sm:w-[30rem] relative ">
+                <Image className='rounded-lg' fill={true} src={product.image} alt={product.name} />
               </div>
-              <div className="h-[30%] p-4">
-                <h3 className="font-semibold mb-2">{product.name}</h3>
-                <div className="flex items-center justify-between">
-                  <span className="text-lg font-bold">{product.price}</span>
-                </div>
+              <div className="h-[30%] sm:h-full text-center sm:relative md:top-20">
+             
+                  <h3 className="font-semibold text-2xl">{product.name}</h3>
+                  <h3 className="text-lg">{product.price}</h3>
+                
+                <h3 className="text-lg">{product.description}</h3>
               </div>
             </div>
           ))}

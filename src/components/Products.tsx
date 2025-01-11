@@ -44,7 +44,7 @@ const Products = () => {
                         </div>
                         <div className="p-3 flex justify-between items-center">
                             <div className="text-base font-semibold">{product.name}</div>
-                            <div className="text-sm">{product.price}</div>
+                            <div className="text-sm">&#8377;{product.price}</div>
                         </div>
                     </div>
                 ))

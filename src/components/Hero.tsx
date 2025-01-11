@@ -15,7 +15,7 @@ export default function Hero() {
     });
   }, []);
   return (
-    <div className="relative w-full h-[calc(100vh-10vh)] mb-12">
+    <div className="relative w-full h-[calc(100vh-10vh)] mb-12 ">
       <div className="h-full w-full">
         <Image 
         layout="fill" 
@@ -24,18 +24,18 @@ export default function Hero() {
         alt="Hero Image" />
         <div className="absolute top-0 left-0 h-full w-full bg-black opacity-35"></div>
       </div>
-      <div className="absolute top-0 h-full w-full flex flex-col justify-center items-center text-center gap-10">
-        <h1 className="text-5xl sm:text-7xl font-bold text-white">
+      <div className="px-2 heading absolute top-0 h-full w-full flex flex-col justify-center items-center text-center gap-10">
+        <h1 className=" text-5xl sm:text-7xl font-bold text-white">
           New Season Arrivals
         </h1>
-        <p className="text-2xl font-bold text-white">
+        <p className="roboto text-2xl font-bold text-white">
           Check out our latest collection of premium products
         </p>
         <Link
           href={"/collections"}
-          className="shop scale-[0.9] bg-white hover:bg-gray-500 text-black font-bold rounded-lg py-2 px-6 text-2xl "
+          className="roboto shop scale-[0.9] bg-white hover:bg-gray-500 text-black font-bold rounded-lg py-2 px-6 text-2xl "
         >
-          Shop All
+          SHOP ALL
         </Link>
       </div>
     </div>

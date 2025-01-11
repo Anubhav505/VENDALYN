@@ -3,8 +3,8 @@ import React from 'react';
 const page = () => {
     return (
         <div className='mt-12 flex items-center justify-center flex-col w-full'>
-            <div className='w-[70%] text-justify font-normal leading-9'>
-                <h1 className='text-4xl mb-6 uppercase text-center leading-10'>
+            <div className='w-[60%] text-justify font-normal leading-10 text-sm'>
+                <h1 className='text-3xl mb-6 uppercase text-center leading-10'>
                     &quot;The journey to redefining convenience and quality is ongoing, and we&apos;re
                     excited to lead the way.&quot;
                 </h1>
