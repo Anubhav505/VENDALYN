@@ -8,7 +8,7 @@ interface Product {
     name: string;
     price: number;
     description: string;
-    image: string;
+    image_1: string;
 }
 
 const Products = () => {
@@ -40,11 +40,14 @@ const Products = () => {
                 products.map((product) => (
                     <div key={product._id} onClick={() => handleProductClick(product)} className="product shadow-md rounded-md overflow-hidden">
                         <div className="relative h-52 md:h-[30vw] rounded-md">
-                            <Image src={product.image} layout="fill" objectFit="cover" alt="Product Image" />
+                            <Image src={product.image_1} layout="fill" objectFit="cover" alt="Product Image" />
                         </div>
-                        <div className="p-3 flex flex-col justify-between items-start">
+                        <div className="p-3">
                             <div className="text-base font-semibold">{product.name}</div>
-                            <div className="text-sm">&#8377;{product.price}</div>
+                            <div className="text-sm flex justify-start gap-4">
+                                <p className=" text-gray-500 line-through">&#8377;2599</p>
+                                <p>&#8377;{product.price}</p>
+                                </div>
                         </div>
                     </div>
                 ))
