@@ -15,28 +15,23 @@ export default function Hero() {
     });
   }, []);
   return (
-    <div className="relative w-full h-[calc(100vh-10vh)] mb-12 ">
-      <div className="h-full w-full">
-        <Image 
-        layout="fill" 
-        objectFit="cover" 
-        src="https://images.pexels.com/photos/7230268/pexels-photo-7230268.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
-        alt="Hero Image" />
-        <div className="absolute top-0 left-0 h-full w-full bg-black opacity-35"></div>
+    <div className="relative w-full h-[calc(100vh-8vh)] mb-12 ">
+      <div className=" h-full w-full relative">
+        <video className="absolute top-0 left-0 h-full w-full object-cover" loop muted autoPlay src="https://res.cloudinary.com/daexpmksd/video/upload/v1736673103/IMG_6971_vpt6wy.mp4"/>
       </div>
-      <div className="px-2 heading absolute top-0 h-full w-full flex flex-col justify-center items-center text-center gap-10">
-        <h1 className=" text-5xl sm:text-7xl font-bold text-white">
-          New Season Arrivals
-        </h1>
-        <p className="roboto text-2xl font-bold text-white">
-          Check out our latest collection of premium products
-        </p>
-        <Link
-          href={"/collections"}
-          className="roboto shop scale-[0.9] bg-white hover:bg-gray-500 text-black font-bold rounded-lg py-2 px-6 text-2xl "
-        >
-          SHOP ALL
-        </Link>
+      <div className="px-2 heading absolute top-0 h-full w-full flex flex-col justify-center text-center">
+       
+          <div className=" relative top-40 flex flex-col gap-3">
+          <h1 className="text-4xl sm:text-7xl font-bold text-white">
+            New Season Arrivals
+          </h1>
+          <Link
+            href={"/collections"}
+          >
+            <span className=" px-4 roboto shop scale-[0.9] bg-white hover:bg-gray-500 text-black font-bold rounded-lg py-2 text-2xl">SHOP ALL</span>
+          </Link>
+          </div>
+        
       </div>
     </div>
   );

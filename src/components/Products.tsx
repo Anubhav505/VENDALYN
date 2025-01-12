@@ -42,7 +42,7 @@ const Products = () => {
                         <div className="relative h-52 md:h-[30vw] rounded-md">
                             <Image src={product.image} layout="fill" objectFit="cover" alt="Product Image" />
                         </div>
-                        <div className="p-3 flex justify-between items-center">
+                        <div className="p-3 flex flex-col justify-between items-start">
                             <div className="text-base font-semibold">{product.name}</div>
                             <div className="text-sm">&#8377;{product.price}</div>
                         </div>

@@ -3,7 +3,7 @@ import Link from "next/link"
 const Footer = () => {
 
   return (
-    <footer className="border-t flex flex-col text-center text-[9px] text-[#757575]">
+    <footer className=" border-t flex flex-col text-center text-[9px] text-[#757575]">
       <div className="flex justify-evenly font-semibold my-8">
         <div className="flex flex-col gap-2">
           <h3 className="font-semibold text-xs text-black">QUICK LINKS</h3>

@@ -3,8 +3,9 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className='flex justify-center py-12'><div className='flex flex-col text-justify w-[50%] text-sm gap-6'>
-      <h1 className='text-5xl text-center'>SHIPPING POLICY</h1>
+    <div className='h-full w-full flex justify-center my-12 px-2'>
+      <div className='sm:w-[60%] flex flex-col gap-6 text-justify text-sm'>
+        <h1 className='heading text-[5.5vw] font-bold sm:text-5xl text-center'>SHIPPING POLICY</h1>
       <p><b>This does not apply for items in Pre-order- Pre-order items take 2-6 days to dispatch post the pre-order ends.</b></p>
 
       <p><b>There might be rare cases of delays. (details for those will be mentioned in the description)</b></p>
