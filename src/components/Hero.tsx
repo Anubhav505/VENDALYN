@@ -16,7 +16,7 @@ export default function Hero() {
   return (
     <div className="relative w-full h-[calc(100vh-8vh)] mb-12 ">
       <div className=" h-full w-full relative">
-        <video className="absolute top-0 left-0 h-full w-full object-cover" loop muted autoPlay src="https://res.cloudinary.com/daexpmksd/video/upload/v1736673103/IMG_6971_vpt6wy.mp4"/>
+        <video className="absolute top-0 left-0 h-full w-full object-cover sm:object-[center_34%]" loop muted autoPlay src="/hero.mp4"/>
       </div>
       <div className="px-2 heading absolute top-0 h-full w-full flex flex-col justify-center text-center">
        
