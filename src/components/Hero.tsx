@@ -2,6 +2,7 @@
 import gsap from "gsap";
 import { useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Hero() {
   useEffect(() => {
@@ -16,7 +17,8 @@ export default function Hero() {
   return (
     <div className="relative w-full h-[calc(100vh-8vh)] mb-12 ">
       <div className=" h-full w-full relative">
-        <video className="absolute top-0 left-0 h-full w-full object-cover sm:object-[center_34%]" loop muted autoPlay src="/hero.mp4"/>
+        {/* <video className="absolute top-0 left-0 h-full w-full object-cover sm:object-[center_34%]" loop muted autoPlay src="/hero.mp4"/> */}
+        <Image alt="hero image" fill={true} src='/hero.jpg' className="absolute top-0 left-0 h-full w-full object-cover object-right sm:object-center"/>
       </div>
       <div className="px-2 heading absolute top-0 h-full w-full flex flex-col justify-center text-center">
        
