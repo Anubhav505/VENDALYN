@@ -75,11 +75,24 @@ export default function ProductPage() {
                 <div className="flex flex-col">
                     <div>
                         <h1 className="text-3xl md:text-4xl font-bold">{product.name}</h1>
-                        <div className="text-2xl md:text-3xl text-primary mt-2">
-                            <p className="text-xl md:text-2xl text-gray-500 line-through">₹2599</p>
-                            <p>₹{product.price.toFixed(2)}</p>
+                        <div className="text-2xl md:text-3xl text-primary mt-2 flex gap-2">
+                            <span className="text-xl md:text-xl text-gray-500 line-through">₹2599</span>
+                            <span className='text-xl md:text-xl'>₹{product.price.toFixed(2)}</span>
                         </div>
                         <p className="mt-4 text-gray-700">{product.description}</p>
+                        <div>
+                            <h2 className="text-xl font-bold mt-6">Key Features:</h2>
+                            <ul className='list-disc pl-5'>
+                                <li><b>Fabric</b>: Made from high-quality fleece cotton, ensuring a soft, breathable, and comfortable fit throughout the day.</li>
+                                <li><b>Design</b>: Features a unique Vintage Drip Design, giving it a trendy, urban look. The balaclava-style hood offers extra warmth and coverage, perfect for those chilly days.</li>
+                                <li><b>Color</b>: Classic Black – A versatile color that pairs well with any outfit.</li>
+                                <li><b>Size Range</b>: Available in sizes S, M, L, XL, 2XL, ensuring a perfect fit for all body types.</li>
+                                <li><b>Neckline</b>: The hooded balaclava neckline gives added protection and style, ideal for both fashion and function.</li>
+                                <li><b>Gender</b>: Designed to be unisex, making it perfect for both men and women of all ages.</li>
+                                <li><b>Age Group</b>: Suitable for all ages, making it a great option for the entire family.</li>
+                            </ul>
+                        </div>
+                        
                         {product.features && (
                             <ul className="mt-6 space-y-2">
                                 {product.features.map((feature, index) => (
