@@ -15,7 +15,7 @@ export default function Hero() {
     });
   }, []);
   return (
-    <div className="relative w-full h-[calc(100vh-8vh)] mb-12 ">
+    <div className="relative w-full h-[calc(100vh-8vh)] ">
       <div className=" h-full w-full relative overflow-hidden">
         {/* <video className="absolute top-0 left-0 h-full w-full object-cover sm:object-[center_34%]" loop muted autoPlay src="/hero.mp4"/> */}
         <Image alt="hero image" fill={true} src='/hero.jpg' className="absolute top-0 left-0 h-full w-full object-cover object-right-bottom scale-[1.2] sm:object-[center_75%]"/>
