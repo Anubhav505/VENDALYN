@@ -149,7 +149,7 @@ export default function ProductPage() {
                 )}
             </div>
             <div className='mt-12 flex flex-col gap-6'>
-                <h2 className='heading text-[4vw] text-center'>YOU MAY ALSO LIKE</h2>
+                <h2 className='heading font-semibold text-[4vw] text-center'>YOU MAY ALSO LIKE</h2>
                 <Products />
             </div>
         </>
