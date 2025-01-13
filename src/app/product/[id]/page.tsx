@@ -64,7 +64,6 @@ export default function ProductPage() {
             .catch((err) => console.error('Error fetching product:', err));
     }, [productId]);
 
-    // This effect will set Razorpay as loaded when the script is fully loaded
     const handleRazorpayLoad = () => {
         if (window.Razorpay) {
             setRazorpayLoaded(true);
@@ -75,9 +74,7 @@ export default function ProductPage() {
 
     if (!product) return <div>Loading...</div>;
 
-    // Function to handle the payment process
     const handlePayment = async () => {
-        // Validate user details
         if (!userDetails.name || !userDetails.email || !userDetails.contact) {
             alert('Please fill in all the details before proceeding to payment.');
             return;
@@ -89,7 +86,7 @@ export default function ProductPage() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ amount: product.price * 100 }), // Amount in paise
+                body: JSON.stringify({ amount: product.price * 100 }),
             });
 
             if (!response.ok) {
@@ -218,20 +215,9 @@ export default function ProductPage() {
                                     <li><b>Age Group</b>: Suitable for all ages, making it a great option for the entire family.</li>
                                 </ul>
                             </div>
-                            {product.features && (
-                                <ul className="mt-6 space-y-2">
-                                    {product.features.map((feature, index) => (
-                                        <li key={index} className="flex items-center">
-                                            <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
-                                            {feature}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
                         </div>
 
                         <div className="mt-6">
-                            {/* Show form before payment */}
                             {!showForm ? (
                                 <button
                                     onClick={() => setShowForm(true)}
@@ -274,44 +260,7 @@ export default function ProductPage() {
                         </div>
                     </div>
                 </div>
-
-                {/* Image Modal */}
-                {isModalOpen && (
-                    <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4">
-                        <div className="relative w-full max-w-4xl">
-                            <button
-                                className="absolute top-4 right-4 text-white"
-                                onClick={() => setIsModalOpen(false)}
-                            >
-                                <X className="h-6 w-6 bg-black rounded-lg" />
-                            </button>
-                            <Image
-                                src={images[selectedImage]}
-                                alt={product.name}
-                                width={800}
-                                height={800}
-                                className="object-contain"
-                            />
-                            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                                {images.map((_, index) => (
-                                    <button
-                                        key={index}
-                                        className={`w-2 h-2 rounded-full ${selectedImage === index ? 'bg-white' : 'bg-gray-500'}`}
-                                        onClick={() => setSelectedImage(index)}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                )}
             </div>
-
-            {paymentSuccess && (
-                <div className="bg-green-100 text-green-800 p-4 rounded-md mb-4">
-                    Payment was successful! Thank you for your purchase.
-                </div>
-            )}
-
             <div className="mt-12 flex flex-col gap-6">
                 <h2 className="heading font-semibold text-[4vw] text-center">YOU MAY ALSO LIKE</h2>
                 <Products />
@@ -321,8 +270,9 @@ export default function ProductPage() {
             <Script
                 type="text/javascript"
                 src="https://checkout.razorpay.com/v1/checkout.js"
-                onLoad={handleRazorpayLoad} // Ensure Razorpay is loaded
+                onLoad={handleRazorpayLoad}
             />
         </>
     );
 }
+
