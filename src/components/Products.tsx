@@ -35,25 +35,30 @@ const Products = () => {
     };
 
     return (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12 px-2">
-            {products.length > 0 ? (
-                products.map((product) => (
-                    <div key={product._id} onClick={() => handleProductClick(product)} className="product shadow-md rounded-md overflow-hidden">
-                        <div className="relative h-52 md:h-[30vw] rounded-md">
-                            <Image src={product.image_1} layout="fill" objectFit="cover" alt="Product Image" />
-                        </div>
-                        <div className="p-3">
-                            <div className="text-base font-semibold">{product.name}</div>
-                            <div className="text-sm flex justify-start gap-4">
-                                <p className=" text-gray-500 line-through">&#8377;2599</p>
-                                <p>&#8377;{product.price}</p>
+        <div>
+                {/* <div className="mb-4 flex flex-col gap-6">
+                    <h2 className="heading font-semibold text-[4vw] text-center">PRODUCTS</h2>
+                </div> */}
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12 px-2">
+                {products.length > 0 ? (
+                    products.map((product) => (
+                        <div key={product._id} onClick={() => handleProductClick(product)} className="product shadow-md rounded-md overflow-hidden">
+                            <div className="relative h-52 md:h-[30vw] rounded-md">
+                                <Image src={product.image_1} layout="fill" objectFit="cover" alt="Product Image" />
+                            </div>
+                            <div className="p-3">
+                                <div className="text-base font-semibold">{product.name}</div>
+                                <div className="text-sm flex justify-start gap-4">
+                                    {/* <p className=" text-gray-500 line-through">&#8377;2599</p> */}
+                                    <p>&#8377;{product.price}</p>
                                 </div>
+                            </div>
                         </div>
-                    </div>
-                ))
-            ) : (
-                <p>Products Loading...</p>
-            )}
+                    ))
+                ) : (
+                    <p>Products Loading...</p>
+                )}
+            </div>
         </div>
     );
 };

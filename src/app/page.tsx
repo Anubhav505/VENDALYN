@@ -1,5 +1,6 @@
 import Hero from "@/components/Hero"
-import ProductsList from "@/components/Products"
+import Products from "@/components/Products"
+// import Combos from "@/components/Combos"
 // import BestSeller from "@/components/BestSeller"
 // import Catagory from "@/components/Catagory"
 
@@ -7,7 +8,8 @@ const HomePage = () => {
   return (
     <>
       <Hero />
-      <ProductsList /> 
+      <Products />
+      {/* <Combos />  */}
       {/* <BestSeller /> */}
       {/* <Catagory /> */}
     </>
