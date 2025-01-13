@@ -78,8 +78,7 @@ export default function ProductPage() {
 
     const handlePayment = async () => {
         const missingFields = [];
-
-        // Check for missing fields and add them to the array
+        
         if (!userDetails.name) missingFields.push('Name');
         if (!userDetails.email) missingFields.push('Email');
         if (!userDetails.contact) missingFields.push('Contact Number');
@@ -148,7 +147,7 @@ export default function ProductPage() {
                     email: userDetails.email,
                     contact: userDetails.contact,
                     address: userDetails.address,
-                    pinCode: userDetails.pinCode,  // Send pinCode to Razorpay
+                    pinCode: userDetails.pinCode,
                 },
                 theme: {
                     color: '#3399cc',
@@ -229,7 +228,72 @@ export default function ProductPage() {
                                     <p className="text-red-500 mt-2 text-sm"><b>Please select a size to proceed</b></p>
                                 )}
                             </div>
+                            <div className="mt-6">
+                                {!showForm ? (
+                                    <button
+                                        onClick={() => {
+                                            if (!selectedSize) {
+                                                alert('Please select a size before proceeding.');
+                                            } else {
+                                                setShowForm(true);
+                                            }
+                                        }}
+                                        className={`mt-4 py-3 px-6 rounded-md text-white w-full ${!selectedSize ? 'bg-gray-400' : 'bg-black'} hover:bg-gray-600 transition-colors duration-300 ease-in-out`}
+                                        disabled={!selectedSize}
+                                    >
+                                        BUY NOW
+                                    </button>
+                                ) : (
+                                    <form onSubmit={(e) => { e.preventDefault(); setShowForm(false); }}>
+                                        <input
+                                            type="text"
+                                            placeholder="Enter Name"
+                                            className="w-full p-2 mb-4 border rounded"
+                                            value={userDetails.name}
+                                            onChange={(e) => setUserDetails({ ...userDetails, name: e.target.value })}
+                                        />
+                                        <input
+                                            type="email"
+                                            placeholder="Enter Email"
+                                            className="w-full p-2 mb-4 border rounded"
+                                            value={userDetails.email}
+                                            onChange={(e) => setUserDetails({ ...userDetails, email: e.target.value })}
+                                        />
+                                        <input
+                                            type="text"
+                                            placeholder="Enter Contact Number"
+                                            className="w-full p-2 mb-4 border rounded"
+                                            value={userDetails.contact}
+                                            onChange={(e) => setUserDetails({ ...userDetails, contact: e.target.value })}
+                                        />
+                                        <input
+                                            type="text"
+                                            placeholder="Enter Address"
+                                            className="w-full p-2 mb-4 border rounded"
+                                            value={userDetails.address}
+                                            onChange={(e) => setUserDetails({ ...userDetails, address: e.target.value })}
+                                        />
+                                        <input
+                                            type="text"
+                                            placeholder="Enter Pin Code"
+                                            className="w-full p-2 mb-4 border rounded"
+                                            value={userDetails.pinCode}
+                                            onChange={(e) => setUserDetails({ ...userDetails, pinCode: e.target.value })}
+                                        />
+                                        <button
+                                            type="submit"
+                                            onClick={handlePayment}
+                                            className="mt-4 bg-black py-3 px-6 rounded-md text-white w-full hover:bg-gray-600 transition-colors duration-300 ease-in-out"
+                                        >
+                                            Proceed to Payment
+                                        </button>
+                                    </form>
+                                )}
+                            </div>
                             <p className="mt-4 text-gray-700">{product.description}</p>
+                            <div className='relative h-72'>
+                                <Image alt='Size Chart' className='object-contain' fill={true} src="https://res.cloudinary.com/daexpmksd/image/upload/v1736791497/happier_7_cko5oq.png" />
+                            </div>
                             <div>
                                 <h2 className="text-xl font-bold mt-6">Key Features:</h2>
                                 <ul className='list-disc pl-5'>
@@ -244,68 +308,7 @@ export default function ProductPage() {
                             </div>
                         </div>
 
-                        <div className="mt-6">
-                            {!showForm ? (
-                                <button
-                                    onClick={() => {
-                                        if (!selectedSize) {
-                                            alert('Please select a size before proceeding.');
-                                        } else {
-                                            setShowForm(true);
-                                        }
-                                    }}
-                                    className={`mt-4 py-3 px-6 rounded-md text-white w-full ${!selectedSize ? 'bg-gray-400' : 'bg-black'} hover:bg-gray-600 transition-colors duration-300 ease-in-out`}
-                                    disabled={!selectedSize}
-                                >
-                                    BUY NOW
-                                </button>
-                            ) : (
-                                <form onSubmit={(e) => { e.preventDefault(); setShowForm(false); }}>
-                                    <input
-                                        type="text"
-                                        placeholder="Enter Name"
-                                        className="w-full p-2 mb-4 border rounded"
-                                        value={userDetails.name}
-                                        onChange={(e) => setUserDetails({ ...userDetails, name: e.target.value })}
-                                    />
-                                    <input
-                                        type="email"
-                                        placeholder="Enter Email"
-                                        className="w-full p-2 mb-4 border rounded"
-                                        value={userDetails.email}
-                                        onChange={(e) => setUserDetails({ ...userDetails, email: e.target.value })}
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Enter Contact Number"
-                                        className="w-full p-2 mb-4 border rounded"
-                                        value={userDetails.contact}
-                                        onChange={(e) => setUserDetails({ ...userDetails, contact: e.target.value })}
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Enter Address"
-                                        className="w-full p-2 mb-4 border rounded"
-                                        value={userDetails.address}
-                                        onChange={(e) => setUserDetails({ ...userDetails, address: e.target.value })}
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Enter Pin Code"
-                                        className="w-full p-2 mb-4 border rounded"
-                                        value={userDetails.pinCode}
-                                        onChange={(e) => setUserDetails({ ...userDetails, pinCode: e.target.value })}
-                                    />
-                                    <button
-                                        type="submit"
-                                        onClick={handlePayment}
-                                        className="mt-4 bg-black py-3 px-6 rounded-md text-white w-full hover:bg-gray-600 transition-colors duration-300 ease-in-out"
-                                    >
-                                        Proceed to Payment
-                                    </button>
-                                </form>
-                            )}
-                        </div>
+                        
                     </div>
                 </div>
             </div>
