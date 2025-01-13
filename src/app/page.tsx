@@ -1,5 +1,6 @@
 import Hero from "@/components/Hero"
 import ProductsList from "@/components/Products"
+import Whatsapp from "@/components/Whatsapp"
 // import BestSeller from "@/components/BestSeller"
 // import Catagory from "@/components/Catagory"
 
@@ -8,6 +9,7 @@ const HomePage = () => {
     <>
       <Hero />
       <ProductsList />
+      <Whatsapp />
       {/* <BestSeller /> */}
       {/* <Catagory /> */}
     </>
