@@ -5,7 +5,7 @@ const Footer = () => {
 
   return (
     <footer className=" border-t flex flex-col text-center text-[9px] text-[#757575]">
-      <div className="flex flex-col gap-5 justify-evenly font-semibold my-8">
+      <div className="flex flex-col sm:flex-row gap-5 justify-evenly font-semibold my-8">
         <div className="flex flex-col gap-2">
           <Link href="/" className="font-semibold text-xs text-black">VENDALYN</Link>
           <Link href='/collections'>PRODUCTS</Link>
