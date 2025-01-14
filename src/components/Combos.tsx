@@ -14,8 +14,7 @@ interface Product {
 }
 
 const Combos = () => {
-    const [products, setProducts] = useState<Product[]>([]);
-    const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);  // New state to store filtered products
+    const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);  // Keep only filteredProducts state
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -23,7 +22,6 @@ const Combos = () => {
                 const response = await fetch("/api/products");
                 if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
-                setProducts(data);
 
                 // Filter products by category (Clothing in this case)
                 const filtered = data.filter((product: Product) => product.category === "combo");
@@ -34,7 +32,7 @@ const Combos = () => {
         };
 
         fetchProducts();
-    }, []);
+    }, []);  // Empty dependency array means this effect runs only once when the component mounts
 
     const router = useRouter();
     const handleProductClick = (product: Product) => {
@@ -54,12 +52,6 @@ const Combos = () => {
                             <div className="text-sm flex justify-start gap-4">
                                 <p className=" text-gray-500 line-through">&#8377;{product.oprice}</p>
                                 <p>&#8377;{product.price}</p>
-                            </div>
-                        </div>
-                        <div className="absolute top-0">
-                            <div className="relative inline-block overflow-hidden">
-                                <span className="bg-green-500 text-white font-bold text-xs p-1 rounded-sm">You save &#8377;250</span>
-                                <div className="absolute inset-0 bg-gradient-to-r from-white opacity-30 animate-slide"></div>
                             </div>
                         </div>
                     </div>
