@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Products from '@/components/Products';
 import Script from 'next/script';
+import { Truck } from 'lucide-react';
 
 interface Product {
     _id: string;
@@ -208,14 +209,14 @@ export default function ProductPage() {
                     <div className="flex flex-col">
                         <div className='relative'>
                             <h1 className="text-3xl md:text-4xl font-bold">{product.name}</h1>
-                            <span className="bg-red-500 text-white text-bold text-xs p-1 rounded-sm">Special Winter Limited Sale</span>
+                            <span className="bg-red-500 text-white text-bold text-xs p-1 rounded-sm">Special Winter Offer</span>
                             <div className="text-2xl md:text-3xl text-primary mt-2 flex gap-2">
                                 <span className="text-xl md:text-xl text-gray-500 line-through">₹{product.oprice}</span>
                                 <span className="text-lg md:text-xl">₹{product.price.toFixed(2)}</span>
                             </div>
-                            <div className='flex gap-2 text-base'>
-                                <span className=" md:text-xl text-gray-500 line-through">Shipping : ₹80</span>
-                                <span className=" md:text-xl text-black-500">Free Shipping</span>
+                            <div className='flex gap-2 text-base items-center'>
+                                <span className=" l text-gray-500 line-through">Shipping : ₹80</span>
+                                <span className="  text-black-500 bg-green-50">Free Shipping </span> <span><Truck /></span>
                             </div>
                             <div className="mt-6">
                                 <div className="text-xl font-bold mb-4">Select Size:</div>
