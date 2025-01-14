@@ -11,7 +11,7 @@ interface Product {
     name: string;
     description: string;
     price: number;
-    // oprice: number;
+    oprice: number;
     image_1: string;
     image_2: string;
     image_3: string;
@@ -206,11 +206,16 @@ export default function ProductPage() {
 
                     {/* Product Info */}
                     <div className="flex flex-col">
-                        <div>
+                        <div className='relative'>
                             <h1 className="text-3xl md:text-4xl font-bold">{product.name}</h1>
+                            <span className="bg-red-500 text-white text-bold text-xs p-1 rounded-sm">Special Winter Limited Sale</span>
                             <div className="text-2xl md:text-3xl text-primary mt-2 flex gap-2">
-                                {/* <span className="text-xl md:text-xl text-gray-500 line-through">₹2599</span> */}
-                                <span className="text-xl md:text-xl">₹{product.price.toFixed(2)}</span>
+                                <span className="text-xl md:text-xl text-gray-500 line-through">₹{product.oprice}</span>
+                                <span className="text-lg md:text-xl">₹{product.price.toFixed(2)}</span>
+                            </div>
+                            <div className='flex gap-2 text-base'>
+                                <span className=" md:text-xl text-gray-500 line-through">Shipping : ₹80</span>
+                                <span className=" md:text-xl text-black-500">Free Shipping</span>
                             </div>
                             <div className="mt-6">
                                 <div className="text-xl font-bold mb-4">Select Size:</div>

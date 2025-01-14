@@ -40,7 +40,7 @@ const Products = () => {
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12 px-2">
                 {products.length > 0 ? (
                     products.map((product) => (
-                        <div key={product._id} onClick={() => handleProductClick(product)} className="product shadow-md rounded-md overflow-hidden">
+                        <div key={product._id} onClick={() => handleProductClick(product)} className="product shadow-md rounded-md overflow-hidden relative">
                             <div className="relative h-52 md:h-[30vw] rounded-md">
                                 <Image src={product.image_1} layout="fill" objectFit="cover" alt="Product Image" />
                             </div>
@@ -51,6 +51,7 @@ const Products = () => {
                                     <p>&#8377;{product.price}</p>
                                 </div>
                             </div>
+                            <div className="bg-red-500 absolute top-0 text-white text-bold text-xs p-1">Limited Sale</div>
                         </div>
                     ))
                 ) : (
