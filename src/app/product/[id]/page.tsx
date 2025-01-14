@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Products from '@/components/Products';
 import Script from 'next/script';
 import { Truck } from 'lucide-react';
+import Navbar from "@/components/Navbar";
 
 interface Product {
     _id: string;
@@ -172,6 +173,7 @@ export default function ProductPage() {
 
     return (
         <>
+            <Navbar />
             <div className="min-h-screen bg-gray-50 p-6 md:p-8">
                 <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
                     {/* Media Gallery */}

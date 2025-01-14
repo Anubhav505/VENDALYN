@@ -1,8 +1,22 @@
-import React from 'react'
+"use client"
+import { useEffect } from "react"
+import gsap from "gsap"
 
 const SALE = () => {
+  useEffect(() => {
+    gsap.from('.red', {
+      duration: 1,
+      yoyo: true,
+      repeat: -1,
+      scale:0.6,
+      ease: 'power1.inOut'
+    })
+  }, [])
   return (
-      <div className='bg-red-500 w-full text-white text-center text-xs font-b items-center py-1'>Winter Sale Live Now</div>
+    <div className='bg-black w-full sm:h-[4vh] text-white text-center text-xs font-b py-1 flex justify-center items-center gap-1'>
+      <h1>Winter Sale Live Now</h1>
+      <div className='red bg-red-500 h-2 w-2 rounded-full'></div>
+      </div>
   )
 }
 

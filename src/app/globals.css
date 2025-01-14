@@ -16,8 +16,6 @@ body {
 
 .nav{
   font-family: "New Rocker", serif;
-  background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10);
 }
 
 .heading{
@@ -25,7 +23,7 @@ body {
 }
 
 .roboto{
-  font-family: "Roboto Condensed", serif;
+  font-family: "Rubik Glitch", serif;
 }
 
 @keyframes slide {
