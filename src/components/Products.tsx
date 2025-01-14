@@ -7,6 +7,7 @@ interface Product {
     _id: string;
     name: string;
     price: number;
+    oprice: number;
     description: string;
     image_1: string;
 }
@@ -46,8 +47,8 @@ const Products = () => {
                             <div className="p-3">
                                 <div className="text-base font-semibold">{product.name}</div>
                                 <div className="text-sm flex justify-start gap-4">
-                                    {/* <p className=" text-gray-500 line-through">&#8377;2599</p> */}
-                                    <p>&#8377;{product.price}</p>
+                                    <p className=" text-gray-500 line-through">&#8377;{product.price}</p>
+                                    <p>&#8377;{product.oprice}</p>
                                 </div>
                             </div>
                         </div>
