@@ -211,7 +211,7 @@ export default function ProductPage() {
                             <h1 className="text-3xl md:text-4xl font-bold">{product.name}</h1>
                             <div className="relative inline-block overflow-hidden">
                
-                                <span className="bg-red-500 text-white font-bold text-xs p-1 rounded-sm">Special Winter Offer</span>
+                                <span className="bg-yellow-700 text-white font-bold text-xs p-1 rounded-sm">Special Winter Offer</span>
 
                                 
                                 <div className="absolute inset-0 bg-gradient-to-r from-white opacity-30 animate-slide"></div>
