@@ -26,7 +26,7 @@ export default function ThreeD() {
     const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(containerWidth, containerHeight);
     renderer.physicallyCorrectLights = true;
-    renderer.setClearColor(0x000000, 1); // Transparent background
+    renderer.setClearColor(0x000000, 1);
     container.appendChild(renderer.domElement);
 
     const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
@@ -49,18 +49,16 @@ export default function ThreeD() {
       (gltf) => {
         const model = gltf.scene;
 
-        // Increase the scale factor to make the model a bit larger
-        const scaleFactor = isMobile ? 0.4 : 0.4; // Increased scale for both mobile and desktop
+        const scaleFactor = isMobile ? 0.4 : 0.4;
         model.scale.set(scaleFactor, scaleFactor, scaleFactor);
 
-        // Center the model
         const boundingBox = new THREE.Box3().setFromObject(model);
         const center = boundingBox.getCenter(new THREE.Vector3());
         const size = boundingBox.getSize(new THREE.Vector3());
 
         model.position.set(
           -center.x,
-          -center.y, // Keep the model centered
+          -center.y,
           -center.z
         );
 
@@ -79,18 +77,15 @@ export default function ThreeD() {
     controls.enableZoom = false;
     controls.enableRotate = true;
 
-    // Create a clock to manage frame time
     const clock = new THREE.Clock();
 
     const animate = () => {
       requestAnimationFrame(animate);
 
-      // Calculate the time elapsed since the last frame
-      const delta = clock.getDelta(); // Time in seconds
+      const delta = clock.getDelta();
 
-      // Set a consistent rotation speed for the model
-      const rotationSpeed = 0.4; // Adjust this value to control the rotation speed
-      modelGroup.rotation.y -= rotationSpeed * delta; // Apply rotation to the model only
+      const rotationSpeed = 0.3;
+      modelGroup.rotation.y -= rotationSpeed * delta;
 
       controls.update();
       renderer.render(scene, camera);

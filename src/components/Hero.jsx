@@ -4,7 +4,7 @@ import ThreeD from "./ThreeD"; // Import the ThreeD component
 
 export default function Hero() {
   return (
-    <div className="relative h-[45vh] sm:h-screen">
+    <div className="relative h-[45vh] sm:h-[96vh]">
       <div
         id="three-container"
         className="h-[45vh] sm:h-screen w-full overflow-hidden"
