@@ -13,7 +13,7 @@ const SALE = () => {
     })
   }, [])
   return (
-    <div className='bg-black w-full sm:h-[4vh] text-white text-center text-xs font-b py-1 flex justify-center items-center gap-1'>
+    <div className='bg-white w-full sm:h-[4vh] text-black text-center text-xs font-b py-1 flex justify-center items-center gap-1'>
       <h1>Winter Sale Live Now</h1>
       <div className='red bg-red-500 h-2 w-2 rounded-full'></div>
       </div>
