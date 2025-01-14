@@ -251,10 +251,13 @@ export default function ProductPage() {
                                                 setShowForm(true);
                                             }
                                         }}
-                                        className={`mt-4 py-3 px-6 rounded-md text-white w-full ${!selectedSize ? 'bg-gray-400' : 'bg-black'} hover:bg-gray-600 transition-colors duration-300 ease-in-out`}
+                                        className={`overflow-hidden relative mt-4 py-3 px-6 rounded-md text-white w-full ${!selectedSize ? 'bg-gray-400' : 'bg-black'} hover:bg-gray-600 transition-colors duration-300 ease-in-out`}
                                         disabled={!selectedSize}
                                     >
                                         BUY NOW
+
+                                        {/* Sliding Beam Reflection */}
+                                        <div className="absolute inset-0 bg-gradient-to-r from-white opacity-10 animate-slide"></div>
                                     </button>
                                 ) : (
                                     <form onSubmit={(e) => { e.preventDefault(); setShowForm(false); }}>
