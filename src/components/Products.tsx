@@ -47,8 +47,8 @@ const Products = () => {
                             <div className="p-3">
                                 <div className="text-base font-semibold">{product.name}</div>
                                 <div className="text-sm flex justify-start gap-4">
-                                    <p className=" text-gray-500 line-through">&#8377;{product.price}</p>
-                                    <p>&#8377;{product.oprice}</p>
+                                    <p className=" text-gray-500 line-through">&#8377;{product.oprice}</p>
+                                    <p>&#8377;{product.price}</p>
                                 </div>
                             </div>
                         </div>

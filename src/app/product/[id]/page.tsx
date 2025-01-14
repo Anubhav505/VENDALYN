@@ -11,6 +11,7 @@ interface Product {
     name: string;
     description: string;
     price: number;
+    // oprice: number;
     image_1: string;
     image_2: string;
     image_3: string;
@@ -208,7 +209,7 @@ export default function ProductPage() {
                         <div>
                             <h1 className="text-3xl md:text-4xl font-bold">{product.name}</h1>
                             <div className="text-2xl md:text-3xl text-primary mt-2 flex gap-2">
-                                <span className="text-xl md:text-xl text-gray-500 line-through">₹2599</span>
+                                {/* <span className="text-xl md:text-xl text-gray-500 line-through">₹2599</span> */}
                                 <span className="text-xl md:text-xl">₹{product.price.toFixed(2)}</span>
                             </div>
                             <div className="mt-6">
