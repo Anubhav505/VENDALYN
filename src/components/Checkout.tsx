@@ -1,15 +1,14 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import RazorpayPayment from "@/components/RazorpayPayment";
 import axios from "axios";
-import { useRouter } from "next/navigation"; // Import useRouter hook
 
-export default function CheckoutPage() {
+function CheckoutPage() {
     const searchParams = useSearchParams();
-    const router = useRouter(); // Initialize useRouter hook
+    const router = useRouter();
 
     const name = searchParams?.get("name");
     const price = searchParams?.get("price");
@@ -257,3 +256,11 @@ export default function CheckoutPage() {
         </>
     );
 }
+
+export default function CheckoutPageWrapper() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <CheckoutPage />
+        </Suspense>
+    );
+}   
