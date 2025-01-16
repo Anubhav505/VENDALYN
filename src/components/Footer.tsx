@@ -13,7 +13,7 @@ const Footer = () => {
           <Link href="/contactUs">CONTACT US</Link>
         </div>
         <div className="flex flex-col gap-2">
-          <h3 className="font-semibold text-xs text-black">QUICK LINKS</h3>
+          <h3 className="nav font-semibold text-xs text-black">QUICK LINKS</h3>
           <Link href="/terms-and-conditions">TERMS</Link>
           <Link href="/shipping-policy">SHIPPING</Link>
           <Link href="/privacy-policy">PRIVACY POLICY</Link>

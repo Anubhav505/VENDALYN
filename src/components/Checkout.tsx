@@ -5,6 +5,8 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import RazorpayPayment from "@/components/RazorpayPayment";
 import axios from "axios";
+import Image from "next/image";
+import { Truck } from "lucide-react";
 
 function CheckoutPage() {
     const searchParams = useSearchParams();
@@ -95,39 +97,42 @@ function CheckoutPage() {
     return (
         <>
             <Navbar />
-            <div className="min-h-screen bg-gray-100 py-8 px-4">
-                <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-8">
-                    <h1 className="text-3xl font-bold text-gray-800 mb-6">Checkout</h1>
+            <div className="w-full p-2 mb-72 mt-4">
+                <h1 className="nav text-3xl sm:text-6xl font-bold text-center text-gray-800 mb-6">Checkout</h1>
+                <div className="w-full flex flex-col sm:flex-row">
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                        <div className="relative aspect-square overflow-hidden rounded-lg shadow-md">
-                            {productData.image ? (
-                                <img
-                                    src={productData.image}
-                                    alt={productData.name || "Product Image"}
-                                    className="object-cover w-full h-full"
-                                />
-                            ) : (
-                                <div className="flex items-center justify-center w-full h-full bg-gray-200">
-                                    <span className="text-gray-500">No Image Available</span>
-                                </div>
-                            )}
+                    <div className="h-[50vh] w-full sm:w-1/2 flex flex-col justify-start">
+
+                        <div className="relative h-1/2">
+                            <Image
+                                src={productData.image || "/placeholder.png"}
+                                alt={productData.name || "Product Image"}
+                                fill={true}
+                                className="object-contain"
+                            />
                         </div>
 
-                        <div className="space-y-4">
-                            <h2 className="text-2xl font-semibold text-gray-800">{productData.name}</h2>
-                            <p className="text-lg text-gray-500">
-                                <strong>Size:</strong> {productData.size}
+
+
+
+
+                        <div className=" h-1/2 flex justify-center flex-col items-center">
+                            <h2><strong>{productData.name}</strong></h2>
+                            <p>
+                                <strong>Size:&nbsp;&nbsp;</strong> {productData.size}
                             </p>
-                            <p className="text-2xl font-bold text-primary">
-                                ₹{productData.price.toFixed(2)}
+                            <p>
+                                <strong>Price:&nbsp;&nbsp;</strong>₹{productData.price.toFixed(2)}
                             </p>
-                        </div>
+                            </div>
+                    
+
                     </div>
 
                     {!formSubmitted ? (
-                        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                        <form className="w-full sm:w-1/2 flex flex-col justify-evenly sm:gap-0 gap-3" onSubmit={handleSubmit}>
+                            <h1 className="nav text-[5vw] sm:text-2xl text-center font-bold text-gray-800 mb-6">Please fill the details</h1>
+                            <div className="flex gap-3 sm:gap-6">
                                 <input
                                     type="text"
                                     name="name"
@@ -138,16 +143,16 @@ function CheckoutPage() {
                                     required
                                 />
                                 <input
-                                    type="email"
-                                    name="email"
-                                    value={userDetails.email}
+                                    type="text"
+                                    name="pinCode"
+                                    value={userDetails.pinCode}
                                     onChange={handleInputChange}
-                                    placeholder="Your Email"
+                                    placeholder="Pin Code"
                                     className="w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-primary focus:outline-none"
                                     required
                                 />
                             </div>
-                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                            <div className="flex gap-3 sm:gap-6">
                                 <input
                                     type="tel"
                                     name="contact"
@@ -167,12 +172,13 @@ function CheckoutPage() {
                                     required
                                 />
                             </div>
+
                             <input
-                                type="text"
-                                name="pinCode"
-                                value={userDetails.pinCode}
+                                type="email"
+                                name="email"
+                                value={userDetails.email}
                                 onChange={handleInputChange}
-                                placeholder="Pin Code"
+                                placeholder="Your Email"
                                 className="w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-primary focus:outline-none"
                                 required
                             />
@@ -186,8 +192,8 @@ function CheckoutPage() {
                     ) : (
                         <div className="mt-8">
                             <div className="space-y-4">
-                                <h2 className="text-xl font-semibold">Select Payment Method</h2>
-                                <div className="flex flex-col">
+                                <h2 className="nav text-xl font-semibold">Select Payment Method</h2>
+                                <div className="flex flex-col gap-4">
                                     <label className="inline-flex items-center mr-4">
                                         <input
                                             type="radio"
@@ -197,7 +203,7 @@ function CheckoutPage() {
                                             onChange={handlePaymentMethodChange}
                                             className="mr-2"
                                         />
-                                        Online Payment ( Free Shipping )
+                                            Online Payment &nbsp;<span className=" p-1 rounded-xl flex gap-1">( Free Shipping <span><Truck /></span>)</span>
                                     </label>
                                     <label className="inline-flex items-center">
                                         <input
@@ -208,23 +214,24 @@ function CheckoutPage() {
                                             onChange={handlePaymentMethodChange}
                                             className="mr-2"
                                         />
-                                        Cash on Delivery (&#8377; 99 Extra Charges Apply)
+                                            Cash on Delivery &nbsp; <span className="bg-yellow-100 p-1 rounded-xl">(&#8377;99 Shipping Charges )</span>
                                     </label>
                                 </div>
                             </div>
 
                             {paymentMethod === "razorpay" ? (
                                 <RazorpayPayment
-                                    amount={productData.price}
-                                    productName={productData.name}
-                                    userDetails={userDetails}
-                                    size={productData.size}
-                                    onConfirm={handleConfirmShipment}
+                                amount={productData.price}
+                                productName={productData.name}
+                                userDetails={userDetails}
+                                size={productData.size}
+                                onConfirm={handleConfirmShipment}
+                    
                                 />
                             ) : paymentMethod === "cod" ? (
                                 <button
-                                    className="w-full bg-black text-white py-4 rounded-md hover:bg-gray-700 transition-colors"
-                                    onClick={handleConfirmShipment}
+                                className="w-full bg-black text-white py-3 mt-3 rounded-md hover:bg-gray-700 transition-colors"
+                                onClick={handleConfirmShipment}
                                 >
                                     Confirm Shipment
                                 </button>
@@ -232,16 +239,17 @@ function CheckoutPage() {
                         </div>
                     )}
                 </div>
+                    <h1 className="nav text-[4vw] sm:text-2xl text-center font-bold text-red-500 mt-6">We will Contact you to confirm your order that it's you</h1>
 
                 {/* Popup Confirmation */}
                 {orderConfirmed && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                    <div className="fixed nav text-black inset-0 bg-black bg-opacity-50 flex items-center justify-center px-2">
                         <div className="bg-white p-6 rounded-md shadow-lg ">
-                            <h2 className="text-xl font-semibold text-center text-gray-800">
+                            <h2 className="text-xl font-semibold text-center ">
                                 Your order has been confirmed!
                             </h2>
-                            <h2 className="text-xl font-semibold text-center text-gray-800">
-                                We will contact you shortly to confirm your order.
+                            <h2 className="text-xl font-semibold text-center ">
+                                We will contact you shortly to confirm that it's you.
                             </h2>
                             <button
                                 onClick={handleClosePopup} // Call handleClosePopup for redirection
