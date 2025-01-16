@@ -232,10 +232,9 @@ export default function ProductPage() {
                                 <span className="text-xl md:text-xl text-gray-500 line-through">₹{product.oprice}</span>
                                 <span className="text-lg md:text-xl">₹{product.price.toFixed(2)}</span>
                             </div>
-                            <div className='flex gap-2 text-base items-center'>
-                                <span className=" l text-gray-500 line-through">Shipping : ₹80</span>
-                                <span className="  text-black-500 bg-green-50">Free Shipping </span> <span><Truck /></span>
-                            </div>
+                            {/* <div className='flex gap-2 text-base items-center'>
+                                <span className=" l text-gray-500 line-through">Shipping : ₹99</span>
+                            </div> */}
                             <div className="mt-6">
                                 <div className="text-xl font-bold mb-4">Select Size:</div>
                                 <div className="flex gap-4">

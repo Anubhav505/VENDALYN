@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { useEffect } from "react";
@@ -22,26 +20,28 @@ const Hero = () => {
   }, []);
 
   return (
-    <div className="relative w-full h-[60vh] sm:h-[96vh] bg-black flex">
-      <div className="hidden sm:block h-full sm:w-[32.5%]"></div>
-      <div className="h-full w-full sm:w-[35%] flex items-center justify-center overflow-hidden">
-        <model-viewer
-          className=" h-full w-full"
-          src="/dragon_glass.glb"
-          alt="3D Model of Dragon Glass"
-          auto-rotate
-          camera-controls
-        ></model-viewer>
+  
+      <div className="relative w-full h-[60vh] sm:h-[96vh] bg-black flex">
+        <div className="hidden sm:block h-full sm:w-[32.5%]"></div>
+        <div className="h-full w-full sm:w-[35%] flex items-center justify-center overflow-hidden">
+          <model-viewer
+            className=" h-full w-full"
+            src="/dragon_glass.glb"
+            alt="3D Model of Dragon Glass"
+            auto-rotate
+            camera-controls
+          ></model-viewer>
+        </div>
+        <div className="hidden sm:block h-full sm:w-[32.5%]"></div>
+        <h1 className="nav text-[7vw] absolute top-3 w-full text-white text-center">
+          VENDALYN
+        </h1>
+
+        <h1 className="nav text-[2.5vw] absolute bottom-3 w-full text-white text-center">
+          BEYOND THE GLOOM
+        </h1>
       </div>
-      <div className="hidden sm:block h-full sm:w-[32.5%]"></div>
-      <h1 className="nav text-[7vw] absolute top-3 w-full text-white text-center">
-     VENDALYN
-      </h1>
-   
-      <h1 className="nav text-[2.5vw] absolute bottom-3 w-full text-white text-center">
-      BEYOND THE GLOOM
-      </h1>
-    </div>
+
   );
 }
 
