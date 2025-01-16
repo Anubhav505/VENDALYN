@@ -21,7 +21,7 @@ const Hero = () => {
 
   return (
   
-      <div className="relative w-full h-[60vh] sm:h-[96vh] bg-black flex">
+      <div className="relative w-full h-[60vh] sm:h-screen bg-black flex">
         <div className="hidden sm:block h-full sm:w-[32.5%]"></div>
         <div className="h-full w-full sm:w-[35%] flex items-center justify-center overflow-hidden">
           <model-viewer
