@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Product {
     _id: string;
@@ -14,25 +15,20 @@ interface Product {
 }
 
 const Combos = () => {
-    const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);  // Keep only filteredProducts state
+    const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchProducts = async () => {
-            try {
-                const response = await fetch("/api/products");
-                if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-
-                // Filter products by category (Clothing in this case)
-                const filtered = data.filter((product: Product) => product.category === "combo");
-                setFilteredProducts(filtered);  // Set filtered products
-            } catch (error) {
-                console.error("Error:", error);
-            }
+            const response = await fetch("/api/products");
+            const data = await response.json();
+            const filtered = data.filter((product: Product) => product.category === "combo");
+            setFilteredProducts(filtered);
+            setLoading(false);
         };
 
         fetchProducts();
-    }, []);  // Empty dependency array means this effect runs only once when the component mounts
+    }, []);
 
     const router = useRouter();
     const handleProductClick = (product: Product) => {
@@ -41,7 +37,17 @@ const Combos = () => {
 
     return (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12 px-2">
-            {filteredProducts.length > 0 ? (
+            {loading ? (
+                Array.from({ length: 6 }).map((_, index) => (
+                    <div key={index} className="flex flex-col space-y-3">
+                        <Skeleton className="h-[125px] w-full rounded-xl" />
+                        <div className="space-y-2">
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-full" />
+                        </div>
+                    </div>
+                ))
+            ) : (
                 filteredProducts.map((product) => (
                     <div key={product._id} onClick={() => handleProductClick(product)} className="product shadow-md rounded-md overflow-hidden relative">
                         <div className="relative h-52 md:h-[30vw] rounded-md">
@@ -56,8 +62,6 @@ const Combos = () => {
                         </div>
                     </div>
                 ))
-            ) : (
-                <p>Products Loading...</p>
             )}
         </div>
     );

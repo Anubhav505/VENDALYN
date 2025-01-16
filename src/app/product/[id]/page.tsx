@@ -7,6 +7,7 @@ import Products from '@/components/Products';
 import Script from 'next/script';
 import { Truck } from 'lucide-react';
 import Navbar from "@/components/Navbar";
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface Product {
     _id: string;
@@ -77,7 +78,16 @@ export default function ProductPage() {
         }
     };
 
-    if (!product) return <div>Loading...</div>;
+    if (!product) return <div className="flex flex-col space-y-6">
+        <Skeleton className="h-[40vh] w-full rounded-xl" />
+        <div className="space-y-4">
+            <Skeleton className="h-8 w-[90%]" />
+            <Skeleton className="h-6 w-[80%]" />
+            <Skeleton className="h-6 w-[80%]" />
+            <Skeleton className="h-10 w-[60%]" />
+            <Skeleton className="h-12 w-full" />
+        </div>
+    </div>;
 
     const handlePayment = async () => {
         const missingFields = [];
