@@ -239,7 +239,7 @@ function CheckoutPage() {
                         </div>
                     )}
                 </div>
-                    <h1 className="nav text-[4vw] sm:text-2xl text-center font-bold text-red-500 mt-6">We will Contact you to confirm your order that it's you</h1>
+                <h1 className="nav text-[4vw] sm:text-2xl text-center font-bold text-red-500 mt-6">We will Contact you to confirm your order that it&apos;s you</h1>
 
                 {/* Popup Confirmation */}
                 {orderConfirmed && (
@@ -249,7 +249,7 @@ function CheckoutPage() {
                                 Your order has been confirmed!
                             </h2>
                             <h2 className="text-xl font-semibold text-center ">
-                                We will contact you shortly to confirm that it's you.
+                                We will contact you shortly to confirm that it&apos;s you.
                             </h2>
                             <button
                                 onClick={handleClosePopup} // Call handleClosePopup for redirection
