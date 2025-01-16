@@ -25,7 +25,6 @@ const Hero = () => {
           alt="3D Model of Dragon Glass"
           auto-rotate
           camera-controls
-          autoplay
         ></model-viewer>
       </div>
       <div className="hidden sm:block h-full sm:w-[32.5%]"></div>
