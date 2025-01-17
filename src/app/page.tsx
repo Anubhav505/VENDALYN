@@ -1,20 +1,24 @@
-"use client"
+"use client";
 import { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
 import Products from "@/components/Products";
 import Combos from "@/components/Combos";
-import Loading from "@/components/Loading"; // Import the Loading component
+import Loading from "@/components/Loading";
 
 const HomePage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timeout = setTimeout(() => setLoading(false), 3000); // Simulating a 2-second loading time
+
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+
     return () => clearTimeout(timeout);
   }, []);
 
   if (loading) {
-    return <Loading />; // Display the loading screen while loading
+    return <Loading />;
   }
 
   return (
@@ -32,10 +36,7 @@ const HomePage = () => {
       </div>
 
       <Combos />
-      {/* <BestSeller /> */}
-      {/* <Catagory /> */}
     </>
   );
 };
-
 export default HomePage;
