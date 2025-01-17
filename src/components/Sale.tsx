@@ -29,20 +29,28 @@ const Music: React.FC<{ src?: string }> = ({ src = "/music/music.mp3" }) => {
     return null; // Avoid rendering before the component is mounted on the client
   }
 
+  // Conditionally calculate the transitionDelay style based on isHovered
+  const volumeSliderStyle = {
+    transitionDelay: isHovered ? "0.3s" : "0s"
+  };
+
   return (
     <div
-      className="flex  gap-2 fixed top-4 sm:top-5 left-5 z-[100]"
+      className="flex gap-2 items-center fixed top-4 sm:top-5 left-5 z-[100]"
       onMouseEnter={() => setIsHovered(true)} // When mouse enters the area
       onMouseLeave={() => setIsHovered(false)} // When mouse leaves the area
     >
-      <button className="text-purple-500 rounded-full border-purple-800 border p-1 flex items-center justify-center" onClick={togglePlay}>
-        {isPlaying ? <Pause /> : <Play />}
+      <button
+        className="text-purple-500 rounded-full border-purple-800 border p-1 flex items-center justify-center"
+        onClick={togglePlay}
+      >
+        {isPlaying ? <Pause /> : <Play/>}
       </button>
 
-      {/* Volume Slider, shown only when hovered */}
+      {/* Volume Slider, shown only when hovered and on screen size sm: or larger */}
       <div
-        className={`flex items-center  h-full border-black mt-3 transition-opacity duration-300 ${isHovered ? "opacity-100" : "opacity-0"}`}
-        style={{ transitionDelay: isHovered ? "0.3s" : "0s" }}
+        className={`flex items-center h-full transition-opacity duration-300 ${isHovered ? "opacity-100" : "opacity-0"} sm:block ${isHovered ? "opacity-100" : "opacity-0"}`}
+        style={volumeSliderStyle}
       >
         <input
           type="range"
