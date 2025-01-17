@@ -14,7 +14,6 @@ const Footer = () => {
           <Link href="/" className="nav font-semibold text-xs text-white">
             VENDALYN
           </Link>
-          <Link href="/collections">PRODUCTS</Link>
           <Link href="/about">ABOUT US</Link>
           <Link href="/contactUs">CONTACT US</Link>
         </div>
