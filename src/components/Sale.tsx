@@ -25,13 +25,16 @@ const Music: React.FC<{ src?: string }> = ({ src = "/music/music.mp3" }) => {
     }
   };
 
+  // Ensure the component is mounted before rendering
   if (!mounted) {
     return null; // Avoid rendering before the component is mounted on the client
   }
 
-  // Conditionally calculate the transitionDelay style based on isHovered
+  // Refactor ternary expression into a function for transitionDelay
+  const getTransitionDelay = () => (isHovered ? "0.3s" : "0s");
+
   const volumeSliderStyle = {
-    transitionDelay: isHovered ? "0.3s" : "0s"
+    transitionDelay: getTransitionDelay(),
   };
 
   return (
@@ -44,12 +47,12 @@ const Music: React.FC<{ src?: string }> = ({ src = "/music/music.mp3" }) => {
         className="text-purple-500 rounded-full border-purple-800 border p-1 flex items-center justify-center"
         onClick={togglePlay}
       >
-        {isPlaying ? <Pause /> : <Play/>}
+        {isPlaying ? <Pause /> : <Play />}
       </button>
 
       {/* Volume Slider, shown only when hovered and on screen size sm: or larger */}
       <div
-        className={`flex items-center h-full transition-opacity duration-300 ${isHovered ? "opacity-100" : "opacity-0"} sm:block ${isHovered ? "opacity-100" : "opacity-0"}`}
+        className={`flex items-center h-full transition-opacity duration-300 ${isHovered ? "opacity-100" : "opacity-0"} sm:block`}
         style={volumeSliderStyle}
       >
         <input
