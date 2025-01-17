@@ -23,7 +23,6 @@ const Hero = () => {
           className=" h-full w-full"
           src="/dragon_glass.glb"
           alt="3D Model of Dragon Glass"
-          auto-rotate
           autoplay
           camera-controls
         ></model-viewer>
