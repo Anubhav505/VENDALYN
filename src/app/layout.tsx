@@ -4,6 +4,7 @@ import "./globals.css";
 
 // import Sale from "@/components/Sale";
 import Footer from "@/components/Footer";
+import Sale from "@/components/Sale";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,7 +40,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* <Sale /> */}
+        <Sale />
         {children}
         <Footer />
       </body>
