@@ -1,4 +1,3 @@
-// /pages/api/checkout.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/lib/dbConnect";
 import { Shipment } from "@/models/Shipment";
@@ -28,6 +27,7 @@ export default async function handler(
       ...shipmentDetails,
       payment, // Save payment method if provided (including COD)
     });
+
     await shipment.save();
 
     res

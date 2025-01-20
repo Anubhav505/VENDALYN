@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/router";  // Correct import for next/router
 import Navbar from "@/components/Navbar";
 import RazorpayPayment from "@/components/RazorpayPayment";
 import axios from "axios";
@@ -40,13 +40,14 @@ interface ShipmentDetails {
 }
 
 function CheckoutPage() {
-    const searchParams = useSearchParams();
-    const router = useRouter();
+    const router = useRouter(); // Use useRouter from next/router
+    const { query } = router;
 
-    const name = searchParams?.get("name");
-    const price = searchParams?.get("price");
-    const image = searchParams?.get("image");
-    const size = searchParams?.get("size");
+    // Fetch product details from query params
+    const name = query.name as string;
+    const price = query.price as string;
+    const image = query.image as string;
+    const size = query.size as string;
 
     const [userDetails, setUserDetails] = useState<UserDetails>({
         name: "",
@@ -69,11 +70,13 @@ function CheckoutPage() {
         size: size || "N/A",
     };
 
+    // Handle input changes
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setUserDetails((prev) => ({ ...prev, [name]: value }));
     };
 
+    // Form submission handler
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (
@@ -89,10 +92,12 @@ function CheckoutPage() {
         setFormSubmitted(true);
     };
 
+    // Handle payment method selection
     const handlePaymentMethodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPaymentMethod(e.target.value as PaymentMethod);
     };
 
+    // Confirm shipment after payment method is selected
     const handleConfirmShipment = async () => {
         if (!paymentMethod) {
             alert("Please select a payment method before confirming the shipment.");
@@ -128,6 +133,7 @@ function CheckoutPage() {
         }, 1000); // Increase progress every 1 second
     };
 
+    // Simulate saving shipment to the database
     const saveToDatabase = async (shipmentDetails: ShipmentDetails) => {
         try {
             const response = await axios.post("/api/checkout", shipmentDetails);
