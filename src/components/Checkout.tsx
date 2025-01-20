@@ -61,37 +61,42 @@ function CheckoutPage() {
     };
 
     const handleConfirmShipment = async () => {
-        if (paymentMethod === "cod") {
-            const shipmentDetails = {
-                product_name: productData.name,
-                price: productData.price,
-                size: productData.size,
-                user_name: userDetails.name,
-                user_contact: userDetails.contact,
-                user_email: userDetails.email,
-                address: userDetails.address,
-                pin_code: userDetails.pinCode,
-                payment: paymentMethod,
-            };
+        if (!paymentMethod) {
+            alert("Please select a payment method before confirming the shipment.");
+            return;
+        }
 
-            // Trigger the order confirmation popup instead of MongoDB save
-            setOrderConfirmed(true);
+        const shipmentDetails = {
+            product_name: productData.name,
+            price: productData.price,
+            size: productData.size,
+            user_name: userDetails.name,
+            user_contact: userDetails.contact,
+            user_email: userDetails.email,
+            address: userDetails.address,
+            pin_code: userDetails.pinCode,
+            payment: paymentMethod,
+        };
 
-            try {
-                const response = await axios.post("/api/checkout", shipmentDetails);
-                if (!response.data.success) {
-                    alert("There was an issue confirming the shipment.");
-                }
-            } catch (error) {
-                console.error("Error with shipment confirmation:", error);
-                alert("There was an error with the shipment confirmation. Please try again.");
+        try {
+            const response = await axios.post("/api/checkout", shipmentDetails);
+
+            if (response.data.success) {
+                setOrderConfirmed(true); // Trigger the popup
+            } else {
+                alert(response.data.message || "Failed to confirm the shipment.");
             }
+        } catch (error: any) {
+            console.error("Error with shipment confirmation:", error);
+            alert(
+                error.response?.data?.message || "There was an error confirming the shipment. Please try again later."
+            );
         }
     };
 
     const handleClosePopup = () => {
-        setOrderConfirmed(false); // Close the popup
-        router.push("/"); // Redirect to the homepage
+        setOrderConfirmed(false);
+        router.push("/");
     };
 
     return (
@@ -100,9 +105,7 @@ function CheckoutPage() {
             <div className="w-full p-2 mb-72 mt-4">
                 <h1 className="nav text-3xl sm:text-6xl font-bold text-center text-gray-800 mb-6">Checkout</h1>
                 <div className="w-full flex flex-col sm:flex-row">
-
                     <div className="h-[50vh] w-full sm:w-1/2 flex flex-col justify-start">
-
                         <div className="relative h-1/2">
                             <Image
                                 src={productData.image || "/placeholder.png"}
@@ -111,12 +114,7 @@ function CheckoutPage() {
                                 className="object-contain"
                             />
                         </div>
-
-
-
-
-
-                        <div className=" h-1/2 flex justify-center flex-col items-center">
+                        <div className="h-1/2 flex justify-center flex-col items-center">
                             <h2><strong>{productData.name}</strong></h2>
                             <p>
                                 <strong>Size:&nbsp;&nbsp;</strong> {productData.size}
@@ -124,11 +122,8 @@ function CheckoutPage() {
                             <p>
                                 <strong>Price:&nbsp;&nbsp;</strong>₹{productData.price.toFixed(2)}
                             </p>
-                            </div>
-                    
-
+                        </div>
                     </div>
-
                     {!formSubmitted ? (
                         <form className="w-full sm:w-1/2 flex flex-col justify-evenly sm:gap-0 gap-3" onSubmit={handleSubmit}>
                             <h1 className="nav text-[5vw] sm:text-2xl text-center font-bold text-gray-800 mb-6">Please fill the details</h1>
@@ -172,7 +167,6 @@ function CheckoutPage() {
                                     required
                                 />
                             </div>
-
                             <input
                                 type="email"
                                 name="email"
@@ -203,7 +197,10 @@ function CheckoutPage() {
                                             onChange={handlePaymentMethodChange}
                                             className="mr-2"
                                         />
-                                            Online Payment &nbsp;<span className=" p-1 rounded-xl flex gap-1">( Free Shipping <span><Truck /></span>)</span>
+                                        Online Payment &nbsp;
+                                        <span className="p-1 rounded-xl flex gap-1">
+                                            (Free Shipping <span><Truck /></span>)
+                                        </span>
                                     </label>
                                     <label className="inline-flex items-center">
                                         <input
@@ -214,24 +211,25 @@ function CheckoutPage() {
                                             onChange={handlePaymentMethodChange}
                                             className="mr-2"
                                         />
-                                            Cash on Delivery &nbsp; <span className="bg-yellow-100 p-1 rounded-xl">(&#8377;99 Shipping Charges )</span>
+                                        Cash on Delivery &nbsp;
+                                        <span className="bg-yellow-100 p-1 rounded-xl">
+                                            (₹99 Shipping Charges)
+                                        </span>
                                     </label>
                                 </div>
                             </div>
-
                             {paymentMethod === "razorpay" ? (
                                 <RazorpayPayment
-                                amount={productData.price}
-                                productName={productData.name}
-                                userDetails={userDetails}
-                                size={productData.size}
-                                onConfirm={handleConfirmShipment}
-                    
+                                    amount={productData.price}
+                                    productName={productData.name}
+                                    userDetails={userDetails}
+                                    size={productData.size}
+                                    onConfirm={handleConfirmShipment}
                                 />
                             ) : paymentMethod === "cod" ? (
                                 <button
-                                className="w-full bg-black text-white py-3 mt-3 rounded-md hover:bg-gray-700 transition-colors"
-                                onClick={handleConfirmShipment}
+                                    className="w-full bg-black text-white py-3 mt-3 rounded-md hover:bg-gray-700 transition-colors"
+                                    onClick={handleConfirmShipment}
                                 >
                                     Confirm Shipment
                                 </button>
@@ -239,21 +237,21 @@ function CheckoutPage() {
                         </div>
                     )}
                 </div>
-                <h1 className="nav text-[4vw] sm:text-2xl text-center font-bold text-red-500 mt-6">We will Contact you to confirm your order that it&apos;s you</h1>
-
-                {/* Popup Confirmation */}
+                <h1 className="nav text-[4vw] sm:text-2xl text-center font-bold text-red-500 mt-6">
+                    We will contact you to confirm your order that it&apos;s you
+                </h1>
                 {orderConfirmed && (
                     <div className="fixed nav text-black inset-0 bg-black bg-opacity-50 flex items-center justify-center px-2">
-                        <div className="bg-white p-6 rounded-md shadow-lg ">
-                            <h2 className="text-xl font-semibold text-center ">
+                        <div className="bg-white p-6 rounded-md shadow-lg">
+                            <h2 className="text-xl font-semibold text-center">
                                 Your order has been confirmed!
                             </h2>
-                            <h2 className="text-xl font-semibold text-center ">
-                                We will contact you shortly to confirm that it&apos;s you.
+                            <h2 className="text-xl font-semibold text-center">
+                                We will contact you shortly to confirm that it&apos;s you
                             </h2>
                             <button
-                                onClick={handleClosePopup} // Call handleClosePopup for redirection
-                                className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-700 transition-colors"
+                                className="bg-black text-white py-3 px-6 mt-4 rounded-md hover:bg-gray-700 transition-colors"
+                                onClick={handleClosePopup}
                             >
                                 Close
                             </button>
@@ -265,10 +263,4 @@ function CheckoutPage() {
     );
 }
 
-export default function CheckoutPageWrapper() {
-    return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <CheckoutPage />
-        </Suspense>
-    );
-};
+export default CheckoutPage;
