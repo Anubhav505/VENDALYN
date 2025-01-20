@@ -9,6 +9,7 @@ import Image from "next/image";
 import { Truck } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
+// Define the types
 interface UserDetails {
     name: string;
     email: string;
@@ -25,6 +26,18 @@ interface ProductData {
 }
 
 type PaymentMethod = "razorpay" | "cod" | null;
+
+interface ShipmentDetails {
+    product_name: string;
+    price: number;
+    size: string;
+    user_name: string;
+    user_contact: string;
+    user_email: string;
+    address: string;
+    pin_code: string;
+    payment: "razorpay" | "cod"; // Can be either 'razorpay' or 'cod'
+}
 
 function CheckoutPage() {
     const searchParams = useSearchParams();
@@ -86,7 +99,7 @@ function CheckoutPage() {
             return;
         }
 
-        const shipmentDetails = {
+        const shipmentDetails: ShipmentDetails = {
             product_name: productData.name,
             price: productData.price,
             size: productData.size,
@@ -115,7 +128,7 @@ function CheckoutPage() {
         }, 1000); // Increase progress every 1 second
     };
 
-    const saveToDatabase = async (shipmentDetails: any) => {
+    const saveToDatabase = async (shipmentDetails: ShipmentDetails) => {
         try {
             const response = await axios.post("/api/checkout", shipmentDetails);
 
