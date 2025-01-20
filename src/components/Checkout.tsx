@@ -1,51 +1,23 @@
-"use client"; // Ensures that the page is client-side only
+"use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";  // Correctly using useRouter
+import { Suspense, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import RazorpayPayment from "@/components/RazorpayPayment";
 import axios from "axios";
 import Image from "next/image";
 import { Truck } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
-
-// Define the types
-interface UserDetails {
-    name: string;
-    email: string;
-    contact: string;
-    address: string;
-    pinCode: string;
-}
-
-interface ProductData {
-    name: string;
-    price: number;
-    image: string | null;
-    size: string;
-}
-
-type PaymentMethod = "razorpay" | "cod" | null;
-
-interface ShipmentDetails {
-    product_name: string;
-    price: number;
-    size: string;
-    user_name: string;
-    user_contact: string;
-    user_email: string;
-    address: string;
-    pin_code: string;
-    payment: "razorpay" | "cod"; // Can be either 'razorpay' or 'cod'
-}
 
 function CheckoutPage() {
+    const searchParams = useSearchParams();
     const router = useRouter();
-    const [paramsLoaded, setParamsLoaded] = useState(false);
-    const { query } = router;
 
-    // State for user details and payment process
-    const [userDetails, setUserDetails] = useState<UserDetails>({
+    const name = searchParams?.get("name");
+    const price = searchParams?.get("price");
+    const image = searchParams?.get("image");
+    const size = searchParams?.get("size");
+
+    const [userDetails, setUserDetails] = useState({
         name: "",
         email: "",
         contact: "",
@@ -54,28 +26,10 @@ function CheckoutPage() {
     });
 
     const [formSubmitted, setFormSubmitted] = useState(false);
-    const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(null);
+    const [paymentMethod, setPaymentMethod] = useState<"razorpay" | "cod" | null>(null);
     const [orderConfirmed, setOrderConfirmed] = useState(false);
-    const [progress, setProgress] = useState(0); // To track the progress bar
-    const [isSaving, setIsSaving] = useState(false); // To track if the data is being saved
 
-    // Using useEffect to safely access query parameters after the component is mounted
-    useEffect(() => {
-        if (Object.keys(query).length > 0) {
-            setParamsLoaded(true);  // Indicate that params are loaded
-        }
-    }, [query]);  // Re-run effect when query changes
-
-    if (!paramsLoaded) {
-        return <div>Loading...</div>; // Show loading until params are loaded
-    }
-
-    const name = query.name as string || "";
-    const price = query.price as string || "0";
-    const image = query.image as string || "";
-    const size = query.size as string || "N/A";
-
-    const productData: ProductData = {
+    const productData = {
         name: name || "Product Name",
         price: parseFloat(price || "0"),
         image: image || null,
@@ -103,7 +57,7 @@ function CheckoutPage() {
     };
 
     const handlePaymentMethodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPaymentMethod(e.target.value as PaymentMethod);
+        setPaymentMethod(e.target.value as "razorpay" | "cod");
     };
 
     const handleConfirmShipment = async () => {
@@ -112,7 +66,7 @@ function CheckoutPage() {
             return;
         }
 
-        const shipmentDetails: ShipmentDetails = {
+        const shipmentDetails = {
             product_name: productData.name,
             price: productData.price,
             size: productData.size,
@@ -124,24 +78,6 @@ function CheckoutPage() {
             payment: paymentMethod,
         };
 
-        setIsSaving(true); // Start saving
-        setProgress(0); // Reset progress
-
-        // Simulate progress over 5 seconds
-        let currentProgress = 0;
-        const interval = setInterval(() => {
-            currentProgress += 20; // Increase by 20% every 1 second
-            setProgress(currentProgress);
-
-            if (currentProgress >= 100) {
-                clearInterval(interval); // Stop updating after 100%
-                // Now simulate the database save
-                saveToDatabase(shipmentDetails);
-            }
-        }, 1000); // Increase progress every 1 second
-    };
-
-    const saveToDatabase = async (shipmentDetails: ShipmentDetails) => {
         try {
             const response = await axios.post("/api/checkout", shipmentDetails);
 
@@ -153,19 +89,19 @@ function CheckoutPage() {
         } catch (error: unknown) {
             console.error("Error with shipment confirmation:", error);
 
+            // Check if it's an AxiosError and contains response data
             if (axios.isAxiosError(error) && error.response) {
                 alert(error.response?.data?.message || "There was an error confirming the shipment. Please try again later.");
             } else {
+                // Handle non-AxiosError or cases where error.response is undefined
                 alert("An unexpected error occurred. Please try again later.");
             }
-        } finally {
-            setIsSaving(false); // End saving
         }
     };
 
     const handleClosePopup = () => {
         setOrderConfirmed(false);
-        router.push("/");  // Navigate to the homepage after closing the popup
+        router.push("/");
     };
 
     return (
@@ -309,11 +245,6 @@ function CheckoutPage() {
                 <h1 className="nav text-[4vw] sm:text-2xl text-center font-bold text-red-500 mt-6">
                     We will contact you to confirm your order that it&apos;s you
                 </h1>
-                {isSaving && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center px-2">
-                        <Progress value={progress} className="w-[60%] bg-white" />
-                    </div>
-                )}
                 {orderConfirmed && (
                     <div className="fixed nav text-black inset-0 bg-black bg-opacity-50 flex items-center justify-center px-2">
                         <div className="bg-white p-6 rounded-md shadow-lg">
@@ -337,4 +268,11 @@ function CheckoutPage() {
     );
 }
 
-export default CheckoutPage;
+// Wrap the CheckoutPage component in Suspense
+export default function CheckoutPageWrapper() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <CheckoutPage />
+        </Suspense>
+    );
+}
