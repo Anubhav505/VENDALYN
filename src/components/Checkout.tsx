@@ -281,7 +281,7 @@ function CheckoutPage() {
                     )}
                 </div>
                 <h1 className="nav text-[4vw] sm:text-2xl text-center font-bold text-red-500 mt-6">
-                    We will contact you to confirm your order that it's you
+                    We will contact you to confirm your order that it&apos;s you
                 </h1>
                 {isSaving && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center px-2">
@@ -295,7 +295,7 @@ function CheckoutPage() {
                                 Your order has been confirmed!
                             </h2>
                             <h2 className="text-xl font-semibold text-center">
-                                We will contact you shortly to confirm that it's you
+                                We will contact you shortly to confirm that it&apos;s you
                             </h2>
                             <button
                                 className="bg-black text-white py-3 px-6 mt-4 rounded-md hover:bg-gray-700 transition-colors"
