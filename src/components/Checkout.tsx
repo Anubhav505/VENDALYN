@@ -91,12 +91,19 @@ function CheckoutPage() {
             } else {
                 setError(response.data.message || "Failed to confirm the shipment.");
             }
-        } catch (error: any) {
+        } catch (error: unknown) {  // Using 'unknown' instead of 'any'
             console.error("Error with shipment confirmation:", error);
-            setError(error.response?.data?.message || "There was an error confirming the shipment. Please try again later.");
+
+            // Narrowing the type of error to handle it properly
+            if (axios.isAxiosError(error)) {
+                setError(error.response?.data?.message || "There was an error confirming the shipment. Please try again later.");
+            } else {
+                setError("An unexpected error occurred. Please try again later.");
+            }
         } finally {
             setLoading(false); // Hide loading indicator
         }
+
     };
 
     const handleClosePopup = () => {
