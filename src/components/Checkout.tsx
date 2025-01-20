@@ -88,9 +88,12 @@ function CheckoutPage() {
             }
         } catch (error: unknown) {
             console.error("Error with shipment confirmation:", error);
-            if (axios.isAxiosError(error)) {
+
+            // Check if it's an AxiosError and contains response data
+            if (axios.isAxiosError(error) && error.response) {
                 alert(error.response?.data?.message || "There was an error confirming the shipment. Please try again later.");
             } else {
+                // Handle non-AxiosError or cases where error.response is undefined
                 alert("An unexpected error occurred. Please try again later.");
             }
         }
