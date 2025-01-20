@@ -1,3 +1,4 @@
+// /pages/api/checkout.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/lib/dbConnect";
 import { Shipment } from "@/models/Shipment";
@@ -22,21 +23,12 @@ export default async function handler(
 
     const { payment, ...shipmentDetails } = req.body;
 
-    // Only save the payment method if the payment is "COD"
-    if (payment === "cod") {
-      // If payment is "COD", include payment method in the data to save in DB
-      const shipment = new Shipment({
-        ...shipmentDetails,
-        payment, // Save payment method here
-      });
-      await shipment.save();
-    } else {
-      // If payment is "razorpay", don't save the payment method
-      const shipment = new Shipment({
-        ...shipmentDetails,
-      });
-      await shipment.save();
-    }
+    // Create a new shipment and save to the database
+    const shipment = new Shipment({
+      ...shipmentDetails,
+      payment, // Save payment method if provided (including COD)
+    });
+    await shipment.save();
 
     res
       .status(200)

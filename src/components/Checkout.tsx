@@ -28,6 +28,8 @@ function CheckoutPage() {
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState<"razorpay" | "cod" | null>(null);
     const [orderConfirmed, setOrderConfirmed] = useState(false);
+    const [loading, setLoading] = useState(false); // State for loading indicator
+    const [error, setError] = useState<string | null>(null); // State for error message
 
     const productData = {
         name: name || "Product Name",
@@ -78,25 +80,28 @@ function CheckoutPage() {
             payment: paymentMethod,
         };
 
+        setLoading(true); // Show loading indicator
+
         try {
             const response = await axios.post("/api/checkout", shipmentDetails);
 
             if (response.data.success) {
-                setOrderConfirmed(true); // Trigger the popup
+                setOrderConfirmed(true); // Order is confirmed, show success popup
+                setError(null); // Clear any error messages
             } else {
-                alert(response.data.message || "Failed to confirm the shipment.");
+                setError(response.data.message || "Failed to confirm the shipment.");
             }
         } catch (error: any) {
             console.error("Error with shipment confirmation:", error);
-            alert(
-                error.response?.data?.message || "There was an error confirming the shipment. Please try again later."
-            );
+            setError(error.response?.data?.message || "There was an error confirming the shipment. Please try again later.");
+        } finally {
+            setLoading(false); // Hide loading indicator
         }
     };
 
     const handleClosePopup = () => {
         setOrderConfirmed(false);
-        router.push("/");
+        router.push("/"); // Redirect to homepage after closing popup
     };
 
     return (
@@ -116,12 +121,8 @@ function CheckoutPage() {
                         </div>
                         <div className="h-1/2 flex justify-center flex-col items-center">
                             <h2><strong>{productData.name}</strong></h2>
-                            <p>
-                                <strong>Size:&nbsp;&nbsp;</strong> {productData.size}
-                            </p>
-                            <p>
-                                <strong>Price:&nbsp;&nbsp;</strong>₹{productData.price.toFixed(2)}
-                            </p>
+                            <p><strong>Size:&nbsp;&nbsp;</strong> {productData.size}</p>
+                            <p><strong>Price:&nbsp;&nbsp;</strong>₹{productData.price.toFixed(2)}</p>
                         </div>
                     </div>
                     {!formSubmitted ? (
@@ -240,6 +241,22 @@ function CheckoutPage() {
                 <h1 className="nav text-[4vw] sm:text-2xl text-center font-bold text-red-500 mt-6">
                     We will contact you to confirm your order that it&apos;s you
                 </h1>
+
+                {/* Show loading state */}
+                {loading && (
+                    <div className="text-center mt-4">
+                        <p className="text-xl">Please wait... confirming your order...</p>
+                    </div>
+                )}
+
+                {/* Show error message if any */}
+                {error && (
+                    <div className="text-center text-red-500 mt-4">
+                        <p>{error}</p>
+                    </div>
+                )}
+
+                {/* Popup Confirmation */}
                 {orderConfirmed && (
                     <div className="fixed nav text-black inset-0 bg-black bg-opacity-50 flex items-center justify-center px-2">
                         <div className="bg-white p-6 rounded-md shadow-lg">
