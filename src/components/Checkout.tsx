@@ -1,12 +1,13 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import RazorpayPayment from "@/components/RazorpayPayment";
 import axios from "axios";
 import Image from "next/image";
 import { Truck } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
 function CheckoutPage() {
     const searchParams = useSearchParams();
@@ -28,6 +29,8 @@ function CheckoutPage() {
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState<"razorpay" | "cod" | null>(null);
     const [orderConfirmed, setOrderConfirmed] = useState(false);
+    const [progress, setProgress] = useState(0); // To track the progress bar
+    const [isSaving, setIsSaving] = useState(false); // To track if the data is being saved
 
     const productData = {
         name: name || "Product Name",
@@ -78,6 +81,24 @@ function CheckoutPage() {
             payment: paymentMethod,
         };
 
+        setIsSaving(true); // Start saving
+        setProgress(0); // Reset progress
+
+        // Simulate progress over 5 seconds
+        let currentProgress = 0;
+        const interval = setInterval(() => {
+            currentProgress += 20; // Increase by 20% every 1 second
+            setProgress(currentProgress);
+
+            if (currentProgress >= 100) {
+                clearInterval(interval); // Stop updating after 100%
+                // Now simulate the database save
+                saveToDatabase(shipmentDetails);
+            }
+        }, 1000); // Increase progress every 1 second
+    };
+
+    const saveToDatabase = async (shipmentDetails: any) => {
         try {
             const response = await axios.post("/api/checkout", shipmentDetails);
 
@@ -89,13 +110,13 @@ function CheckoutPage() {
         } catch (error: unknown) {
             console.error("Error with shipment confirmation:", error);
 
-            // Check if it's an AxiosError and contains response data
             if (axios.isAxiosError(error) && error.response) {
                 alert(error.response?.data?.message || "There was an error confirming the shipment. Please try again later.");
             } else {
-                // Handle non-AxiosError or cases where error.response is undefined
                 alert("An unexpected error occurred. Please try again later.");
             }
+        } finally {
+            setIsSaving(false); // End saving
         }
     };
 
@@ -243,8 +264,13 @@ function CheckoutPage() {
                     )}
                 </div>
                 <h1 className="nav text-[4vw] sm:text-2xl text-center font-bold text-red-500 mt-6">
-                    We will contact you to confirm your order that it&apos;s you
+                    We will contact you to confirm your order that it's you
                 </h1>
+                {isSaving && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center px-2">
+                        <Progress value={progress} className="w-[60%] bg-white" />
+                    </div>
+                )}
                 {orderConfirmed && (
                     <div className="fixed nav text-black inset-0 bg-black bg-opacity-50 flex items-center justify-center px-2">
                         <div className="bg-white p-6 rounded-md shadow-lg">
@@ -252,7 +278,7 @@ function CheckoutPage() {
                                 Your order has been confirmed!
                             </h2>
                             <h2 className="text-xl font-semibold text-center">
-                                We will contact you shortly to confirm that it&apos;s you
+                                We will contact you shortly to confirm that it's you
                             </h2>
                             <button
                                 className="bg-black text-white py-3 px-6 mt-4 rounded-md hover:bg-gray-700 transition-colors"
@@ -268,11 +294,4 @@ function CheckoutPage() {
     );
 }
 
-// Wrap the CheckoutPage component in Suspense
-export default function CheckoutPageWrapper() {
-    return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <CheckoutPage />
-        </Suspense>
-    );
-}
+export default CheckoutPage;
