@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import RazorpayPayment from "@/components/RazorpayPayment";
 import axios from "axios";
 import Image from "next/image";
 import { Truck } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
+import { Progress } from "@/components/ui/progress"
+
 
 function CheckoutPage() {
     const searchParams = useSearchParams();
@@ -96,6 +97,7 @@ function CheckoutPage() {
                 saveToDatabase(shipmentDetails);
             }
         }, 1000); // Increase progress every 1 second
+
     };
 
     const saveToDatabase = async (shipmentDetails: any) => {
@@ -294,4 +296,11 @@ function CheckoutPage() {
     );
 }
 
-export default CheckoutPage;
+// Wrap the CheckoutPage component in Suspense
+export default function CheckoutPageWrapper() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <CheckoutPage />
+        </Suspense>
+    );
+}
