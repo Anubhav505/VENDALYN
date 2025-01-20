@@ -1,14 +1,30 @@
 "use client";
 
-import { Suspense, useState} from "react";
+import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import RazorpayPayment from "@/components/RazorpayPayment";
 import axios from "axios";
 import Image from "next/image";
 import { Truck } from "lucide-react";
-import { Progress } from "@/components/ui/progress"
+import { Progress } from "@/components/ui/progress";
 
+interface UserDetails {
+    name: string;
+    email: string;
+    contact: string;
+    address: string;
+    pinCode: string;
+}
+
+interface ProductData {
+    name: string;
+    price: number;
+    image: string | null;
+    size: string;
+}
+
+type PaymentMethod = "razorpay" | "cod" | null;
 
 function CheckoutPage() {
     const searchParams = useSearchParams();
@@ -19,7 +35,7 @@ function CheckoutPage() {
     const image = searchParams?.get("image");
     const size = searchParams?.get("size");
 
-    const [userDetails, setUserDetails] = useState({
+    const [userDetails, setUserDetails] = useState<UserDetails>({
         name: "",
         email: "",
         contact: "",
@@ -28,12 +44,12 @@ function CheckoutPage() {
     });
 
     const [formSubmitted, setFormSubmitted] = useState(false);
-    const [paymentMethod, setPaymentMethod] = useState<"razorpay" | "cod" | null>(null);
+    const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(null);
     const [orderConfirmed, setOrderConfirmed] = useState(false);
     const [progress, setProgress] = useState(0); // To track the progress bar
     const [isSaving, setIsSaving] = useState(false); // To track if the data is being saved
 
-    const productData = {
+    const productData: ProductData = {
         name: name || "Product Name",
         price: parseFloat(price || "0"),
         image: image || null,
@@ -61,7 +77,7 @@ function CheckoutPage() {
     };
 
     const handlePaymentMethodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPaymentMethod(e.target.value as "razorpay" | "cod");
+        setPaymentMethod(e.target.value as PaymentMethod);
     };
 
     const handleConfirmShipment = async () => {
@@ -97,7 +113,6 @@ function CheckoutPage() {
                 saveToDatabase(shipmentDetails);
             }
         }, 1000); // Increase progress every 1 second
-
     };
 
     const saveToDatabase = async (shipmentDetails: any) => {
@@ -266,7 +281,7 @@ function CheckoutPage() {
                     )}
                 </div>
                 <h1 className="nav text-[4vw] sm:text-2xl text-center font-bold text-red-500 mt-6">
-                    We will contact you to confirm your order that it&apos;s you
+                    We will contact you to confirm your order that it's you
                 </h1>
                 {isSaving && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center px-2">
@@ -280,7 +295,7 @@ function CheckoutPage() {
                                 Your order has been confirmed!
                             </h2>
                             <h2 className="text-xl font-semibold text-center">
-                                We will contact you shortly to confirm that it&apos;s you
+                                We will contact you shortly to confirm that it's you
                             </h2>
                             <button
                                 className="bg-black text-white py-3 px-6 mt-4 rounded-md hover:bg-gray-700 transition-colors"
@@ -296,11 +311,4 @@ function CheckoutPage() {
     );
 }
 
-// Wrap the CheckoutPage component in Suspense
-export default function CheckoutPageWrapper() {
-    return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <CheckoutPage />
-        </Suspense>
-    );
-}
+export default CheckoutPage;
