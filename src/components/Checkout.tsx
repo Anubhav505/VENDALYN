@@ -8,6 +8,15 @@ import axios from "axios";
 import Image from "next/image";
 import { Truck } from "lucide-react";
 
+// Define a TypeScript type for user details
+interface UserDetails {
+    name: string;
+    email: string;
+    contact: string;
+    address: string;
+    pinCode: string;
+}
+
 function CheckoutPage() {
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -17,7 +26,7 @@ function CheckoutPage() {
     const image = searchParams?.get("image");
     const size = searchParams?.get("size");
 
-    const [userDetails, setUserDetails] = useState({
+    const [userDetails, setUserDetails] = useState<UserDetails>({
         name: "",
         email: "",
         contact: "",
@@ -43,6 +52,7 @@ function CheckoutPage() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        // Validate if all fields are filled
         if (
             !userDetails.name ||
             !userDetails.email ||
@@ -74,12 +84,15 @@ function CheckoutPage() {
                 payment: paymentMethod,
             };
 
-            // Trigger the order confirmation popup instead of MongoDB save
-            setOrderConfirmed(true);
-
             try {
+                // Trigger the API call to save the shipment data in the database
                 const response = await axios.post("/api/checkout", shipmentDetails);
-                if (!response.data.success) {
+
+                // Check if the response is successful
+                if (response.data.success) {
+                    // Set orderConfirmed to true only when the data is saved successfully
+                    setOrderConfirmed(true);
+                } else {
                     alert("There was an issue confirming the shipment.");
                 }
             } catch (error) {
@@ -88,6 +101,7 @@ function CheckoutPage() {
             }
         }
     };
+
 
     const handleClosePopup = () => {
         setOrderConfirmed(false); // Close the popup
@@ -100,9 +114,7 @@ function CheckoutPage() {
             <div className="w-full p-2 mb-72 mt-4">
                 <h1 className="nav text-3xl sm:text-6xl font-bold text-center text-gray-800 mb-6">Checkout</h1>
                 <div className="w-full flex flex-col sm:flex-row">
-
                     <div className="h-[50vh] w-full sm:w-1/2 flex flex-col justify-start">
-
                         <div className="relative h-1/2">
                             <Image
                                 src={productData.image || "/placeholder.png"}
@@ -111,22 +123,11 @@ function CheckoutPage() {
                                 className="object-contain"
                             />
                         </div>
-
-
-
-
-
-                        <div className=" h-1/2 flex justify-center flex-col items-center">
+                        <div className="h-1/2 flex justify-center flex-col items-center">
                             <h2><strong>{productData.name}</strong></h2>
-                            <p>
-                                <strong>Size:&nbsp;&nbsp;</strong> {productData.size}
-                            </p>
-                            <p>
-                                <strong>Price:&nbsp;&nbsp;</strong>₹{productData.price.toFixed(2)}
-                            </p>
+                            <p><strong>Size:&nbsp;&nbsp;</strong> {productData.size}</p>
+                            <p><strong>Price:&nbsp;&nbsp;</strong>₹{productData.price.toFixed(2)}</p>
                         </div>
-
-
                     </div>
 
                     {!formSubmitted ? (
@@ -172,7 +173,6 @@ function CheckoutPage() {
                                     required
                                 />
                             </div>
-
                             <input
                                 type="email"
                                 name="email"
@@ -226,7 +226,6 @@ function CheckoutPage() {
                                     userDetails={userDetails}
                                     size={productData.size}
                                     onConfirm={handleConfirmShipment}
-
                                 />
                             ) : paymentMethod === "cod" ? (
                                 <button
@@ -271,4 +270,4 @@ export default function CheckoutPageWrapper() {
             <CheckoutPage />
         </Suspense>
     );
-};
+}

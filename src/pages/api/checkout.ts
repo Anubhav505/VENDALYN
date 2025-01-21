@@ -19,24 +19,26 @@ export default async function handler(
 
   try {
     await dbConnect();
-
     const { payment, ...shipmentDetails } = req.body;
 
-    // Only save the payment method if the payment is "COD"
-    if (payment === "cod") {
-      // If payment is "COD", include payment method in the data to save in DB
-      const shipment = new Shipment({
-        ...shipmentDetails,
-        payment, // Save payment method here
-      });
-      await shipment.save();
-    } else {
-      // If payment is "razorpay", don't save the payment method
-      const shipment = new Shipment({
-        ...shipmentDetails,
-      });
-      await shipment.save();
+    // Check if all required fields are provided
+    if (
+      !shipmentDetails.user_name ||
+      !shipmentDetails.address ||
+      !shipmentDetails.pin_code
+    ) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing required fields" });
     }
+
+    // Only save the payment method if the payment is "COD"
+    const shipment = new Shipment({
+      ...shipmentDetails,
+      payment: payment === "cod" ? payment : undefined,
+    });
+
+    await shipment.save();
 
     res
       .status(200)
