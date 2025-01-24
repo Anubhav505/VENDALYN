@@ -1,20 +1,37 @@
 import gsap from 'gsap';
 import React, { useEffect } from 'react';
 
-
 const Loading: React.FC = () => {
-    useEffect(() => { 
-        gsap.from('.brand h1', { 
-            duration: 1.5, 
-            y: "50vh", 
-            opacity: 0,
-            ease: "power2.out",
-            display: "none"
-       })
+    useEffect(() => {
+        const isMobile = window.innerWidth <= 768;
+        gsap.fromTo(
+            '.brand h1',
+            {
+                y: "65vh",
+                opacity: 0,
+            },
+            {
+                duration: 1.5,
+                y: "-55vh",
+                opacity: 1,
+                ease: "power2.out",
+                stagger: isMobile ? 0 : 0.1,
+            }
+        );
     }, []);
+
     return (
-        <div className="fixed top-0 w-full flex items-center pt-1 justify-center h-screen bg-black text-white z-[9999999999999] brand">       
-                <h1 className='text-[11vw] nav'>VENDALYN</h1>
+        <div className="fixed top-0 w-full h-screen bg-white text-black z-[9999999999999] text-[11vw]">
+            <div className='nav absolute top-[100vh] flex justify-center w-full brand'>
+                <h1>V</h1>
+                <h1>E</h1>
+                <h1>N</h1>
+                <h1>D</h1>
+                <h1>A</h1>
+                <h1>L</h1>
+                <h1>Y</h1>
+                <h1>N</h1>
+            </div>
         </div>
     );
 };
