@@ -1,38 +1,38 @@
 "use client";
-import { useEffect } from "react";
-import React from 'react'
+import Image from "next/image";
+
 const Hero = () => {
-  useEffect(() => {
-    // Dynamically import the model-viewer script
-    const script = document.createElement("script");
-    script.type = "module";
-    script.src = "https://cdn.jsdelivr.net/npm/@google/model-viewer@latest";
-    document.head.appendChild(script);
-
-    // Cleanup when the component is unmounted
-    return () => {
-      document.head.removeChild(script);
-    };
-  }, []);
-
   return (
-    <div className="relative w-full h-[60vh] sm:h-screen bg-black flex">
-      <div className="hidden sm:block h-full sm:w-[32.5%]"></div>
-      <div className="h-full w-full sm:w-[35%] flex items-center justify-center overflow-hidden">
-        <model-viewer
-          className=" h-full w-full"
-          src="/dragon_glass.glb"
-          alt="3D Model of Dragon Glass"
-          auto-rotate
-          camera-controls
-        ></model-viewer>
+    <div className="sticky top-0 w-full h-[40vh] sm:h-screen flex justify-between md:items-center -z-50">
+      <div className='relative w-[34%] md:hidden'>
+        <Image
+          src="/heroLeft.png"
+          fill={true}
+          alt="heroImage"
+          className="object-contain"
+        />
       </div>
-      <div className="hidden sm:block h-full sm:w-[32.5%]"></div>
-      <h1 className="nav text-[7vw] absolute top-3 w-full text-white text-center">
+      <div className='relative w-[32%] md:w-full md:h-[65%]'>
+        <Image
+          src="/heroMid.png"
+          fill={true}
+          alt="heroImage"
+          className="object-contain"
+        />
+      </div>
+      <div className='relative w-[34%] md:hidden'>
+        <Image
+          src="/heroRight.png"
+          fill={true}
+          alt="heroImage"
+          className="object-contain"
+        />
+      </div>
+      <h1 className="nav text-[7vw] absolute top-3 w-full text-center">
         VENDALYN
       </h1>
 
-      <h1 className="nav text-[2.5vw] absolute bottom-3 w-full text-white text-center">
+      <h1 className="nav text-[2.5vw] absolute top-[80%] w-full text-center">
         IN THE 7<sup>th</sup> HEAVEN
       </h1>
     </div>

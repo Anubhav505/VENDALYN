@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "VENDALYN",
-  description: "VENDALYN STORE",
+  title: "VENDALYN | NEW COLLECTION ONLINE",
+  description: "VENDALYN is your shopping destination for fashion clothes. Browse the latest collections and find quality pieces at affordable prices.",
   icons: {
     icon: "/favicon.png",
   },
