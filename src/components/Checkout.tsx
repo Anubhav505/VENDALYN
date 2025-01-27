@@ -281,7 +281,6 @@ import Navbar from "@/components/Navbar";
 import RazorpayPayment from "@/components/RazorpayPayment";
 import axios from "axios";
 import Image from "next/image";
-import { Truck } from "lucide-react";
 
 // Define a TypeScript type for user details
 interface UserDetails {
@@ -309,7 +308,6 @@ function CheckoutPage() {
         pinCode: "",
     });
 
-    const [formSubmitted, setFormSubmitted] = useState(false);
     const [orderConfirmed, setOrderConfirmed] = useState(false);
 
     const productData = {
@@ -337,7 +335,6 @@ function CheckoutPage() {
             alert("Please fill in all fields before proceeding.");
             return;
         }
-        setFormSubmitted(true);
     };
 
     const handleConfirmShipment = async () => {
@@ -490,4 +487,3 @@ export default function CheckoutPageWrapper() {
         </Suspense>
     );
 }
-
