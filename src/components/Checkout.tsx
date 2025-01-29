@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import RazorpayPayment from "@/components/RazorpayPayment";
 import Image from "next/image";
 
@@ -143,7 +143,7 @@ function CheckoutPage() {
                     )}
                 </form>
             </div>
-            <h1 className="nav text-[4vw] sm:text-2xl text-center font-bold text-red-500 mt-6">We will Contact you to confirm your order that it's you</h1>
+            <h1 className="nav text-[4vw] sm:text-2xl text-center font-bold text-red-500 mt-6">We will Contact you to confirm your order that it&apos;s you</h1>
         </div>
     );
 }
