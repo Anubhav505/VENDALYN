@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import Products from "@/components/Products";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface Product {
@@ -27,7 +26,9 @@ export default function ProductPage() {
     const router = useRouter();
     const [product, setProduct] = useState<Product | null>(null);
     const [selectedImage, setSelectedImage] = useState(0);
-    const [selectedSize, setSelectedSize] = useState<string | null>(null);
+    const [selectedSize, setSelectedSize] = useState<string>("S"); // Default to "S"
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         fetch(`/api/products/${productId}`)
@@ -38,7 +39,7 @@ export default function ProductPage() {
 
     if (!product)
         return (
-            <div className="flex flex-col space-y-6 ">
+            <div className="flex flex-col space-y-6">
                 <Skeleton className="h-[40vh] w-full rounded-xl" />
                 <div className="space-y-4">
                     <Skeleton className="h-8 w-[90%]" />
@@ -70,8 +71,8 @@ export default function ProductPage() {
 
     return (
         <>
-            <div className="min-h-screen bg-gray-50 p-6 md:p-8 ">
-                <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 my-12">
+          
+                <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 my-12 p-6 md:p-8">
                     <div>
                         <div className="relative aspect-square overflow-hidden rounded-lg cursor-pointer">
                             <Image
@@ -103,58 +104,125 @@ export default function ProductPage() {
                     </div>
 
                     <div className="flex flex-col">
-                        <h1 className="text-3xl md:text-4xl font-bold">{product.name}</h1>
+                        <h1 className="text-2xl md:text-4xl">{product.name}</h1>
                         <div className="text-2xl md:text-3xl text-primary mt-2 flex gap-2">
-                            <span className="text-xl md:text-xl text-gray-500 line-through">₹{product.oprice}</span>
+                            <span className="text-base md:text-xl text-gray-500 line-through">₹{product.oprice}</span>
                             <span className="text-lg md:text-xl">₹{product.price.toFixed(2)}</span>
                         </div>
 
-                        <div className="mt-6">
-                            <div className="text-xl font-bold mb-4">Select Size:</div>
+                        
+                            <div className="flex text-base mb-4 justify-between mt-6">
+                                <div>Size :</div>
+                                <div
+                                    className="underline cursor-pointer"
+                                    onClick={() => setIsModalOpen(true)}
+                                >
+                                    Size Chart
+                                </div>
+                            </div>
                             <div className="flex gap-4">
                                 {["S", "M", "L", "XL", "2XL"].map((size) => (
                                     <button
                                         key={size}
                                         onClick={() => setSelectedSize(size)}
-                                        className={`px-4 py-2 border rounded-md ${selectedSize === size ? "bg-black text-white" : "bg-white text-black"
-                                            }`}
+                                        className={`px-4 py-2 border rounded-md ${
+                                            selectedSize === size ? "bg-black text-white" : "bg-white text-black"
+                                        }`}
                                     >
                                         {size}
                                     </button>
                                 ))}
                             </div>
-                            {!selectedSize && (
-                                <p className="text-red-500 mt-2 text-sm">
-                                    <b>Please select a size to proceed</b>
-                                </p>
-                            )}
-                        </div>
+                          
+                     
 
                         <div className="mt-6">
                             <button
                                 onClick={handleBuyNow}
-                                className={`mt-4 py-3 px-6 rounded-md text-white w-full ${!selectedSize ? "bg-gray-400" : "bg-black"
-                                    } hover:bg-gray-600 transition-colors duration-300 ease-in-out`}
+                                className={`my-4 py-3 px-6 rounded-md text-white w-full ${
+                                    !selectedSize ? "bg-gray-400" : "bg-black"
+                                } hover:bg-gray-600 transition-colors duration-300 ease-in-out`}
                                 disabled={!selectedSize}
                             >
                                 BUY NOW
                             </button>
                         </div>
 
-                        <div className='relative h-72'>
-                            <Image alt='Size Chart' className='object-contain' fill={true} src="https://res.cloudinary.com/daexpmksd/image/upload/v1736791497/happier_7_cko5oq.png" />
-                        </div>
                         <div>
                             <ul className="list-disc pl-5">
-                            {[product.d_1, product.d_2, product.d_3, product.d_4, product.d_5, product.d_6]
-                            .filter(Boolean)
-                            .map((value, index) => <li key={index}>{value}</li>)}</ul>
+                                {[product.d_1, product.d_2, product.d_3, product.d_4, product.d_5, product.d_6]
+                                    .filter(Boolean)
+                                    .map((value, index) => (
+                                        <li key={index}>{value}</li>
+                                    ))}
+                            </ul>
                         </div>
                     </div>
                 </div>
 
-                <Products />
-            </div>
+                
+           
+
+            {/* Size Chart Modal */}
+            {isModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-3">
+                    <div className="bg-white p-2 rounded-lg max-w-md w-full shadow-lg relative">
+                        <button
+                            className="text-sm nav px-2 rounded w-full flex justify-end my-2"
+                            onClick={() => setIsModalOpen(false)}
+                        >
+                            Close
+                        </button>
+                        <table className="nav w-full border-collapse">
+    <thead>
+        <tr className="border-b border-gray-300">
+            <th className="p-2 border-r border-gray-300 text-center">SIZE</th>
+            <th className="p-2 border-r border-gray-300 text-center">CHEST (in)</th>
+            <th className="p-2 text-center">LENGTH (in)</th>
+    
+        </tr>
+    </thead>
+    <tbody>
+        <tr className="border-b border-gray-300">
+            <td className="p-2 border-r border-gray-300 text-center">S</td>
+            <td className="p-2 border-r border-gray-300 text-center">41</td>
+            <td className="p-2 text-center">26</td>
+       
+        </tr>
+        <tr className="border-b border-gray-300">
+            <td className="p-2 border-r border-gray-300 text-center">M</td>
+            <td className="p-2 border-r border-gray-300 text-center">43</td>
+            <td className="p-2 text-center">27</td>
+   
+        </tr>
+        <tr className="border-b border-gray-300">
+            <td className="p-2 border-r border-gray-300 text-center">L</td>
+            <td className="p-2 border-r border-gray-300 text-center">45</td>
+            <td className="p-2 text-center">28</td>
+        
+        </tr>
+        <tr className="border-b border-gray-300">
+            <td className="p-2 border-r border-gray-300 text-center">XL</td>
+            <td className="p-2 border-r border-gray-300 text-center">47</td>
+            <td className="p-2 text-center">29</td>
+ 
+        </tr>
+        <tr>
+            <td className="p-2 border-r border-gray-300 text-center">2XL</td>
+            <td className="p-2 border-r border-gray-300 text-center">49</td>
+            <td className="p-2 text-center">30</td>
+       
+        </tr>
+    </tbody>
+</table>
+                        <div className="my-3 flex gap-2 flex-col text-justify">
+                            <h1 className="text-lg nav">HOW TO MEASURE ?</h1>
+                        <p><b className="text-lg nav">Chest</b> : Measure from the stitches below the armpits</p>
+                        <p><b className="text-lg nav">Length</b> : Measure from where the shoulde seam meets the collar to the hem.</p>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

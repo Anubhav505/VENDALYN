@@ -373,8 +373,6 @@ function CheckoutPage() {
     };
 
     return (
-        <>
-            <Navbar />
             <div className="w-full p-2 mb-72 mt-4">
                 <h1 className="nav text-3xl sm:text-6xl font-bold text-center text-gray-800 mb-6">Checkout</h1>
                 <div className="w-full flex flex-col sm:flex-row">
@@ -476,7 +474,7 @@ function CheckoutPage() {
                     </div>
                 )}
             </div>
-        </>
+
     );
 }
 
