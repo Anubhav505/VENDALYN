@@ -1,42 +1,17 @@
-"use client";
-import Image from "next/image";
-
-const Hero = () => {
-  return (
-    <div className="sticky top-0 w-full h-[40vh] sm:h-screen flex justify-between md:items-center -z-50">
-      <div className='relative w-[34%] md:hidden'>
-        <Image
-          src="/heroLeft.png"
-          fill={true}
-          alt="heroImage"
-          className="object-contain"
-        />
-      </div>
-      <div className='relative w-[32%] md:w-full md:h-[65%]'>
-        <Image
-          src="/heroMid.png"
-          fill={true}
-          alt="heroImage"
-          className="object-contain"
-        />
-      </div>
-      <div className='relative w-[34%] md:hidden'>
-        <Image
-          src="/heroRight.png"
-          fill={true}
-          alt="heroImage"
-          className="object-contain"
-        />
-      </div>
-      <h1 className="nav text-[7vw] absolute top-3 w-full text-center">
-        VENDALYN
+export default function Hero() {
+return(
+<div className="sticky top-0 w-full overflow-hidden text-white -z-50">
+    <video 
+        src="/hero.mp4" 
+        className="object-cover sm:h-[93vh] w-full" 
+        loop 
+        muted 
+        autoPlay
+        playsInline
+    />
+    <h1 className="nav text-[2.5vw] absolute bottom-3 w-full text-center">
+         IN THE 7<sup>th</sup> HEAVEN
       </h1>
-
-      <h1 className="nav text-[2.5vw] absolute top-[80%] w-full text-center">
-        IN THE 7<sup>th</sup> HEAVEN
-      </h1>
-    </div>
-  );
+</div>
+)
 }
-
-export default Hero

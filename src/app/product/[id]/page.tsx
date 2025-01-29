@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Products from "@/components/Products";
-import Navbar from "@/components/Navbar";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface Product {
@@ -71,7 +70,6 @@ export default function ProductPage() {
 
     return (
         <>
-            <Navbar />
             <div className="min-h-screen bg-gray-50 p-6 md:p-8 ">
                 <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 my-12">
                     <div>

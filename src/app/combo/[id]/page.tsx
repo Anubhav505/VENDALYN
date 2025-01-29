@@ -59,7 +59,7 @@ export default function ComboPage() {
         email: '',
         contact: '',
         address: '',
-        pinCode: '',  // Added pinCode field
+        pinCode: '',
     });
     const [razorpayLoaded, setRazorpayLoaded] = useState(false);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
