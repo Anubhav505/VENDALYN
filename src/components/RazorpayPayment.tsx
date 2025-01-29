@@ -39,10 +39,9 @@ interface RazorpayPaymentProps {
         pinCode: string;
     };
     size: string;
-    onConfirm: () => void;  // Add onConfirm prop here
 }
 
-const RazorpayPayment = ({ amount, productName, userDetails, size, onConfirm }: RazorpayPaymentProps) => {
+const RazorpayPayment = ({ amount, productName, userDetails, size }: RazorpayPaymentProps) => {
     const [razorpayLoaded, setRazorpayLoaded] = useState(false);
     const [paymentConfirmed, setPaymentConfirmed] = useState(false); // State for showing the confirmation popup
     const router = useRouter(); // Initialize useRouter for navigation
@@ -96,7 +95,6 @@ const RazorpayPayment = ({ amount, productName, userDetails, size, onConfirm }: 
                     const verifyData = await verifyResponse.json();
                     if (verifyData.isOk) {
                         setPaymentConfirmed(true);  // Show the confirmation popup
-                        onConfirm();  // Call onConfirm after successful payment
                     } else {
                         alert("Payment verification failed");
                     }
@@ -138,10 +136,10 @@ const RazorpayPayment = ({ amount, productName, userDetails, size, onConfirm }: 
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                     <div className="bg-white p-6 rounded-md shadow-lg">
                         <h2 className="text-xl font-semibold text-center text-gray-800">
-                            Your payment was successful!
+                            Your payment has been successfully processed!
                         </h2>
                         <h2 className="text-xl font-semibold text-center text-gray-800">
-                            We will contact you shortly to confirm your order.
+                            Your order ID will be provided shortly.
                         </h2>
                         <button
                             onClick={handleClosePopup} // Close and navigate to home
