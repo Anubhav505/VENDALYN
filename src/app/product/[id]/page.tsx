@@ -148,10 +148,11 @@ export default function ProductPage() {
                             <h2 className="text-xl font-bold mt-6">Key Features:</h2>
                             <ul className='list-disc pl-5'>
                                 <li><b>Fabric</b>: Made from high-quality fleece cotton, ensuring a soft, breathable, and comfortable fit throughout the day.</li>
-                                <li><b>Design</b>: Features a unique Vintage Drip Design, giving it a trendy, urban look. The balaclava-style hood offers extra warmth and coverage, perfect for those chilly days.</li>
+                                {/* <li><b>Design</b>: Features a unique Vintage Drip Design, giving it a trendy, urban look. The balaclava-style hood offers extra warmth and coverage, perfect for those chilly days.</li> */}
+                                <li><b>Design</b>: Features a unique Vintage Drip Design, giving it a trendy, urban look.</li>
                                 <li><b>Color</b>: Classic Black – A versatile color that pairs well with any outfit.</li>
                                 <li><b>Size Range</b>: Available in sizes S, M, L, XL, 2XL, ensuring a perfect fit for all body types.</li>
-                                <li><b>Neckline</b>: The hooded balaclava neckline gives added protection and style, ideal for both fashion and function.</li>
+                                {/* <li><b>Neckline</b>: The hooded balaclava neckline gives added protection and style, ideal for both fashion and function.</li> */}
                                 <li><b>Gender</b>: Designed to be unisex, making it perfect for both men and women of all ages.</li>
                                 <li><b>Age Group</b>: Suitable for all ages, making it a great option for the entire family.</li>
                             </ul>
