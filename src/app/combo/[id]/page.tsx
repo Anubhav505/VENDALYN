@@ -9,7 +9,12 @@ import Script from 'next/script';
 interface Combo {
     _id: string;
     name: string;
-    description: string;
+    d_1: string;
+    d_2: string;
+    d_3: string;
+    d_4: string;
+    d_5: string;
+    d_6: string;
     price: number;
     image_1: string;
     image_2: string;
@@ -79,7 +84,6 @@ export default function ComboPage() {
     const handlePayment = async () => {
         const missingFields = [];
 
-        // Check for missing fields and add them to the array
         if (!userDetails.name) missingFields.push('Name');
         if (!userDetails.email) missingFields.push('Email');
         if (!userDetails.contact) missingFields.push('Contact Number');
@@ -148,7 +152,7 @@ export default function ComboPage() {
                     email: userDetails.email,
                     contact: userDetails.contact,
                     address: userDetails.address,
-                    pinCode: userDetails.pinCode,  // Send pinCode to Razorpay
+                    pinCode: userDetails.pinCode,
                 },
                 theme: {
                     color: '#3399cc',
@@ -173,7 +177,6 @@ export default function ComboPage() {
         <>
             <div className="min-h-screen bg-gray-50 p-6 md:p-8">
                 <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
-                    {/* Media Gallery */}
                     <div>
                         <div className="relative aspect-square overflow-hidden rounded-lg cursor-pointer">
                             <Image
@@ -204,7 +207,6 @@ export default function ComboPage() {
                         </div>
                     </div>
 
-                    {/* Product Info */}
                     <div className="flex flex-col">
                         <div>
                             <h1 className="text-3xl md:text-4xl font-bold">{combo.name}</h1>
@@ -229,19 +231,12 @@ export default function ComboPage() {
                                     <p className="text-red-500 mt-2 text-sm"><b>Please select a size to proceed</b></p>
                                 )}
                             </div>
-                            <p className="mt-4 text-gray-700">{combo.description}</p>
                             <div>
-                                <h2 className="text-xl font-bold mt-6">Key Features:</h2>
-                                <ul className='list-disc pl-5'>
-                                    <li><b>Fabric</b>: Made from high-quality fleece cotton, ensuring a soft, breathable, and comfortable fit throughout the day.</li>
-                                    <li><b>Design</b>: Features a unique Vintage Drip Design, giving it a trendy, urban look. The balaclava-style hood offers extra warmth and coverage, perfect for those chilly days.</li>
-                                    <li><b>Color</b>: Classic Black – A versatile color that pairs well with any outfit.</li>
-                                    <li><b>Size Range</b>: Available in sizes S, M, L, XL, 2XL, ensuring a perfect fit for all body types.</li>
-                                    <li><b>Neckline</b>: The hooded balaclava neckline gives added protection and style, ideal for both fashion and function.</li>
-                                    <li><b>Gender</b>: Designed to be unisex, making it perfect for both men and women of all ages.</li>
-                                    <li><b>Age Group</b>: Suitable for all ages, making it a great option for the entire family.</li>
-                                </ul>
-                            </div>
+                            <ul className="list-disc pl-5">
+                            {[combo.d_1, combo.d_2, combo.d_3, combo.d_4, combo.d_5, combo.d_6]
+                            .filter(Boolean)
+                            .map((value, index) => <li key={index}>{value}</li>)}</ul>
+                        </div>
                         </div>
 
                         <div className="mt-6">
