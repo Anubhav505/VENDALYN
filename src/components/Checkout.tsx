@@ -15,7 +15,6 @@ interface UserDetails {
 
 function CheckoutPage() {
     const searchParams = useSearchParams();
-    const router = useRouter();
 
     const name = searchParams?.get("name");
     const price = searchParams?.get("price");
