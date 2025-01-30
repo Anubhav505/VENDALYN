@@ -59,12 +59,6 @@ const Products = () => {
                                 <p>&#8377;{product.price}</p>
                             </div>
                         </div>
-                        <div className="absolute top-0">
-                            <div className="relative inline-block overflow-hidden">
-                                <span className="bg-red-500 text-white font-bold text-xs p-1 rounded-sm">Limited Stock</span>
-                                <div className="absolute inset-0 bg-gradient-to-r from-white opacity-30 animate-slide"></div>
-                            </div>
-                        </div>
                     </div>
                 ))
             )}

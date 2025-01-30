@@ -109,8 +109,9 @@ export default function ProductPage() {
                 <div className="flex flex-col">
                     <h1 className="text-2xl md:text-4xl">{product.name}</h1>
                     <div className="text-2xl md:text-3xl text-primary mt-2 flex gap-2">
+                        <span className="text-lg font-semibold md:text-xl">₹{product.price.toFixed(2)}</span>
                         <span className="text-base md:text-xl text-gray-500 line-through">₹{product.oprice}</span>
-                        <span className="text-lg md:text-xl">₹{product.price.toFixed(2)}</span>
+                        <p className="text-base text-green-500">64% off</p>
                     </div>
 
                     <div className="flex text-base mb-4 justify-between mt-6">
