@@ -24,7 +24,7 @@ const HomePage = () => {
   return (
     <>
       <Hero />
-       <div className="bg-white border-t">
+       <div className="bg-white border-t py-12">
         <Products />
         <Combos />
       </div> 
