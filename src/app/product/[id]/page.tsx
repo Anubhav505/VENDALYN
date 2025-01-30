@@ -77,7 +77,7 @@ export default function ProductPage() {
     return (
         <>
             <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 my-12 p-6 md:p-8">
-                <div className="flex">
+                <div className="flex gap-2">
                     <div className="flex flex-col gap-2 mt-4">
                         {images.map((image, index) => (
                             <div
@@ -95,7 +95,7 @@ export default function ProductPage() {
                             </div>
                         ))}
                     </div>
-                    <div className="relative aspect-square overflow-hidden rounded-lg cursor-pointer">
+                    <div className="relative w-full aspect-square overflow-hidden rounded-lg cursor-pointer">
                         <Image
                             src={images[selectedImage]}
                             alt={product.name}
