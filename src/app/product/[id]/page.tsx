@@ -108,13 +108,13 @@ export default function ProductPage() {
 
                 <div className="flex flex-col">
                     <h1 className="text-2xl md:text-4xl">{product.name}</h1>
-                    <div className="text-2xl md:text-3xl text-primary mt-2 flex gap-2">
+                    <div className="text-2xl md:text-3xl text-primary my-2 flex gap-2">
                         <span className="text-lg font-semibold md:text-xl">₹{product.price.toFixed(2)}</span>
-                        <span className="text-base md:text-xl text-gray-500 line-through">₹{product.oprice}</span>
-                        <p className="text-base text-green-500">64% off</p>
+                        <span className="text-base md:text-lg text-gray-500 line-through">₹{product.oprice}</span>
+                        <p className="text-base md:text-lg text-green-500">64% off</p>
                     </div>
 
-                    <div className="flex text-base mb-4 justify-between mt-6">
+                    <div className="flex text-base justify-between">
                         <div>Size :</div>
                         <div
                             className="underline cursor-pointer"
@@ -123,7 +123,7 @@ export default function ProductPage() {
                             Size Chart
                         </div>
                     </div>
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 my-4">
                         {["S", "M", "L", "XL", "2XL"].map((size) => (
                             <button
                                 key={size}
@@ -137,7 +137,7 @@ export default function ProductPage() {
                         ))}
                     </div>
 
-                    <div className="mt-6 flex items-center gap-4">
+                    <div className="flex items-center gap-4 my-3">
                         <span className="text-lg">Quantity:</span>
                         <div className="flex items-center border rounded-md">
                             <button onClick={handleDecrement} className="px-4 py-2 border-r hover:bg-gray-100">-</button>
@@ -146,16 +146,16 @@ export default function ProductPage() {
                         </div>
                     </div>
 
-                    <div className="mt-6">
+                    <div>
                         <button
                             onClick={handleBuyNow}
-                            className="my-4 py-3 px-6 rounded-md text-white w-full bg-black hover:bg-gray-600 transition-colors duration-300 ease-in-out"
+                            className="mt-6 mb-10 py-3 px-6 rounded-md text-white w-full bg-black hover:bg-gray-600 transition-colors duration-300 ease-in-out"
                         >
                             BUY NOW
                         </button>
                     </div>
 
-                    <ul className="list-disc pl-5">
+                    <ul className="list-disc marker:text-xs pl-5">
                         {[product.d_1, product.d_2, product.d_3, product.d_4, product.d_5, product.d_6]
                             .filter(Boolean)
                             .map((value, index) => (
