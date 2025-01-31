@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
 import SizeChart from "@/components/SizeChart";
+import { Truck } from "lucide-react";
 
 interface Product {
     _id: string;
@@ -111,8 +112,9 @@ export default function ProductPage() {
                     <div className="text-2xl md:text-3xl text-primary my-2 flex gap-2">
                         <span className="text-lg font-semibold md:text-xl">₹{product.price.toFixed(2)}</span>
                         <span className="text-base md:text-lg text-gray-500 line-through">₹{product.oprice}</span>
+                        <span className="flex items-center text-base md:text-lg px-1 rounded-md bg-green-100">Free Delivery &nbsp;<Truck /></span>
                     </div>
-
+                    
                     <div className="flex text-base justify-between">
                         <div>Size :</div>
                         <div
