@@ -111,7 +111,6 @@ export default function ProductPage() {
                     <div className="text-2xl md:text-3xl text-primary my-2 flex gap-2">
                         <span className="text-lg font-semibold md:text-xl">₹{product.price.toFixed(2)}</span>
                         <span className="text-base md:text-lg text-gray-500 line-through">₹{product.oprice}</span>
-                        <p className="text-base md:text-lg text-green-500">64% off</p>
                     </div>
 
                     <div className="flex text-base justify-between">
