@@ -4,7 +4,7 @@ import Hero from "@/components/Hero";
 import Products from "@/components/Products";
 // import Combos from "@/components/Combos";
 import Loading from "@/components/Loading";
-import BestSeller from "@/components/BestSeller";
+import Collections from "@/components/Collections";
 
 const HomePage = () => {
   const [loading, setLoading] = useState(true);
@@ -26,7 +26,7 @@ const HomePage = () => {
     <>
       <Hero />
        <div className="bg-white border-t">
-        <BestSeller />
+        <Collections />
         <Products />
         {/* <Combos /> */}
       </div> 

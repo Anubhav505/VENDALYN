@@ -1,16 +1,9 @@
 export default function Hero() {
 return(
 <div className="sticky top-0 w-full overflow-hidden text-white -z-50">
-    <video src="https://res.cloudinary.com/daexpmksd/video/upload/v1738404494/site_final_uj7cfj.mp4"
-    className="object-cover w-full block sm:hidden h-[93vh]" 
-        loop 
-        muted 
-        autoPlay
-        playsInline/>
-
-    <video 
+<video 
         src="/hero.mp4" 
-        className="object-cover sm:h-[93vh] w-full hidden sm:block" 
+        className="object-contain sm:h-[93vh] w-full" 
         loop 
         muted 
         autoPlay

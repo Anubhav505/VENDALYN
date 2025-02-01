@@ -48,7 +48,7 @@ const Products = () => {
                 ))
             ) : (
                 filteredProducts.map((product) => (
-                    <div key={product._id} onClick={() => handleProductClick(product)} className="product shadow-md rounded-md overflow-hidden relative">
+                    <div key={product._id} onClick={() => handleProductClick(product)} className="product shadow-xl rounded-md overflow-hidden relative">
                         <div className="relative h-52 md:h-[30vw] rounded-md">
                             <Image src={product.image_1} layout="fill" objectFit="cover" alt="Product Image" />
                         </div>

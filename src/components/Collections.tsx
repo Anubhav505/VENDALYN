@@ -47,8 +47,8 @@ export default function BestSeller() {
                   src={product.image}
                   alt={product.name}
                 />
+                
               </div>
-              
             </div>
           ))}
         </div>
