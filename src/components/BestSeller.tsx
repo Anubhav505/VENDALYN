@@ -5,8 +5,10 @@ import Autoplay from "embla-carousel-autoplay";
 import { gsap } from "gsap";
 import bestSellerData from "@/app/data/products.json";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function BestSeller() {
+  const router = useRouter();
   const [emblaRef] = useEmblaCarousel({ loop: true }, [
     Autoplay({ delay: 3000, stopOnInteraction: false }),
   ]);
@@ -23,23 +25,30 @@ export default function BestSeller() {
 
   const bestSeller = bestSellerData.bestSeller;
 
+  const handleCategoryClick = (category: string) => {
+    router.push(`/${category}`);
+  };
+
   return (
-    <section className="mb-12 h-screen flex flex-col justify-evenly px-2">
-      <h2 className="heading text-4xl font-bold mb-8 h-[10%] flex items-center justify-center">Best Seller</h2>
-      <div className="embla overflow-hidden h-[90%]" ref={emblaRef}>
-        <div className="embla__container h-full w-full flex">
+    <section className="flex flex-col justify-evenly px-2 my-8">
+      <div className="embla overflow-hidden h-full" ref={emblaRef}>
+        <div className="embla__container flex">
           {bestSeller.map((product) => (
-            <div key={product.id} className="embla__slide flex-none h-full w-full sm:flex justify-center gap-20 min-w-0">
-              <div className="h-[70%] sm:h-full sm:w-[30rem] relative ">
-                <Image className='rounded-lg' fill={true} src={product.image} alt={product.name} />
+            <div
+              key={product.id}
+              className="embla__slide flex-none w-full h-full flex flex-col justify-center items-center cursor-pointer"
+              onClick={() => handleCategoryClick(product.category  || "")}
+            >
+              <p className=" text-lg font-semibold">{product.name}</p>
+              <div className="relative w-72 h-96 sm:w-[30rem] sm:h-[40rem]">
+                <Image
+                  className="rounded-lg object-cover"
+                  fill={true}
+                  src={product.image}
+                  alt={product.name}
+                />
               </div>
-              <div className="h-[30%] sm:h-full text-center sm:relative md:top-20">
-             
-                  <h3 className="font-semibold text-2xl">{product.name}</h3>
-                  <h3 className="text-lg">{product.price}</h3>
-                
-                <h3 className="text-lg">{product.description}</h3>
-              </div>
+              
             </div>
           ))}
         </div>

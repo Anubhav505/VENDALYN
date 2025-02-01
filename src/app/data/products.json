@@ -2,24 +2,21 @@
   "bestSeller": [
     {
       "id": 1,
-      "name": "Product 1",
-      "description": "This is a description for Product 1.",
-      "price": "₹699",
-      "image": "https://genrage.com/cdn/shop/files/TWOFACED.png?v=1734410970&width=1000"
+      "name": "HARYANVI COLLECTION",
+      "image": "https://res.cloudinary.com/daexpmksd/image/upload/v1738425796/%E0%A4%9A%E0%A4%BE%E0%A4%81%E0%A4%A6_%E0%A4%AA%E0%A5%87_%E0%A4%AF%E0%A4%BE%E0%A4%B0__5_-removebg-preview_xdjwuy.png",
+      "category": "haryanvi-collection"
     },
     {
       "id": 2,
-      "name": "Product 2",
-      "description": "This is a description for Product 2.",
-      "price": "₹799",
-      "image": "https://genrage.com/cdn/shop/files/shakti.png?v=1734411000&width=1000"
+      "name": "GENZ COLLECTION",
+      "image": "https://res.cloudinary.com/daexpmksd/image/upload/v1738426056/29-removebg-preview_1_dhqszp.png",
+      "category": "genz-collection"
     },
     {
       "id": 3,
-      "name": "Product 3",
-      "description": "This is a description for Product 3.",
-      "price": "₹899",
-      "image": "https://genrage.com/cdn/shop/files/kyron_2c5eb79f-3a2f-4ac4-9477-32f5726464fc.png?v=1734410602&width=1000"
+      "name": "ANIME COLLECTION",
+      "image": "https://res.cloudinary.com/daexpmksd/image/upload/v1738426057/39-removebg-preview_ol81fc.png",
+      "category": "anime-collection"
     }
   ]
 }

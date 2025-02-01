@@ -21,7 +21,7 @@ const Products = () => {
         const fetchProducts = async () => {
             const response = await fetch("/api/products");
             const data = await response.json();
-            const filtered = data.filter((product: Product) => product);
+            const filtered = data.filter((product: Product) => product.category === "haryanvi-collection");
             setFilteredProducts(filtered);
             setLoading(false);
         };

@@ -4,6 +4,7 @@ import Hero from "@/components/Hero";
 import Products from "@/components/Products";
 import Combos from "@/components/Combos";
 import Loading from "@/components/Loading";
+import BestSeller from "@/components/BestSeller";
 
 const HomePage = () => {
   const [loading, setLoading] = useState(true);
@@ -24,9 +25,10 @@ const HomePage = () => {
   return (
     <>
       <Hero />
-       <div className="bg-white border-t py-12">
+       <div className="bg-white border-t">
+        <BestSeller />
         <Products />
-        <Combos />
+        {/* <Combos /> */}
       </div> 
 
     </>
