@@ -1,7 +1,7 @@
 export default function Hero() {
 return(
 <div className="sticky top-0 w-full overflow-hidden text-white -z-50">
-    <video src="https://res.cloudinary.com/daexpmksd/video/upload/v1738254774/site_axiy60.mp4"
+    <video src="https://res.cloudinary.com/daexpmksd/video/upload/v1738404494/site_final_uj7cfj.mp4"
     className="object-cover w-full block sm:hidden h-[93vh]" 
         loop 
         muted 
