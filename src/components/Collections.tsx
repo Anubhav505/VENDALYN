@@ -36,19 +36,19 @@ export default function BestSeller() {
           {bestSeller.map((product) => (
             <div
               key={product.id}
-              className="embla__slide flex-none w-full h-full flex flex-col justify-center items-center cursor-pointer"
-              onClick={() => handleCategoryClick(product.category  || "")}
+              className="embla__slide flex-none w-full h-full flex flex-col items-center  cursor-pointer"
+              onClick={() => handleCategoryClick(product.category || "")}
             >
-              <p className=" text-lg font-semibold">{product.name}</p>
-              <div className="relative w-72 h-96 sm:w-[30rem] sm:h-[40rem]">
+              
+              <div className="relative w-full  h-96 sm:w-[30rem] sm:h-[40rem]">
                 <Image
-                  className="rounded-lg object-cover"
+                  className="rounded-lg object-contain"
                   fill={true}
                   src={product.image}
                   alt={product.name}
                 />
-                
               </div>
+            <p className=" text-red-500 text-base font-semibold nav">{product.name}</p>
             </div>
           ))}
         </div>
