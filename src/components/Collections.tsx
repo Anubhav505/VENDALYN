@@ -36,7 +36,7 @@ export default function BestSeller() {
           {bestSeller.map((product) => (
             <div
               key={product.id}
-              className="embla__slide flex-none w-full h-full flex flex-col items-center  cursor-pointer"
+              className="embla__slide flex-none w-full h-full flex flex-col sm:flex-row sm:gap-16  items-center justify-center cursor-pointer"
               onClick={() => handleCategoryClick(product.category || "")}
             >
               
@@ -48,7 +48,7 @@ export default function BestSeller() {
                   alt={product.name}
                 />
               </div>
-            <p className=" text-red-500 text-base font-semibold nav">{product.name}</p>
+            <p className=" text-red-500 text-base font-semibold nav sm:text-4xl">{product.name}</p>
             </div>
           ))}
         </div>
