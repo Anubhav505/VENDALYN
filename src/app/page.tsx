@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
 import Products from "@/components/Products";
-import Combos from "@/components/Combos";
+// import Combos from "@/components/Combos";
 import Loading from "@/components/Loading";
 import BestSeller from "@/components/BestSeller";
 
