@@ -2,21 +2,9 @@
   "bestSeller": [
     {
       "id": 1,
-      "name": "HARYANVI COLLECTION",
-      "image": "https://res.cloudinary.com/daexpmksd/image/upload/v1738433590/%E0%A4%9A%E0%A4%BE%E0%A4%81%E0%A4%A6_%E0%A4%AA%E0%A5%87_%E0%A4%AF%E0%A4%BE%E0%A4%B0__5_-removebg-preview_xdjwuy-balaclava_white_black_1_mryeo8.png",
-      "category": "haryanvi-collection"
-    },
-    {
-      "id": 2,
-      "name": "GENZX COLLECTION",
+      "name": "GENX COLLECTION",
       "image": "https://res.cloudinary.com/daexpmksd/image/upload/v1738433646/29-removebg-preview_1_dhqszp_yximks.png",
       "category": "genz-collection"
-    },
-    {
-      "id": 3,
-      "name": "ANIME COLLECTION",
-      "image": "https://res.cloudinary.com/daexpmksd/image/upload/v1738433391/39-removebg-preview_ol81fc_uiq9pq.png",
-      "category": "anime-collection"
     }
   ]
 }
