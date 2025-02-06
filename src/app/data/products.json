@@ -2,6 +2,12 @@
   "bestSeller": [
     {
       "id": 1,
+      "name": "LAL रंग COLLECTION",
+      "image": "https://res.cloudinary.com/daexpmksd/image/upload/v1738236499/21_uhvqo2.png",
+      "category": "haryanvi-collection"
+    },
+    {
+      "id": 2,
       "name": "GENX COLLECTION",
       "image": "https://res.cloudinary.com/daexpmksd/image/upload/v1738236499/21_uhvqo2.png",
       "category": "genz-collection"
