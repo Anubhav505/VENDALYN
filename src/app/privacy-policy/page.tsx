@@ -32,17 +32,6 @@ const page = () => {
                 </div>
 
                 <div>
-                    <h2 className='text-sm font-bold'>Cookies</h2>
-                    <p>Our website uses cookies to enhance user experience and analyze website traffic. You can disable cookies through your browser settings.</p>
-                </div>
-
-                <div>
-                    <h2 className='text-sm font-bold'>Your Rights</h2>
-                    <p>Access, update, or delete your personal information.</p>
-                    <p>Opt-out of receiving promotional emails.</p>
-                </div>
-
-                <div>
                     <h2 className='text-sm font-bold'>Third-Party Links</h2>
                     <p>Our website may contain links to external sites. VENDALYN is not responsible for their privacy practices or content.</p>
                 </div>
