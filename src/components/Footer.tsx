@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import Whatsapp from "./Whatsapp";
 import { motion } from "framer-motion";
 
 const Footer = () => {
