@@ -1,68 +1,76 @@
-"use client";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react"
 
-const Footer = () => {
+export default function footer() {
   return (
-    <footer className="relative bg-black border-t border-gray-700">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative py-12 grid grid-cols-1 md:flex md:justify-evenly gap-8">
-          {/* Brand Section */}
-          <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2">
-              <span className="text-2xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-                VENDALYN
+    <div className="sm:h-screen bg-black w-full flex flex-col z-[51] text-white">
+      <div className="h-1/2 flex flex-col gap-4 sm:flex-row p-10">
+        <div className="sm:w-1/2">
+          <h1 className="V text-white text-xl sm:text-3xl font-normal">Where Quality Meets Confidence.</h1>
+        </div>
+        <div className="flex flex-col gap-4 sm:gap-0 sm:flex-row sm:w-1/2  text-sm font-medium">
+          <div className="sm:w-1/2 flex flex-col gap-1">
+            <Link href={"/"}>
+              <span className="group relative overflow-hidden">
+                Home
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
               </span>
             </Link>
-            <div className="flex flex-col gap-3 text-sm text-gray-400">
-              <motion.div whileHover={{ x: 5 }}>
-                <Link href="/about" className="hover:text-white transition-colors">
-                  About Us
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ x: 5 }}>
-                <Link href="/contactUs" className="hover:text-white transition-colors">
-                  Contact Us
-                </Link>
-              </motion.div>
-            </div>
+            <Link href={"/about"}>
+              <span className="group relative overflow-hidden">
+                About
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
+              </span>
+            </Link>
+            <Link href={"/contactUs"}><span className="group relative overflow-hidden">
+              Contact
+              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
+            </span></Link>
+            <Link href={"/terms-and-conditions"}>
+              <span className="group relative overflow-hidden">
+                Terms
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
+              </span></Link>
+            <Link href={"/shipping-policy"}>
+              <span className="group relative overflow-hidden">
+                Shipping
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
+              </span>
+            </Link>
+            <Link href={"/privacy-policy"}>
+              <span className="group relative overflow-hidden">
+                Privacy Policy
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
+              </span></Link>
+            <Link href={"/return-policy"}>
+              <span className="group relative overflow-hidden">
+                Return Policy
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
+              </span></Link>
+            <Link href={"/return"}>
+              <span className="group relative overflow-hidden">
+                Place Exchange/ Return Request
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
+              </span></Link>
           </div>
-
-          {/* Policies Section */}
-          <div className="space-y-4">
-            <h4 className="text-sm font-semibold text-white uppercase tracking-wider">
-              Policies
-            </h4>
-            <ul className="space-y-3 text-sm text-gray-400">
-              {[
-                { label: "Terms", href: "/terms-and-conditions" },
-                { label: "Shipping", href: "/shipping-policy" },
-                { label: "Privacy Policy", href: "/privacy-policy" },
-                { label: "Return Policy", href: "/return-policy" },
-                { label: "Place Exchange/Return Request", href: "/return" },
-              ].map((link, idx) => (
-                <motion.li whileHover={{ x: 5 }} key={idx}>
-                  <Link href={link.href} className="hover:text-white transition-colors">
-                    {link.label}
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Returns Section */}
-          
-        </div>
-
-        {/* Copyright Section */}
-        <div className="border-t border-gray-700 py-8">
-          <div className="text-center text-sm text-gray-500">
-            © 2025 VENDALYN.
+          <div className="sm:w-1/2 flex flex-col">
+            <a href="https://www.instagram.com/vendalyn_/" className="overflow-hidden " target="_blank">
+              <span className="group relative">
+                Instagram <ArrowUpRight className="text-xs inline-block" />
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
+              </span> </a>
+            <a href="https://wa.me/message/V4YRKECJHD3TE1" className=" overflow-hidden " target="_blank">
+              <span className="group relative">
+                WhatsApp <ArrowUpRight className="text-xs inline-block" />
+                <span className="absolute bottom-0 left-0 w-0 h-[0.5px] bg-white transition-all duration-500 group-hover:w-full"></span>
+              </span> </a>
+            <h1 className="text-sm font-medium">© 2025</h1>
           </div>
         </div>
       </div>
-    </footer>
-  );
-};
-
-export default Footer;
+      <div className="h-1/2  flex items-center justify-center">
+        <h1 className="V text-[13vw] font-normal">VENDALYN</h1>
+      </div>
+    </div>
+  )
+}

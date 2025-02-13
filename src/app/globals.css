@@ -18,12 +18,13 @@ body {
   font-family: "New Rocker", serif;
 }
 
-.heading{
-  font-family: "Gruppo", serif;
+.V {
+    font-family: 'V', sans-serif;
 }
 
-.roboto{
-  font-family: "Rubik Glitch", serif;
+@font-face {
+    font-family: 'V';
+    src: url('/Rejouice-Headline.woff2')
 }
 
 @layer base {
@@ -90,3 +91,5 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
