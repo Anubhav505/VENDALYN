@@ -92,4 +92,12 @@ body {
   }
 }
 
+.navoptions {
+  visibility: hidden;
+}
+@media (min-width:640px) {
+.navoptions{
+  visibility: visible;
+}
+}
 

@@ -1,9 +1,9 @@
 export default function Hero() {
 return(
-<div className="sticky top-0 w-full overflow-hidden text-white -z-50">
+<div className="z w-full overflow-hidden text-white -z-50">
 <video 
         src="/hero.mp4" 
-        className="object-cover sm:h-[93vh] w-full" 
+        className="object-cover sm:h-[94vh] w-full" 
         loop 
         muted 
         autoPlay

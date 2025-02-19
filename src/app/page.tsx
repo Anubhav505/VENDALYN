@@ -25,12 +25,9 @@ const HomePage = () => {
   return (
     <>
       <Hero />
-       <div className="bg-white border-t">
         <Collections />
         <Products />
         {/* <Combos /> */}
-      </div> 
-
     </>
   );
 };

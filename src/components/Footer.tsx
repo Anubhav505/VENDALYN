@@ -46,7 +46,7 @@ export default function Footer() {
                 <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
               </span>
             </Link>
-            <Link href={"/contactUs"}><span className="group relative overflow-hidden">
+            <Link href={"/contact"}><span className="group relative overflow-hidden">
               Contact
               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
             </span></Link>
