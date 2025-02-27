@@ -92,8 +92,8 @@ export default function Footer() {
         </div>
 
       </div>
-      <div className="mainbody h-1/2 flex items-end justify-center">
-        <h1 className="V text-7xl sm:text-[19vw] font-semibold">VENDALYN</h1>
+      <div className="mainbody h-1/2 flex items-end justify-center pb-14">
+        <h1 className="nav text-5xl sm:text-[14vw] font-semibold sm:font-medium tracking-[0.3rem] sm:tracking-[0.6rem]">VENDALYN</h1>
       </div>
     </div>
   )

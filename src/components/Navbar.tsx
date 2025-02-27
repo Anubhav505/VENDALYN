@@ -67,7 +67,7 @@ const Navbar = () => {
     <div className="sticky top-0 z-50">
       <div className="h-[6vh] flex justify-between items-center text-sm font-normal px-8 md:px-10 bg-black text-white">
         <div>
-          <Link href={"/"} className="V">
+          <Link href={"/"} className="nav tracking-[0.1rem]">
             VENDALYN
           </Link>
         </div>
