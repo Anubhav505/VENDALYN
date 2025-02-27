@@ -41,19 +41,19 @@ export default function BestSeller() {
 
             <div className=" w-full flex-col h-full">
               <div className="h-[80%] relative">
-                <Image
-                  className="rounded-lg object-contain"
-                  fill={true}
-                  src={product.image}
-                  alt={product.name}
-                />
+              <Image
+                className="rounded-lg object-contain"
+                fill={true}
+                src={product.image}
+                alt={product.name}
+              />
               </div>
               <div className=" h-[20%] w-full px-2 pt-1">
                 <div className="bg-black rounded-sm h-full w-full flex flex-col justify-evenly items-center">
                   <p className="  font-semibold text-xl sm:text-3xl">{product.name}</p>
                   <Link href={`/${product.category}`} className="shop uppercase rounded-sm text-xs bg-white hover:bg-black font-semibold py-1 px-2 text-black hover:text-white hover:border hover:border-white">Shop now</Link>
                 </div>
-              </div>
+            </div>
             </div>
           </div>
         ))}
