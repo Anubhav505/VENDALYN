@@ -3,13 +3,13 @@ import React, { useEffect } from 'react';
 
 const Loading: React.FC = () => {
     useEffect(() => {
+        document.body.style.overflow = 'hidden';
+
         const isMobile = window.innerWidth <= 768;
+
         gsap.fromTo(
             '.brand h1',
-            {
-                y: "65vh",
-                opacity: 0,
-            },
+            { y: "65vh", opacity: 0 },
             {
                 duration: 1.5,
                 y: "-55vh",
@@ -18,19 +18,18 @@ const Loading: React.FC = () => {
                 stagger: isMobile ? 0 : 0.1,
             }
         );
+
+        return () => {
+            document.body.style.overflow = '';
+        };
     }, []);
 
     return (
-        <div className="fixed top-0 w-full h-screen bg-white text-black z-[9999999999999] text-[11vw]">
+        <div className="fixed top-0 w-full h-screen bg-white text-black z-[9999999] text-[11vw]">
             <div className='nav absolute top-[100vh] flex justify-center w-full brand'>
-                <h1>V</h1>
-                <h1>E</h1>
-                <h1>N</h1>
-                <h1>D</h1>
-                <h1>A</h1>
-                <h1>L</h1>
-                <h1>Y</h1>
-                <h1>N</h1>
+                {['V', 'E', 'N', 'D', 'A', 'L', 'Y', 'N'].map((letter, index) => (
+                    <h1 key={index}>{letter}</h1>
+                ))}
             </div>
         </div>
     );

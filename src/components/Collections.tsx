@@ -31,7 +31,7 @@ export default function BestSeller() {
   };
 
   return (
-    <div className="embla overflow-hidden text-white" ref={emblaRef}>
+    <div className="embla overflow-hidden text-white my-1" ref={emblaRef}>
       <div className="embla__container flex">
         {bestSeller.map((product) => (
           <div
