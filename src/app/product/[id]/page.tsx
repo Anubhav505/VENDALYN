@@ -118,7 +118,7 @@ export default function ProductPage() {
 
 
                     </div>
-                    <h1 className="text-sm  rounded-md bg-gray-100 w-fit px-1 mb-2 text-red-500">Hurry up only few left</h1>
+                    <h1 className="text-sm  rounded-md bg-gray-100 w-fit px-1 mb-2 text-red-500">Hurry Up! only few left</h1>
                     <div className="flex text-base justify-between">
                         <div>Size :</div>
                         <div
