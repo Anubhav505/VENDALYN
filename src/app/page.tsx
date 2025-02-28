@@ -3,8 +3,10 @@ import { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
 import Products from "@/components/Products";
 // import Combos from "@/components/Combos";
+import Whatsapp from "@/components/Whatsapp";
 import Loading from "@/components/Loading";
 import Collections from "@/components/Collections";
+import Popup from "@/components/Popup";
 
 const HomePage = () => {
   const [loading, setLoading] = useState(true);
@@ -25,9 +27,11 @@ const HomePage = () => {
   return (
     <>
       <Hero />
-        <Collections />
-        <Products />
-        {/* <Combos /> */}
+      <Collections />
+      <Products />
+      {/* <Combos /> */}
+      <Whatsapp />
+      <Popup />
     </>
   );
 };
