@@ -34,7 +34,7 @@ export default function ProductPage() {
 
     useEffect(() => {
         if (!productId) return;
-        
+
         fetch(`/api/products/${productId}`)
             .then((res) => res.json())
             .then(setProduct)
@@ -46,7 +46,7 @@ export default function ProductPage() {
 
     const handleBuyNow = () => {
         if (!product) return;
-        
+
         const queryParams = new URLSearchParams({
             id: product._id,
             size: selectedSize,
@@ -109,12 +109,16 @@ export default function ProductPage() {
 
                 <div className="flex flex-col">
                     <h1 className="text-2xl md:text-4xl">{product.name}</h1>
-                    <div className="text-2xl md:text-3xl text-primary my-2 flex gap-2">
-                        <span className="text-lg font-semibold md:text-xl">₹{product.price.toFixed(2)}</span>
-                        <span className="text-base md:text-lg text-gray-500 line-through">₹{product.oprice}</span>
-                        <span className="flex items-center text-base md:text-lg px-1 rounded-md bg-green-100">Free Delivery &nbsp;<Truck /></span>
+                    <div className="text-2xl md:text-3xl text-primary my-2 flex justify-between sm:justify-start space-x-2">
+                        <div className="space-x-2">
+                            <span className="text-lg font-semibold md:text-xl">₹{product.price.toFixed(2)}</span>
+                            <span className="text-base md:text-lg text-gray-500 line-through">₹{product.oprice}</span>
+                        </div>
+                        <div className="flex items-center text-sm px-1 rounded-md bg-green-100">Free Delivery &nbsp;<Truck /></div>
+
+
                     </div>
-                    
+                    <h1 className="text-sm  rounded-md bg-gray-100 w-fit px-1 mb-2 text-red-500">Hurry up only few left</h1>
                     <div className="flex text-base justify-between">
                         <div>Size :</div>
                         <div
@@ -129,9 +133,8 @@ export default function ProductPage() {
                             <button
                                 key={size}
                                 onClick={() => setSelectedSize(size)}
-                                className={`px-4 py-2 border rounded-md ${
-                                    selectedSize === size ? "bg-black text-white" : "bg-white text-black"
-                                }`}
+                                className={`px-4 py-2 border rounded-md ${selectedSize === size ? "bg-black text-white" : "bg-white text-black"
+                                    }`}
                             >
                                 {size}
                             </button>
