@@ -27,7 +27,6 @@ export default function ProductPage() {
     const { id: productId } = useParams<{ id: string }>() || {};
     const router = useRouter();
     const [product, setProduct] = useState<Product | null>(null);
-    const [cartItems, setCartItems] = useState<{ name: string; image: string }[]>([]);
     const [selectedImage, setSelectedImage] = useState(0);
     const [selectedSize, setSelectedSize] = useState<string>("S");
     const [quantity, setQuantity] = useState(1);
