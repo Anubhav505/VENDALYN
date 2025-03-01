@@ -23,6 +23,15 @@ interface Product {
     image_3: string;
 }
 
+interface CartItem {
+    id: string;
+    size: string;
+    quantity: number;
+    name: string;
+    price: number;
+    image: string;
+}
+
 export default function ProductPage() {
     const { id: productId } = useParams<{ id: string }>() || {};
     const router = useRouter();
@@ -62,7 +71,7 @@ export default function ProductPage() {
     const handleAddToCart = () => {
         if (!product) return;
 
-        const newItem = {
+        const newItem: CartItem = {
             id: product._id,
             size: selectedSize,
             quantity,
@@ -71,28 +80,21 @@ export default function ProductPage() {
             image: product.image_1,
         };
 
-        // Get the existing cart items from local storage
-        const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+        const existingCart: CartItem[] = JSON.parse(localStorage.getItem("cart") || "[]");
 
-        // Check if the product is already in the cart
         const existingIndex = existingCart.findIndex(
-            (item: any) => item.id === newItem.id && item.size === newItem.size
+            (item: CartItem) => item.id === newItem.id && item.size === newItem.size
         );
 
         if (existingIndex !== -1) {
-            // If it exists, update the quantity
             existingCart[existingIndex].quantity += quantity;
         } else {
-            // If not, add the new item
             existingCart.push(newItem);
         }
 
-        // Save back to local storage
         localStorage.setItem("cart", JSON.stringify(existingCart));
-
         window.dispatchEvent(new Event("cart-updated"));
         window.dispatchEvent(new Event("storage"));
-
     };
 
 
