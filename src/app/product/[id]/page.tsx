@@ -27,6 +27,7 @@ export default function ProductPage() {
     const { id: productId } = useParams<{ id: string }>() || {};
     const router = useRouter();
     const [product, setProduct] = useState<Product | null>(null);
+    const [cartItems, setCartItems] = useState<{ name: string; image: string }[]>([]);
     const [selectedImage, setSelectedImage] = useState(0);
     const [selectedSize, setSelectedSize] = useState<string>("S");
     const [quantity, setQuantity] = useState(1);
@@ -58,6 +59,43 @@ export default function ProductPage() {
 
         router.push(`/checkout?${queryParams.toString()}`);
     };
+
+    const handleAddToCart = () => {
+        if (!product) return;
+
+        const newItem = {
+            id: product._id,
+            size: selectedSize,
+            quantity,
+            name: product.name,
+            price: product.price,
+            image: product.image_1,
+        };
+
+        // Get the existing cart items from local storage
+        const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+        // Check if the product is already in the cart
+        const existingIndex = existingCart.findIndex(
+            (item: any) => item.id === newItem.id && item.size === newItem.size
+        );
+
+        if (existingIndex !== -1) {
+            // If it exists, update the quantity
+            existingCart[existingIndex].quantity += quantity;
+        } else {
+            // If not, add the new item
+            existingCart.push(newItem);
+        }
+
+        // Save back to local storage
+        localStorage.setItem("cart", JSON.stringify(existingCart));
+
+        window.dispatchEvent(new Event("cart-updated"));
+        window.dispatchEvent(new Event("storage"));
+
+    };
+
 
     if (!product)
         return (
@@ -150,12 +188,19 @@ export default function ProductPage() {
                         </div>
                     </div>
 
-                    <div>
+                    <div className="space-y-4 mb-10 mt-6">
                         <button
                             onClick={handleBuyNow}
-                            className="mt-6 mb-10 py-3 px-6 rounded-md text-white w-full bg-black hover:bg-gray-600 transition-colors duration-300 ease-in-out"
+                            className=" py-3 px-6 rounded-md text-white w-full bg-black hover:bg-gray-600 transition-colors duration-300 ease-in-out"
                         >
                             BUY NOW
+                        </button>
+
+                        <button
+                        onClick={handleAddToCart}
+                            className=" py-3 px-6 rounded-md text-white w-full bg-black hover:bg-gray-600 transition-colors duration-300 ease-in-out"
+                        >
+                            ADD TO CART
                         </button>
                     </div>
 
