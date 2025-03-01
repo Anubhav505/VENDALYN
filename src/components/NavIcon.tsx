@@ -1,19 +1,44 @@
-"use client"
+"use client";
+import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
-import { useState } from "react";
-import CartModal from "./CartModal";
+import { useEffect, useState } from "react";
 
 const NavIcon = () => {
-    const [isCartOpen, setIsCartOpen] = useState(false)
+    const [cartCount, setCartCount] = useState(0);
+
+    const updateCartCount = () => {
+        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        setCartCount(cart.length);
+    };
+
+    useEffect(() => {
+        // Initial load
+        updateCartCount();
+
+        // Event listeners with debouncing
+        const handleCartEvent = () => {
+            requestAnimationFrame(updateCartCount);
+        };
+
+        window.addEventListener("cart-updated", handleCartEvent);
+        window.addEventListener("storage", handleCartEvent);
+
+        return () => {
+            window.removeEventListener("cart-updated", handleCartEvent);
+            window.removeEventListener("storage", handleCartEvent);
+        };
+    }, []);
+
     return (
-        <div>
-            <div className="relative">
-                <ShoppingCart className="cursor-pointer" onClick={() => setIsCartOpen((prev => !prev))} />
-                <div className="absolute -top-4 -right-4 w-6 h-6 bg-red-500 rounded-full text-white text-sm flex items-center justify-center">2</div>
-            </div>
-            {isCartOpen && <CartModal />}
-        </div>
+        <Link href={"/cart"} className="relative">
+            <ShoppingCart className="cursor-pointer" />
+            {cartCount > 0 && (
+                <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full text-white text-xs flex items-center justify-center">
+                    {cartCount}
+                </div>
+            )}
+        </Link>
     )
 }
 
-export default NavIcon
+export default NavIcon;

@@ -23,6 +23,15 @@ interface Product {
     image_3: string;
 }
 
+interface CartItem {
+    id: string;
+    size: string;
+    quantity: number;
+    name: string;
+    price: number;
+    image: string;
+}
+
 export default function ProductPage() {
     const { id: productId } = useParams<{ id: string }>() || {};
     const router = useRouter();
@@ -58,6 +67,36 @@ export default function ProductPage() {
 
         router.push(`/checkout?${queryParams.toString()}`);
     };
+
+    const handleAddToCart = () => {
+        if (!product) return;
+
+        const newItem: CartItem = {
+            id: product._id,
+            size: selectedSize,
+            quantity,
+            name: product.name,
+            price: product.price,
+            image: product.image_1,
+        };
+
+        const existingCart: CartItem[] = JSON.parse(localStorage.getItem("cart") || "[]");
+
+        const existingIndex = existingCart.findIndex(
+            (item: CartItem) => item.id === newItem.id && item.size === newItem.size
+        );
+
+        if (existingIndex !== -1) {
+            existingCart[existingIndex].quantity += quantity;
+        } else {
+            existingCart.push(newItem);
+        }
+
+        localStorage.setItem("cart", JSON.stringify(existingCart));
+        window.dispatchEvent(new Event("cart-updated"));
+        window.dispatchEvent(new Event("storage"));
+    };
+
 
     if (!product)
         return (
@@ -150,12 +189,19 @@ export default function ProductPage() {
                         </div>
                     </div>
 
-                    <div>
+                    <div className="space-y-4 mb-10 mt-6">
                         <button
                             onClick={handleBuyNow}
-                            className="mt-6 mb-10 py-3 px-6 rounded-md text-white w-full bg-black hover:bg-gray-600 transition-colors duration-300 ease-in-out"
+                            className=" py-3 px-6 rounded-md text-white w-full bg-black hover:bg-gray-600 transition-colors duration-300 ease-in-out"
                         >
                             BUY NOW
+                        </button>
+
+                        <button
+                        onClick={handleAddToCart}
+                            className=" py-3 px-6 rounded-md text-white w-full bg-black hover:bg-gray-600 transition-colors duration-300 ease-in-out"
+                        >
+                            ADD TO CART
                         </button>
                     </div>
 

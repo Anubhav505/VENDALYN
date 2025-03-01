@@ -1,8 +1,9 @@
 "use client";
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Menu, X } from "lucide-react";
 import gsap from "gsap";
 import { useEffect, useRef, useState } from "react";
+import NavIcon from "./NavIcon";
 
 const Navbar = () => {
   const collectionRef = useRef<HTMLDivElement | null>(null);
@@ -65,47 +66,59 @@ const Navbar = () => {
 
   return (
     <div className="sticky top-0 z-50">
-      <div className="h-[6vh] flex justify-between items-center text-sm font-normal px-8 md:px-10 bg-black text-white">
-        <div>
-          <Link href={"/"} className="nav tracking-[0.1rem]">
-            VENDALYN
-          </Link>
-        </div>
-        <div className="navoptions flex gap-2">
-          <Link href={"/"} onClick={handleLinkClick}>
-            <span className="group relative overflow-hidden">
-              Home
-              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
-            </span>
-          </Link>
-          <div className="collection" ref={collectionRef}>
-            <span className="group relative overflow-hidden">
-              Collections
-              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
-            </span>
-          </div>
-          <Link href={"/about"} onClick={handleLinkClick}>
-            <span className="group relative overflow-hidden">
-              About
-              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
-            </span>
-          </Link>
-          <Link href={"/contact"} onClick={handleLinkClick}>
-            <span className="group relative overflow-hidden">
-              Contact
-              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
-            </span>
-          </Link>
-        </div>
+
+
+      <div className="h-[6vh] flex justify-between items-center text-sm font-normal px-4 md:px-10 bg-black text-white">
+        
         <div
           ref={menuOptionsRef}
           className="cursor-pointer sm:hidden"
           onClick={handleMenuClick}
         >
-          menu
+          <Menu size={30} strokeWidth={1} />
         </div>
-        <div className="hidden sm:block"></div>
+        
+        <div>
+          <Link href={"/"} className="nav tracking-[0.1rem]">
+            VENDALYN
+          </Link>
+        </div>
+        
+        <div className="hidden sm:block">
+          <div className="navoptions flex gap-2" >
+            <Link href={"/"} onClick={handleLinkClick}>
+              <span className="group relative overflow-hidden">
+                Home
+                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
+              </span>
+            </Link>
+            <div className="collection" ref={collectionRef}>
+              <span className="group relative overflow-hidden">
+                Collections
+                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
+              </span>
+            </div>
+            <Link href={"/about"} onClick={handleLinkClick}>
+              <span className="group relative overflow-hidden">
+                About
+                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
+              </span>
+            </Link>
+            <Link href={"/contact"} onClick={handleLinkClick}>
+              <span className="group relative overflow-hidden">
+                Contact
+                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
+              </span>
+            </Link>
+          </div>
+        </div>
+        
+        <NavIcon />
+        
+      
       </div>
+
+
 
       <div
         className="absolute navCollection top-[6.3vh] h-[0vh] w-full bg-black overflow-hidden flex"
@@ -134,7 +147,6 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-
       <div
         ref={menuOptionsRef}
         className="menuOptions bg-black text-white h-0 w-full absolute top-0 overflow-hidden transition-all duration-300 flex flex-col items-start justify-center px-2 leading-snug"
@@ -144,10 +156,10 @@ const Navbar = () => {
         <Link href={"/about"} onClick={handleLinkClick} className="text-[9vw] font-extralight">About</Link>
         <Link href={"/contact"} onClick={handleLinkClick} className="text-[9vw] font-extralight">Contact</Link>
         <div
-          className=" absolute top-3 right-8 sm:right-10 cursor-pointer"
+          className=" absolute top-3 left-4 sm:right-10 cursor-pointer"
           onClick={handleCloseClick}
         >
-          close
+          <X size={30} strokeWidth={1}/>
         </div>
       </div>
     </div>
