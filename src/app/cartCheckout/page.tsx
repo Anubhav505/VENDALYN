@@ -214,7 +214,7 @@ const CartCheckout: React.FC = () => {
                     <div className={`${!isFormComplete ? "opacity-50 pointer-events-none" : ""}`}>
                         <RazorpayPayment
                             amount={finalAmount}
-                            productName="Cart Items"
+                            productName={cartItems.map(item => item.name).join(", ")}
                             userDetails={userDetails}
                             size="N/A"
                         />
