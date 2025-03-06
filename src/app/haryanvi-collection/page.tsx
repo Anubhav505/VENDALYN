@@ -35,7 +35,7 @@ const Products = () => {
     };
 
     return (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 my-2 px-2">
+        <div className="min-h-screen grid grid-cols-2 md:grid-cols-3 gap-4 my-2 px-2">
             {loading ? (
                 Array.from({ length: 3 }).map((_, index) => (
                     <div key={index} className="flex flex-col space-y-3">

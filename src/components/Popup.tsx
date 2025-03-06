@@ -1,8 +1,10 @@
 import { X, Copy } from "lucide-react";
 import { useState } from "react";
 
+let hasLoaded = false; // Persistent across renders but resets on full refresh
+
 export default function Popup() {
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(!hasLoaded);
     const [copied, setCopied] = useState(false);
 
     const close = () => {
@@ -23,6 +25,8 @@ export default function Popup() {
     };
 
     if (!isOpen) return null;
+
+    hasLoaded = true;
 
     return (
         <div className="bg-black bg-opacity-75 h-screen w-full flex justify-center items-center fixed top-0 z-50">

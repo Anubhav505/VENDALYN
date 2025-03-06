@@ -2,22 +2,21 @@
 import { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
 import Products from "@/components/Products";
-// import Combos from "@/components/Combos";
-import Whatsapp from "@/components/Whatsapp";
 import Loading from "@/components/Loading";
 import Collections from "@/components/Collections";
 import Popup from "@/components/Popup";
+let hasLoaded = false;
 
 const HomePage = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!hasLoaded);
 
   useEffect(() => {
-
-    const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-
-    return () => clearTimeout(timeout);
+    if (!hasLoaded) {
+      setTimeout(() => {
+        setLoading(false);
+        hasLoaded = true;
+      }, 3000);
+    }
   }, []);
 
   if (loading) {
@@ -29,10 +28,9 @@ const HomePage = () => {
       <Hero />
       <Collections />
       <Products />
-      {/* <Combos /> */}
-      <Whatsapp />
       <Popup />
     </>
   );
 };
+
 export default HomePage;

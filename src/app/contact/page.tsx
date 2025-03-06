@@ -3,7 +3,7 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className='h-[50vh] w-full flex flex-col justify-center items-center text-lg'>
+    <div className='min-h-screen w-full flex flex-col justify-center items-center text-lg'>
       <div>
         <p>Contact us at </p>
         {/* <p>Company Address : Delhi Road, Kharkhoda (Sonipat), Ward No. : 6, Pin Code : 131402</p> */}

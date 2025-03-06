@@ -121,7 +121,7 @@ const Navbar = () => {
 
 
       <div
-        className="absolute navCollection top-[6.3vh] h-[0vh] w-full bg-black overflow-hidden flex"
+        className="absolute navCollection top-[6vh] h-[0vh] w-full bg-black overflow-hidden flex"
         ref={navCollectionRef}
       >
         <div className=" w-1/2 flex justify-center gap-8 h-full">

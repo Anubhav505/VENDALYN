@@ -2,7 +2,7 @@ import React from 'react';
 
 const page = () => {
     return (
-        <div className='h-full w-full flex justify-center my-12 px-2'>
+        <div className='min-h-screen w-full flex justify-center my-12 px-2'>
             <div className='sm:w-[60%] flex flex-col gap-6 text-justify text-sm leading-8'>
                 <h1 className='heading text-[5.5vw] font-bold sm:text-4xl text-center'>
                     &quot;The journey to redefining convenience and quality is ongoing, and we&apos;re
