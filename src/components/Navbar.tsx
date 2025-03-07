@@ -151,10 +151,9 @@ const Navbar = () => {
         ref={menuOptionsRef}
         className="menuOptions bg-black text-white h-0 w-full absolute top-0 overflow-hidden transition-all duration-300 flex flex-col items-start justify-center px-2 leading-snug"
       >
+        <Link href={"/"} onClick={handleLinkClick} className="text-[9vw] font-extralight">Home</Link>
         <Link href={"/genz-collection"} onClick={handleLinkClick} className="text-[9vw] font-extralight">Genx Collection</Link>
         <Link href={"/haryanvi-collection"} onClick={handleLinkClick} className="text-[9vw] font-extralight"><span className="text-red-500">LaL </span>रंग Collection</Link>
-        <Link href={"/about"} onClick={handleLinkClick} className="text-[9vw] font-extralight">About</Link>
-        <Link href={"/contact"} onClick={handleLinkClick} className="text-[9vw] font-extralight">Contact</Link>
         <div
           className=" absolute top-3 left-4 sm:right-10 cursor-pointer"
           onClick={handleCloseClick}
