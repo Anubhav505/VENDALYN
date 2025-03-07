@@ -45,8 +45,12 @@ export default function TrackOrder() {
                 status: shipment.Status?.Status,
                 arrivingDate: shipment.ExpectedDeliveryDate,
             });
-        } catch (err: any) {
-            setError(err.message || "Something went wrong.");
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("Something went wrong.");
+            }
         } finally {
             setIsLoading(false);
         }
