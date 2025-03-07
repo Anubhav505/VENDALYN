@@ -85,7 +85,7 @@ const Navbar = () => {
         </div>
         
         <div className="hidden sm:block">
-          <div className="navoptions flex gap-2" >
+          <div className="navoptions flex gap-4 uppercase" >
             <Link href={"/"} onClick={handleLinkClick}>
               <span className="group relative overflow-hidden">
                 Home
@@ -104,9 +104,9 @@ const Navbar = () => {
                 <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
               </span>
             </Link>
-            <Link href={"/contact"} onClick={handleLinkClick}>
+            <Link href={"/track"} onClick={handleLinkClick}>
               <span className="group relative overflow-hidden">
-                Contact
+                Track My Order
                 <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full"></span>
               </span>
             </Link>
@@ -154,6 +154,7 @@ const Navbar = () => {
         <Link href={"/"} onClick={handleLinkClick} className="text-[9vw] font-extralight">Home</Link>
         <Link href={"/genz-collection"} onClick={handleLinkClick} className="text-[9vw] font-extralight">Genx Collection</Link>
         <Link href={"/haryanvi-collection"} onClick={handleLinkClick} className="text-[9vw] font-extralight"><span className="text-red-500">LaL </span>रंग Collection</Link>
+        <Link href={"/track"} onClick={handleLinkClick} className="text-[9vw] font-extralight">Track My Order</Link>
         <div
           className=" absolute top-3 left-4 sm:right-10 cursor-pointer"
           onClick={handleCloseClick}
