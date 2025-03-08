@@ -11,6 +11,7 @@ interface Product {
     oprice: number;
     image_1: string;
     category: string;
+    label:string
 }
 
 const Products = () => {
@@ -51,6 +52,8 @@ const Products = () => {
                     <div key={product._id} onClick={() => handleProductClick(product)} className="product shadow-xl rounded-md overflow-hidden relative">
                         <div className="relative h-52 md:h-[30vw] rounded-md">
                             <Image src={product.image_1} layout="fill" objectFit="cover" alt="Product Image" />
+                            <div className="absolute bg-red-600 px-1 top-2 font-bold text-white">{product.label}
+                            </div>
                         </div>
                         <div className="p-3">
                             <div className="text-base font-semibold">{product.name}</div>
