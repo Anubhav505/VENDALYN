@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import Checkout from '@/components/Checkout';
-import Loading from '@/components/Loading'; // Create a simple loading component
+import Loading from '@/components/Load'; // Create a simple loading component
 
 export default function CartCheckoutPage() {
     return (
