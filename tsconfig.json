@@ -36,7 +36,7 @@
     "src/lib/dbConnect.ts",
     "src/app/api/createOrder",
     "src/components/ThreeDModal.tsx"
-, "src/components/ThreeD.jsx", "src/components/Hero.tsx"  ],
+, "src/components/ThreeD.jsx", "src/components/Hero.tsx", "src/models/Order.js", "src/components/RazorpayPayment.jsx", "src/app/cartCheckout/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]

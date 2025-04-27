@@ -43,16 +43,16 @@ export default function ProductPage() {
 
     useEffect(() => {
         if (!productId) return;
-
         fetch(`/api/products/${productId}`)
             .then((res) => res.json())
             .then(setProduct)
             .catch((err) => console.error("Error fetching product:", err));
     }, [productId]);
 
-    const handleIncrement = () => setQuantity(prev => prev + 1);
-    const handleDecrement = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1));
+    const handleIncrement = () => setQuantity((prev) => prev + 1);
+    const handleDecrement = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
+    // Modified BUY NOW sends to cart checkout with product details via query parameters
     const handleBuyNow = () => {
         if (!product) return;
 
@@ -63,9 +63,10 @@ export default function ProductPage() {
             name: product.name,
             price: product.price.toString(),
             image: product.image_1,
+            flow: "direct", // flag to denote direct-buy flow
         });
 
-        router.push(`/checkout?${queryParams.toString()}`);
+        router.push(`/cartCheckout?${queryParams.toString()}`);
     };
 
     const handleAddToCart = () => {
@@ -97,7 +98,6 @@ export default function ProductPage() {
         window.dispatchEvent(new Event("storage"));
     };
 
-
     if (!product)
         return (
             <div className="flex flex-col space-y-6">
@@ -128,7 +128,7 @@ export default function ProductPage() {
                                 <Image
                                     src={image}
                                     alt={`${product.name} - ${index + 1}`}
-                                    layout="fill"
+                                    fill
                                     objectFit="cover"
                                     className="hover:opacity-80 transition-opacity"
                                 />
@@ -139,7 +139,7 @@ export default function ProductPage() {
                         <Image
                             src={images[selectedImage]}
                             alt={product.name}
-                            layout="fill"
+                            fill
                             objectFit="cover"
                             priority
                         />
@@ -150,14 +150,21 @@ export default function ProductPage() {
                     <h1 className="text-2xl md:text-4xl">{product.name}</h1>
                     <div className="text-2xl md:text-3xl text-primary my-2 flex justify-between sm:justify-start space-x-2">
                         <div className="space-x-2">
-                            <span className="text-lg font-semibold md:text-xl">₹{product.price.toFixed(2)}</span>
-                            <span className="text-base md:text-lg text-gray-500 line-through">₹{product.oprice}</span>
+                            <span className="text-lg font-semibold md:text-xl">
+                                ₹{product.price.toFixed(2)}
+                            </span>
+                            <span className="text-base md:text-lg text-gray-500 line-through">
+                                ₹{product.oprice}
+                            </span>
                         </div>
-                        <div className="flex items-center text-sm px-1 rounded-md bg-green-100">Free Delivery &nbsp;<Truck /></div>
-
-
+                        <div className="flex items-center text-sm px-1 rounded-md bg-green-100">
+                            Free Delivery &nbsp;
+                            <Truck />
+                        </div>
                     </div>
-                    <h1 className="text-sm  rounded-md bg-gray-100 w-fit px-1 mb-2 text-red-500">Hurry Up! only few left</h1>
+                    <h1 className="text-sm rounded-md bg-gray-100 w-fit px-1 mb-2 text-red-500">
+                        Hurry Up! only few left
+                    </h1>
                     <div className="flex text-base justify-between">
                         <div>Size :</div>
                         <div
@@ -183,23 +190,27 @@ export default function ProductPage() {
                     <div className="flex items-center gap-4 my-3">
                         <span className="text-lg">Quantity:</span>
                         <div className="flex items-center border rounded-md">
-                            <button onClick={handleDecrement} className="px-4 py-2 border-r hover:bg-gray-100">-</button>
+                            <button onClick={handleDecrement} className="px-4 py-2 border-r hover:bg-gray-100">
+                                -
+                            </button>
                             <span className="px-4 py-2">{quantity}</span>
-                            <button onClick={handleIncrement} className="px-4 py-2 border-l hover:bg-gray-100">+</button>
+                            <button onClick={handleIncrement} className="px-4 py-2 border-l hover:bg-gray-100">
+                                +
+                            </button>
                         </div>
                     </div>
 
                     <div className="space-y-4 mb-10 mt-6">
                         <button
                             onClick={handleBuyNow}
-                            className=" py-3 px-6 rounded-md text-white w-full bg-black hover:bg-gray-600 transition-colors duration-300 ease-in-out"
+                            className="py-3 px-6 rounded-md text-white w-full bg-black hover:bg-gray-600 transition-colors duration-300 ease-in-out"
                         >
                             BUY NOW
                         </button>
 
                         <button
-                        onClick={handleAddToCart}
-                            className=" py-3 px-6 rounded-md text-white w-full bg-black hover:bg-gray-600 transition-colors duration-300 ease-in-out"
+                            onClick={handleAddToCart}
+                            className="py-3 px-6 rounded-md text-white w-full bg-black hover:bg-gray-600 transition-colors duration-300 ease-in-out"
                         >
                             ADD TO CART
                         </button>
