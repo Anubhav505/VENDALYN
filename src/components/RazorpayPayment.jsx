@@ -1,61 +1,24 @@
+// components/RazorpayPayment.js
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; // Import useRouter
+import { useRouter } from "next/navigation";
 
-interface RazorpayOptions {
-    key: string;
-    amount: number;
-    currency: string;
-    name: string;
-    description: string;
-    image: string;
-    order_id: string;
-    handler: (response: { razorpay_payment_id: string; razorpay_signature: string }) => void;
-    prefill: {
-        name: string;
-        email: string;
-        contact: string;
-        address: string;
-        pinCode: string;
-    };
-    theme: {
-        color: string;
-    };
-}
-
-declare global {
-    interface Window {
-        Razorpay: new (options: RazorpayOptions) => { open: () => void };
-    }
-}
-
-interface RazorpayPaymentProps {
-    amount: number;
-    productName: string;
-    userDetails: {
-        name: string;
-        email: string;
-        contact: string;
-        address: string;
-        pinCode: string;
-    };
-    size: string;
-}
-
-const RazorpayPayment = ({ amount, productName, userDetails, size }: RazorpayPaymentProps) => {
+const RazorpayPayment = ({ amount, userDetails, productName }) => {
     const [razorpayLoaded, setRazorpayLoaded] = useState(false);
-    const [paymentConfirmed, setPaymentConfirmed] = useState(false); // State for showing the confirmation popup
-    const router = useRouter(); // Initialize useRouter for navigation
+    const [paymentConfirmed, setPaymentConfirmed] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         const script = document.createElement("script");
         script.src = "https://checkout.razorpay.com/v1/checkout.js";
         script.onload = () => setRazorpayLoaded(true);
-        script.onerror = () => console.error("Failed to load Razorpay script");
+        script.onerror = () =>
+            console.error("Failed to load Razorpay. Please restart.");
         document.body.appendChild(script);
     }, []);
 
     const handlePayment = async () => {
         try {
+            // Create Razorpay order
             const response = await fetch("/api/createOrder", {
                 method: "POST",
                 headers: {
@@ -68,18 +31,18 @@ const RazorpayPayment = ({ amount, productName, userDetails, size }: RazorpayPay
 
             const order = await response.json();
             const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+            if (!razorpayKey)
+                throw new Error("Razorpay key is not defined in your env variables");
 
-            if (!razorpayKey) throw new Error("Razorpay key is not defined");
-
-            const razorpayOptions: RazorpayOptions = {
+            const razorpayOptions = {
                 key: razorpayKey,
                 amount: order.amount,
                 currency: "INR",
                 name: "VENDALYN",
-                description: `${productName}\nAddress: ${userDetails.address}\nPin Code: ${userDetails.pinCode}\nSize: ${size}`,
                 image: "/favicon.png",
                 order_id: order.id,
                 handler: async (response) => {
+                    // Verify the payment on the backend
                     const verifyResponse = await fetch("/api/verifyOrder", {
                         method: "POST",
                         headers: {
@@ -91,10 +54,30 @@ const RazorpayPayment = ({ amount, productName, userDetails, size }: RazorpayPay
                             razorpaySignature: response.razorpay_signature,
                         }),
                     });
-
                     const verifyData = await verifyResponse.json();
+
                     if (verifyData.isOk) {
-                        setPaymentConfirmed(true);  // Show the confirmation popup
+                        // Save the order details to your database
+                        const saveResponse = await fetch("/api/order", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                orderId: order.id,
+                                userDetails,
+                                amount: order.amount,
+                                paymentId: response.razorpay_payment_id,
+                                productName,
+                            }),
+                        });
+                        const saveData = await saveResponse.json();
+
+                        if (saveData.success) {
+                            setPaymentConfirmed(true);
+                        } else {
+                            alert("Order saving failed. Please contact support.");
+                        }
                     } else {
                         alert("Payment verification failed");
                     }
@@ -118,8 +101,8 @@ const RazorpayPayment = ({ amount, productName, userDetails, size }: RazorpayPay
     };
 
     const handleClosePopup = () => {
-        setPaymentConfirmed(false); // Close the popup
-        router.push("/"); // Redirect to the homepage
+        setPaymentConfirmed(false);
+        router.push("/");
     };
 
     return (
@@ -131,7 +114,6 @@ const RazorpayPayment = ({ amount, productName, userDetails, size }: RazorpayPay
                 Proceed to Payment
             </button>
 
-            {/* Confirmation Popup */}
             {paymentConfirmed && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                     <div className="bg-white p-6 rounded-md shadow-lg">
@@ -142,7 +124,7 @@ const RazorpayPayment = ({ amount, productName, userDetails, size }: RazorpayPay
                             Your order ID will be provided shortly.
                         </h2>
                         <button
-                            onClick={handleClosePopup} // Close and navigate to home
+                            onClick={handleClosePopup}
                             className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-700 transition-colors"
                         >
                             Close
